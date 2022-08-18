@@ -25,8 +25,6 @@
 				{/each}
 			</tbody>
 		</table>
-	{:else}
-	<p>Svelte has not been able to obtain records from the store 'licenses'.</p>
 	{/if}
 {/if}
 
