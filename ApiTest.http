@@ -1,0 +1,4 @@
+GET HTTPS://localhost:7150/licenses/search
+	?amount=10
+	&name=createdBy
+	&value=joshr
