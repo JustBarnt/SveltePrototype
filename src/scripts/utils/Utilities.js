@@ -13,6 +13,20 @@ export class Utilities
 	}
 
 	/**
+	* Creates a query string
+	* @param {Object} object - An object containing the values of the query
+	* @return {String} returns a query string.
+	*/
+	static BuildQueryString(object)
+	{
+		let query = new URLSearchParams();
+		for (const key in object)
+			query.append(key, object[key]);
+		
+		return `?${query.toString()}`;
+	}
+
+	/**
 	* Edits any value in an array of objects that matches keyName's value with the replacement
 	* values.
 	*
