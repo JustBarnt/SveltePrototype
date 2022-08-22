@@ -35,7 +35,7 @@ async function HandleQuery(event, callback)
 	if(!success)
 		throw new Error(message);
 
-	callback(success, type, message);
+	callback(success);
 }
 
 export { HandleQuery };
