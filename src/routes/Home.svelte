@@ -2,26 +2,24 @@
 	//Module Imports
 	import { HandleQuery } from "../scripts/QueryHandler";
 	import { get } from "svelte/store";
-	import { apiStore, eventStore } from "../scripts/stores/stores";
+	import { apiStore, queryRes } from "../scripts/stores/stores";
 
 	//Component imports
 	import QueryRequests from "../components/QueryRequests.svelte";
 
 	/**
-	* Manages the properties of the table displaying the query results
+	* Manages updating the event store.
 	*
 	* @param {Boolean} show - A boolean value used to show or hide the table/descriptor text
-	* @param {String} type - A string value containing the query method; all, single, submit
 	*/
-	function DisplayData(show, type)
+	function DisplayData(show)
 	{
-		const obj = 
+		const eventResponse = 
 		{
 			show:show,
-			type:type,
 			data:get(apiStore),
 		};
-		eventStore.set(obj);
+		queryRes.set(eventResponse);
 	}
 </script>
 
