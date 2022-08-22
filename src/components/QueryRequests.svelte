@@ -27,7 +27,7 @@
 </script>
 
 <div id="container">
-	<form method="GET" class="get-form" on:submit|preventDefault={() => QueryRequest(defaultQueryType)}>
+	<form method="GET" class="get-form" action="/Licenses" on:submit={() => QueryRequest(defaultQueryType)}>
 		<span>
 			Number of Results<br>
 			<input type="text" id="amount" name="Amount" bind:value={query.amount}>

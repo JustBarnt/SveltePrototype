@@ -1,5 +1,5 @@
 import { SearchRequest, API_ROUTE } from "./RequestController";
-import { apiStore } from "../stores/stores";
+import { apiStore } from "./stores/stores";
 import { Utilities } from "./utils/Utilities";
 /**
 	* A custom event handler for query retrieval
