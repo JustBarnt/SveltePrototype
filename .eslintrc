@@ -47,7 +47,7 @@
 			"tab",
 			{
 			  "CallExpression": {
-				"arguments": 0
+				"arguments": "off"
 			  },
 			  "FunctionDeclaration": {
 				"body": 1,
@@ -57,6 +57,8 @@
 				"body": 1,
 				"parameters": "first"
 			  },
+			  "ArrayExpression": "first",
+			  "ObjectExpression": "off",
 			  "MemberExpression": 0,
 			  "SwitchCase": 1,
 			  "VariableDeclarator": "first"

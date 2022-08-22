@@ -22,7 +22,6 @@ export class Utilities
 		let query = new URLSearchParams();
 		for (const key in object)
 			query.append(key, object[key]);
-		
 		return `?${query.toString()}`;
 	}
 
