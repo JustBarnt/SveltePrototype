@@ -1,21 +1,26 @@
 <script>
-	import TableView from "../components/TableView.svelte";
-	import { get } from "svelte/store";
-	import { queryRes } from "../scripts/stores/stores";
-	import { onMount } from "svelte";
+	import { getContext, onMount } from "svelte";
+	import { HandleQuery } from "../scripts/controllers/EventController";
+	import { Keys } from "../scripts/MapKeys";
+	import { Utilities } from "../scripts/utilities/Utilities";
 
-	let displayProps = { show: false, data: [] };
+	const EventDetails = { success: false, results: null, params: "" };
+	let apiContext;
 
 	onMount(() =>
 	{
-		//TODO: (Brent) Refactor store so that one store controls the event details and the database response
-		let queryCxt = get(queryRes);
-		displayProps.show = queryCxt.show;
-		displayProps.data = queryCxt.data;
+		const formData = getContext(Keys.Form);
+		EventDetails.params = Utilities.BuildQueryString(formData);
+		HandleQuery(EventDetails, StartLoading);
 	});
 
+	function StartLoading()
+	{
+		apiContext = getContext(Keys.License);
+	}
 </script>
 
 <div id="TableContainer">
-	<TableView bind:show={displayProps.show} bind:data={displayProps.data}/>
+	<h1>Table View</h1>
+	<!-- <TableView bind:show={displayProps.show} bind:data={displayProps.data}/> -->
 </div>
