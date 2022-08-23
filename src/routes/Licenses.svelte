@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import TableView from "../components/TableView.svelte";
+	import Table from "../components/Table.svelte";
 	import { HandleQuery } from "../scripts/controllers/EventController";
 	import { API } from "../scripts/stores/stores";
 	import { Utilities } from "../scripts/utilities/Utilities";
@@ -31,6 +31,6 @@
 
 <div id="TableContainer">
 	{#await AsyncAwait(1000) then success}
-		<TableView bind:data={apiContext.response}/>
+		<Table bind:data={apiContext.response}/>
 	{/await}
 </div>
