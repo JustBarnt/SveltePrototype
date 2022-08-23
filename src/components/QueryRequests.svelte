@@ -1,54 +1,31 @@
 <script>
-	import { createEventDispatcher } from "svelte";
-	import { Utilities } from "../scripts/utils/Utilities";
-
-	const query = { amount: 10, name: "createdby", value: "joshr", startDate:"", endDate:"" };
-	const queryDispatch = createEventDispatcher();
-
-	let defaultQueryType = "search";
-
-	/**
-	* Starts a specifed query request
-	* @param {String} type - A string specifing the type of query requested
-	*/
-	function QueryRequest(type)
-	{
-		const queryString = Utilities.BuildQueryString(query);
-
-		queryDispatch("query",
-		{
-			success: false, 
-			results: null,
-			type: type,
-			message: "Starting up query retrieval.",
-			params: queryString,
-		});
-	}
+	import { FORMS } from "../scripts/stores/stores";
+	import { HandleFormSubmission } from "../scripts/controllers/EventController";
 </script>
 
 <div id="container">
-	<form method="GET" class="get-form" action="/Licenses" on:submit={() => QueryRequest(defaultQueryType)}>
+	<form method="GET" class="get-form" action="/Licenses">
 		<span>
 			Number of Results<br>
-			<input type="text" id="amount" name="Amount" bind:value={query.amount}>
+			<input type="text" id="amount" name="Amount" bind:value={$FORMS.amount}>
 		</span>
 		<br>
 		<span>
 			Column to filter by<br>
-			<input type="text" id="name" name="Column" bind:value={query.name}>
+			<input type="text" id="name" name="Column" bind:value={$FORMS.column}>
 		</span>
 		<br>
 		<span>
 			Value of the tag<br>
-			<input type="text" id="value" name="Value" bind:value={query.value}>
+			<input type="text" id="value" name="Value" bind:value={$FORMS.value}>
 		</span>
 		<br>
 		<span>
 			Created between<br>
-			<input type="text" id="startDate" name="StartDate" bind:value={query.startDate}>
-			<input type="text" id="endDate" name="EndDate" bind:value={query.endDate}>
+			<input type="text" id="startDate" name="StartDate" bind:value={$FORMS.startDate}>
+			<input type="text" id="endDate" name="EndDate" bind:value={$FORMS.endDate}>
 		</span>
 		<br>
-		<button type='submit'>Search for Licenses</button>
+		<button type="submit" on:submit={() =>  HandleFormSubmission($FORMS) }>Search for Licenses</button>
 	</form>
 </div>
