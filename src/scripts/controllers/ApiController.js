@@ -32,8 +32,8 @@ export const SearchRequest = async(endpoint, queryString) =>
 	})
 	.then((json) => 
 	{ 
-		Utilities.FormatDateTime(json, "created", "T", " ");
-		Utilities.FormatDateTime(json, "expires", "T", " ");
+		Utilities.FormatDateTime(json, "created", "");
+		Utilities.FormatDateTime(json, "expires", "");
 		return json; 
 	})
 	.catch(err => console.log(err));

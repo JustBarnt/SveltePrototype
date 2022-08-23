@@ -1,6 +1,4 @@
-import { setContext } from "svelte";
-import { Keys } from "../MapKeys";
-import { API, FORMS } from "../stores/stores";
+import { API } from "../stores/stores";
 import { API_ROUTE, SearchRequest } from "./ApiController";
 
 /**
@@ -13,36 +11,20 @@ import { API_ROUTE, SearchRequest } from "./ApiController";
 async function HandleQuery(Details, StartLoading)
 {
 	let { success, results, params } = Details;
-
-	//TODO: (Brent) update HTTP request to return object including status, which will allow me to create a 100% perfect
-	//TODO: success boolean.
+	/*
+	TODO: (Brent) update HTTP request to return object including status, which will allow me to create a 100% perfect
+	success boolean.
+	*/
 	results = await SearchRequest(API_ROUTE, params);
-	success = results !== typeof "object" ? false : true;
-	
+	success = typeof results !== "object" ? false : true;
 	
 	if(!success)
-		throw new Error("Failed to aquire response from the server.");
+		throw new Error("Failed to retrieve response.");
 
 	let apiStoreSchema = { success: success, response: results };
-
-	console.groupCollapsed("API Store Schema");
-	console.log(apiStoreSchema);
-	console.groupEnd();
-
 	API.set(apiStoreSchema);
-	setContext(Keys.License, API);
 	StartLoading();
 }
 
-/**
-* Handle Form Submission update store and context
-* @param {Object} formInformation - The submitted object from the form
-*/
-function HandleFormSubmission(formInformation)
-{
-	FORMS.set(formInformation);
-	setContext(Keys.Form, FORMS);
-}
-
-export { HandleQuery, HandleFormSubmission };
+export { HandleQuery };
 
