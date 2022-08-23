@@ -1,31 +1,27 @@
 <script>
-	import { Utilities } from "../scripts/utils/Utilities";
-
-	export let show = false;
+	import { Utilities } from "../scripts/utilities/Utilities";
 	export let data = undefined;
 </script>
 
-{#if show}
-	{#if data !== undefined}
-		<table id="Licenses">
-			<thead>	
+{#if data !== undefined}
+	<table id="Licenses">
+		<thead>	
+			<tr>
+				{#each Object.keys(data[0]) as Header}
+					<th>{Utilities.FormatColumnHeader(Header)}</th>
+				{/each}
+			</tr>
+		</thead>
+		<tbody>
+			{#each data as query}
 				<tr>
-					{#each Object.keys(data[0]) as Header}
-						<th>{Utilities.FormatColumnHeader(Header)}</th>
+					{#each Object.values(query) as Values}
+							<td>{Values}</td>
 					{/each}
 				</tr>
-			</thead>
-			<tbody>
-				{#each data as query}
-					<tr>
-						{#each Object.values(query) as Values}
-								<td>{Values === null ? "N \\ A" : Values}</td>
-						{/each}
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	{/if}
+			{/each}
+		</tbody>
+	</table>
 {/if}
 
 <style>
