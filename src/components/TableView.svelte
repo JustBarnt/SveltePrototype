@@ -1,6 +1,5 @@
 <script>
-	import { Utilities } from "../scripts/utils/Utilities";
-
+	import { Utilities } from "../scripts/utilities/Utilities";
 	export let show = false;
 	export let data = undefined;
 </script>
