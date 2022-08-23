@@ -1,3 +1,5 @@
+import { Utilities } from "../utilities/Utilities";
+
 let API_ENDPOINT = "https://localhost:7150/";
 let PATH = "Licenses/search";
 
@@ -28,7 +30,12 @@ export const SearchRequest = async(endpoint, queryString) =>
 		
 		throw new Error(`Response not received. Status: ${response.status}`);
 	})
-	.then((json) => { return json; })
+	.then((json) => 
+	{ 
+		Utilities.FormatDateTime(json, "created", "T", " ");
+		Utilities.FormatDateTime(json, "expires", "T", " ");
+		return json; 
+	})
 	.catch(err => console.log(err));
 
 	return response;
