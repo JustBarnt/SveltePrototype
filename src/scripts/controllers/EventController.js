@@ -6,14 +6,13 @@ import { API_ROUTE, SearchRequest } from "./ApiController";
 	* 
 	* @async
 	* @param {Object} Details - Object containing parameters to indicate successful requests.
-	* @callback StartLoading - Starts loading the data into the table.
+	* @callback Callback - Starts loading the data into the table.
 	*/
-async function HandleQuery(Details, StartLoading)
+async function HandleQuery(Details, Callback)
 {
 	let { success, results, params } = Details;
 	/*
-	TODO: (Brent) update HTTP request to return object including status, which will allow me to create a 100% perfect
-	success boolean.
+	TODO: (Brent) update HTTP request to return object including status.
 	*/
 	results = await SearchRequest(API_ROUTE, params);
 	success = typeof results !== "object" ? false : true;
@@ -23,7 +22,7 @@ async function HandleQuery(Details, StartLoading)
 
 	let apiStoreSchema = { success: success, response: results };
 	API.set(apiStoreSchema);
-	StartLoading();
+	Callback();
 }
 
 export { HandleQuery };
