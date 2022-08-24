@@ -1,9 +1,8 @@
 <script>
-	export let href = "";
-	let baseUrl = window.location.origin;
+	export let textContent = "Button";
 </script>
 
-<button on:click={() => window.location.assign(`${baseUrl}${href}`) }>Home</button>
+<button>{textContent}</button>
 
 <style>
 	button{

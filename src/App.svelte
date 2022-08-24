@@ -1,12 +1,11 @@
 <script>
-	import HomeButton from "./components/Button.svelte";
 	import { page } from "./routes";
 </script>
 
 <header>
 	<h1>Licensing Web Tool</h1>
 	<nav>
-		<HomeButton href="/"/>
+		<a href="/" on:click={ () => location.assign(window.location.origin + "/")}>Home</a>
 	</nav>
 </header>
 <section id="Content">
@@ -32,6 +31,17 @@
 		top: 0;
 		right: 0;
 		z-index: 11;
+		line-height: 1.1;
+	}
+
+	nav a{
+		color: white;
+		font-size: 20px;
+		font-weight: bold;
+		padding: 15px 15px;
+		float: right;
+		position: relative;
+		text-decoration: none;
 	}
 
 	header h1{
