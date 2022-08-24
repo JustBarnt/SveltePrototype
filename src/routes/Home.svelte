@@ -4,46 +4,38 @@
 
 <div id="container">
 	<form method="GET" class="get-form" action="/Licenses">
-			<span>
-				<p>Number of Results</p>
-				<input type="text" id="amount" name="Amount" bind:value={formValues.amount}>
-			</span>
+		
+		<label for="amount">Top Results:</label>
+		<input type="text" id="amount" name="Amount" placeholder="Number of responses" value="">
+	
+		<label for="name">With Tag:</label>
+		<input type="text" id="name" name="Tag" placeholder="Tag name" value="">
+	
+		<label for="value">Tag Value:</label>
+		<input type="text" id="value" name="Value" placeholder="Tag value" value="">
+	
+		<label for="startDate">Earliest Date:</label>
+		<input type="text" id="startDate" name="StartDate" placeholder="Earliest Date" value="">
+	
+		<label for="endDate">Latest Date:</label>
+		<input type="text" id="endDate" name="EndDate" placeholder="Latest Date" value="">
 
-			<span>
-				<p>Column to filter by</p>
-				<input type="text" id="name" name="Column" bind:value={formValues.column}>
-			</span>
-
-			<span>
-				<p>Value of the tag</p>
-				<input type="text" id="value" name="Value" bind:value={formValues.value}>
-			</span>
-
-			<span>
-				<p>Created between</p>
-				<input type="text" id="startDate" name="StartDate" bind:value={formValues.startDate}>
-				<input type="text" id="endDate" name="EndDate" bind:value={formValues.endDate}>
-			</span>
-		<button type="submit" >Search for Licenses</button>
+		<input type="submit" value="Search"/>
 	</form>
 </div>
 
 <style>
 	#container{
-		padding-top:calc(var(--headerHeight) + 10px);
+		padding-top:calc(var(--headerHeight) + var(--contentPadding));
 	}
+
 	form{
-		position: relative;
-		width:fit-content;
 		display: grid;
-	}
-
-	form span{
-		display: flexbox;
-	}
-
-	form span p{
-		text-align: center;
+		width:80%;
 	}
 	
+	input{
+		padding: 1rem 2rem;
+		margin: 1.5rem 0;
+	}
 </style>

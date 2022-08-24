@@ -37,6 +37,6 @@
 
 <style>
 	#TableContainer{
-		padding-top: calc(var(--headerHeight) + 15px);
+		padding-top: calc(var(--headerHeight) + var(--contentPadding));
 	}
 </style>

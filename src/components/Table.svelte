@@ -27,7 +27,7 @@
 <style>
 	#Licenses{
 		border-collapse: collapse;
-		box-shadow: 0 0 20px rgba(0,0,0,0.15);
+		box-shadow: 0 0 2rem rgba(0,0,0,0.35);
 	}
 
 	#Licenses thead tr {
@@ -37,7 +37,7 @@
 	}
 
 	#Licenses th, #Licenses td{
-		padding: 12px 15px;
+		padding: 1.2rem 1.6rem;
 	}
 
 	#Licenses tbody tr{
@@ -50,6 +50,6 @@
 	}
 
 	#Licenses tbody tr:last-of-type{
-		border-bottom: 2px solid #504e4e;
+		border-bottom: 0.1rem solid #504e4e;
 	}
 </style>

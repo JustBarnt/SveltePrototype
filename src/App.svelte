@@ -8,52 +8,62 @@
 		<a href="/" on:click={ () => location.assign(window.location.origin + "/")}>Home</a>
 	</nav>
 </header>
+
 <section id="Content">
 	<svelte:component this={page}/>
 </section>
 
 <style>
 	header{
-		background-color: #303030;
-		width: 100vw;
+		background-color: var(--headerBG);
+		width: 100%;
 		height: var(--headerHeight);
 		position:fixed;
 		top: 0;
 		left: 0;
-		box-shadow: 0 0 10px rgba(0,0,0,0.50);
+		box-shadow: 0 0 1.5rem rgba(0,0,0,0.50);
 		z-index: 10;
 	}
 
 	nav{
-		width: 100vw;
-		height: 50px;
+		width: 100%;
+		height: var(--headerHeight);
 		position: fixed;
 		top: 0;
 		right: 0;
 		z-index: 11;
-		line-height: 1.1;
 	}
 
 	nav a{
 		color: white;
-		font-size: 20px;
+		font-size: 2rem;
 		font-weight: bold;
-		padding: 15px 15px;
+		border-radius: 0.8rem;
+		border: 0.1rem solid transparent;
+		margin: 1.25rem 0.75rem;
+		padding: 0.5rem 0.5rem;
 		float: right;
 		position: relative;
 		text-decoration: none;
+		transition: border-color 0.25s, background-color 0.25s;
+	}
+
+	nav a:hover {
+		border-color: var(--buttonBorder);
+		background-color: var(--mainBG);
 	}
 
 	header h1{
-		width: 33%;
+		font-size: 3.2rem;
+		width: inherit;
 		float: left;
 		position: relative;
-		padding: 15px 15px;
+		padding: var(--headerContentPadding);
 	}
 
 	section{
-		position: relative;
-		min-width: 100vw;
-		min-height: 100vh;
+		position: absolute;
+		min-width: 100%;
+		min-height: auto;
 	}
 </style>

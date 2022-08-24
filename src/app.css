@@ -1,51 +1,59 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+	/* Custom Variables */
+	--headerHeight: 5.5rem;
+	--headerContentPadding: 1.75rem 1.25rem;
+	--contentPadding: 4.5rem;
+	--mainBG: #242424;
+	--headerBG: #303030;
+	--buttonBG: #1a1a1a;
+	--buttonBorder: #646cff;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+	/* Defining Root properties*/
+	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+	font-size: 10px;
+	line-height: 1.8rem;
+	font-weight: 400;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-  --headerHeight: 50px;
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: var(--mainBG);
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}
+
+* label{
+	width:100%;
 }
 
 *{
+	font-size: 1.6rem;
+	font-family: Arial, Helvetica, sans-serif;
 	margin: 0 auto;
 	padding: 0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+ button, input{
+	border-radius: 0.8rem;
+	border: 0.1rem solid transparent;
+	padding: 1.6rem 2rem;
+	margin-top: 1.6rem;
+	font-size: 1.6rem;
+	font-weight: 500;
+	font-family: inherit;
+	background-color: var(--buttonBG);
+	cursor: pointer;
+	transition: border-color 0.25s;
 }
-a:hover {
-  color: #535bf2;
+button:hover, input:hover {
+  	border-color: var(--buttonBorder);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  margin-top: 15px;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+button:focus, button:focus-visible, 
+input:focus, input:focus-visible{
+	outline: 0.4rem auto -webkit-focus-ring-color;
 }
