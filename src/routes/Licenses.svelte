@@ -12,12 +12,6 @@
 
 	onMount(() =>
 	{
-		/*
-		NOTE: CANNOT UTILIZE Lifecycle functions with PAGE.js or any other form of Routing. Unsure if this is true
-		SvelteKit or not, I imagine they will have a way to use lifecycle functions between pages or else it would
-		ruin one of the biggest aspects of the framework.
-		*/
-		
 		const urlQuery = window.location.search;
 		EventDetails.params = urlQuery;
 		HandleQuery(EventDetails, BuildTable);

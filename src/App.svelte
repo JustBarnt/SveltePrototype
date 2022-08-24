@@ -62,7 +62,7 @@
 	}
 
 	section{
-		position: absolute;
+		position: fixed;
 		min-width: 100%;
 		min-height: auto;
 	}
