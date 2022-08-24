@@ -34,3 +34,9 @@
 		<Table bind:data={apiContext.response}/>
 	{/await}
 </div>
+
+<style>
+	#TableContainer{
+		padding-top: calc(var(--headerHeight) + 15px);
+	}
+</style>
