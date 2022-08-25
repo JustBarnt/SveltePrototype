@@ -41,15 +41,6 @@
 		transition: border-color 0.25s, box-shadow 0.25s;
 	}
 
-	form:hover{
-		border-color: var(--buttonBorder);
-		box-shadow: 0 0 0.5rem 0.5rem #646cff50;
-	}
-
-	form:focus{
-		outline: 0.4rem auto -webkit-focus-ring-color;
-	}
-	
 	input{
 		padding: 1rem 2rem;
 		margin: 1.5rem 0;
