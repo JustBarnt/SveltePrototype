@@ -3,7 +3,7 @@
 </script>
 
 <div id="container">
-	<form method="GET" class="get-form" action="/Licenses">
+	<form method="GET" action="/Licenses">
 		
 		<label for="amount">Top Results:</label>
 		<input type="text" id="amount" name="Amount" placeholder="Number of results" bind:value={formValues.amount}>
