@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import LicensesTable from "../components/LicensesTable.svelte";
+	import LicenseTable from "../components/LicenseTable.svelte";
 	import { HandleQuery } from "../scripts/controllers/EventController";
 	import { API } from "../scripts/stores/stores";
 	import { Utilities } from "../scripts/utilities/Utilities";
@@ -24,8 +24,8 @@
 </script>
 
 <div id="TableContainer">
-	{#await AsyncAwait(1000) then success}
-		<LicensesTable bind:data={apiContext.response}/>
+	{#await AsyncAwait(500) then success}
+		<LicenseTable bind:data={apiContext.response}/>
 	{/await}
 </div>
 

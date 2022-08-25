@@ -65,6 +65,7 @@ import { Utilities } from "../scripts/utilities/Utilities";
 <style>
 	#Licenses{
 		background-color: var(--mainBG2);
+		border: 0.125rem solid transparent;
 		border-radius: 0.5rem;
 		border-collapse: collapse;
 		box-shadow: 0 0 2rem rgba(0,0,0,0.35);
@@ -78,34 +79,45 @@ import { Utilities } from "../scripts/utilities/Utilities";
 	
 	#Licenses thead th, #Licenses tbody td{
 		border-right: 0.1rem solid var(--mainBG);
+		transition: border-color 0.25s;
 	}
 
 	#Licenses thead th:last-of-type, #Licenses tbody td:last-of-type{
-		border-right: 0.1rem solid transparent;
+		border-right: none;
 	}
 
 	#Licenses thead th, #Licenses tbody td{
 		padding: 1.2rem 1.6rem;
 	}
 
-	#Licenses tbody tr:nth-of-type(even){
+	#Licenses tbody tr{
 		border: 0.1rem solid transparent;
 		transition: background-color 0.25s, border-color 0.25s;
+	}
+
+	#Licenses tbody tr:nth-of-type(even){
 		background-color: #3d3d3d;
 	}
 
 	#Licenses tbody tr:nth-of-type(odd){
-		border: 0.1rem solid transparent;
-		transition: background-color 0.25s, border-color 0.25s;
 		background-color: #303030;
 	}
 
 	#Licenses tbody tr:hover{
+		border-color: var(--buttonBorder);
 		background-color: var(--mainBG);
 		cursor: pointer;
 	}
+
+	#Licenses tbody tr:hover td:not(:last-of-type){
+		border-color: var(--mainBG2);
+	}
+
+	#Licenses tbody tr:not(:hover){
+		border: 0rem solid transparent;
+	}
 	
 	#Licenses tbody tr:focus, #Licenses tbody tr:focus-visible{
-		outline: 0.4rem auto -webkit-focus-ring-color;
+		outline: 0.1rem solid var(--buttonBorder);
 	}
 </style>
