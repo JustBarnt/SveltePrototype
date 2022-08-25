@@ -21,6 +21,7 @@
 		<input type="text" id="endDate" name="EndDate" placeholder="Latest date available" bind:value={formValues.endDate}>
 
 		<input type="submit" value="Search" />
+		
 	</form>
 </div>
 

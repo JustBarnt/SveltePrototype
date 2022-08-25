@@ -1,20 +1,23 @@
 <script>
 	import { Utilities } from "../scripts/utilities/Utilities";
 	export let data = undefined;
+
+	function HandleLicenseSelect()
+	{
+		console.log("License clicked.");
+	}
 </script>
 
 {#if data !== undefined}
 	<table id="Licenses">
 		<thead>	
-			<tr>
-				{#each Object.keys(data[0]) as Header}
-					<th>{Utilities.FormatColumnHeader(Header)}</th>
-				{/each}
-			</tr>
+			{#each Object.keys(data[0]) as Header}
+				<th>{Utilities.FormatColumnHeader(Header)}</th>
+			{/each}
 		</thead>
 		<tbody>
 			{#each data as query}
-				<tr>
+				<tr on:click={() => HandleLicenseSelect()}>
 					{#each Object.values(query) as Values}
 							<td>{Values}</td>
 					{/each}
@@ -26,30 +29,37 @@
 
 <style>
 	#Licenses{
+		background-color: var(--mainBG2);
+		border-radius: 0.5rem;
 		border-collapse: collapse;
 		box-shadow: 0 0 2rem rgba(0,0,0,0.35);
-	}
-
-	#Licenses thead tr {
-		background-color: #504e4e;
+		overflow:hidden;
 		color:#fff;
-		text-align: center;
 	}
 
-	#Licenses th, #Licenses td{
+	#Licenses thead th, #Licenses tbody td{
 		padding: 1.2rem 1.6rem;
 	}
 
-	#Licenses tbody tr{
-		border-bottom: thin solid #dddddd;
-		text-align: left;
-	}
-
 	#Licenses tbody tr:nth-of-type(even){
-		background-color: #817b7b;
+		border: 0.1rem solid transparent;
+		transition: background-color 0.25s, border-color 0.25s;
+		background-color: #3d3d3d;
 	}
 
-	#Licenses tbody tr:last-of-type{
-		border-bottom: 0.1rem solid #504e4e;
+	#Licenses tbody tr:nth-of-type(odd){
+		border: 0.1rem solid transparent;
+		transition: background-color 0.25s, border-color 0.25s;
+		background-color: #303030;
+	}
+
+	#Licenses tbody tr:hover{
+		border-color: var(--buttonBorder);
+		background-color: var(--mainBG);
+		cursor: pointer;
+	}
+	
+	#Licenses tbody tr:focus, #Licenses tbody tr:focus-visible{
+		outline: 0.4rem auto -webkit-focus-ring-color;
 	}
 </style>
