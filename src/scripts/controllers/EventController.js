@@ -1,5 +1,7 @@
 import { API } from "../stores/stores";
-import { API_ROUTE, SearchRequest } from "./ApiController";
+import { API_ENDPOINT, SearchRequest } from "./ApiController";
+
+let endpoint = API_ENDPOINT;
 
 /**
 	* An event handler to handle the custom event from the svelte component
@@ -11,10 +13,14 @@ import { API_ROUTE, SearchRequest } from "./ApiController";
 async function HandleQuery(Details, Callback)
 {
 	let { success, results, params } = Details;
-	/*
-	TODO: (Brent) update HTTP request to return object including status.
-	*/
-	results = await SearchRequest(API_ROUTE, params);
+
+	if(params.toLowerCase().includes("amount"))
+		endpoint = `${API_ENDPOINT}/licenses/search`;
+	else
+		endpoint = `${API_ENDPOINT}/license/search`;
+		
+	//TODO: (Brent) update HTTP request to return object including status.
+	results = await SearchRequest(endpoint, params);
 	success = typeof results !== "object" ? false : true;
 	
 	if(!success)

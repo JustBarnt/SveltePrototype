@@ -1,15 +1,11 @@
 import { Utilities } from "../utilities/Utilities";
 
-let API_ENDPOINT = "https://localhost:7150/";
-let PATH = "Licenses/search";
-
-export const API_ROUTE = API_ENDPOINT += PATH;
-
+export let API_ENDPOINT = "https://localhost:7150";
 /**
 * Creates a new post request to MSSQL Server
 * @param {String} endpoint - API Endpoint for the request
 * @param {String} queryString - Parsed query string leading with "?"
-* @return {Promise<any>} Returns a promise containing the JSON response
+* @return {Promise<response>} Returns a promise containing the JSON response
 */
 export const SearchRequest = async(endpoint, queryString) =>
 {
