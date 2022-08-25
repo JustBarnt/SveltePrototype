@@ -36,6 +36,14 @@
 		overflow:hidden;
 		color:#fff;
 	}
+	
+	#Licenses thead th, #Licenses tbody td{
+		border-right: 0.1rem solid var(--mainBG);
+	}
+
+	#Licenses thead th:last-of-type, #Licenses tbody td:last-of-type{
+		border-right: 0.1rem solid transparent;
+	}
 
 	#Licenses thead th, #Licenses tbody td{
 		padding: 1.2rem 1.6rem;
@@ -54,7 +62,6 @@
 	}
 
 	#Licenses tbody tr:hover{
-		border-color: var(--buttonBorder);
 		background-color: var(--mainBG);
 		cursor: pointer;
 	}
