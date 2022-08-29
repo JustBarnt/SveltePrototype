@@ -2,8 +2,8 @@
 	const formValues = { amount: "", column: "", value: "", startDate:"", endDate:"" };
 </script>
 
-<div id="container">
-	<form method="GET" action="/Licenses">
+<main id="container">
+	<form method="GET" id="SearchLicense" action="/Licenses">
 		
 		<label for="amount">Top Results:</label>
 		<input type="text" id="amount" name="Amount" placeholder="Number of results" bind:value={formValues.amount}/>
@@ -23,10 +23,20 @@
 		<input type="submit" value="Search" />
 		
 	</form>
-</div>
+</main>
 
 <style>
-	#container{
-		padding-top:calc(var(--headerHeight) + var(--contentPadding));
+	main form{
+		display: grid;
+		border: 0.25rem solid #24242450;
+		border-radius: 1rem;
+		background-color: var(--headerBG);
+		box-shadow: 0 0 0.5rem 0.5rem var(--primaryDarkened);
+		padding: 1rem 1rem;
+		transition: border-color 0.25s, box-shadow 0.25s;
+	}
+
+	label{
+		width: 100%;
 	}
 </style>

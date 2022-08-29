@@ -1,13 +1,28 @@
 :root {
 	/* Custom Variables */
-	--headerHeight: 5.5rem;
-	--headerContentPadding: 1.75rem 1.25rem;
+
+	/* Color Pallet */
+	--purple: #62609F;
+	--purpleDark: hsl(242, 25%, 45%);
+	--purpleLight: hsl(242, 25%, 60%);
+	--monoPurple: #8180B2;
+
+	--magenta: #9F607D;
+	--magentaDark: hsl(332, 25%, 45%);
+	--magentaLight: hsl(332, 25%, 60%);
+
+	/* Width/Height*/
+	--maxWidth: 100%;
+	--headerWidth: 95%;
+	--headerHeight: 5%;
 	--contentPadding: 4.5rem;
-	--mainBG: #282828;
-	--mainBG2: #404040;
-	--headerBG: #303030;
-	--buttonBG: #1a1a1a;
-	--buttonBorder: #646cff;
+
+	/* Colors */
+	--bgGrad: linear-gradient(to left top, var(--purple), var(--magenta));
+	--buttonBG: linear-gradient(to left top, var(--monoPurple), var(--magenta));
+	--buttonBorder: var(--purpleDark);
+
+	/* End Custom Varialbes */
 
 	/* Defining Root properties*/
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -15,9 +30,9 @@
 	line-height: 1.8rem;
 	font-weight: 400;
 
-	color-scheme: dark;
-	color: rgba(255, 255, 255, 0.87);
-	background: var(--mainBG);
+	color: #ffffff;
+	background: var(--bgGrad);
+	max-width: var(--maxWidth);
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -27,43 +42,40 @@
 	-webkit-text-size-adjust: 100%;
 }
 
-* label{
-	width:100%;
+*::-webkit-scrollbar {
+	display: none;
 }
 
-*::-webkit-scrollbar{
-	display:none;
-}
-
-*{
+* {
 	font-size: 1.6rem;
 	font-family: Arial, Helvetica, sans-serif;
-	margin: 0 auto;
 	padding: 0;
-	position: relative;
+	margin: 0;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
 
-form{
-	display: grid;
-	width:35%;
-	border: 0.25rem solid #24242450;
-	border-radius: 1rem;
-	background-color: var(--headerBG);
-	box-shadow: 0 0 0.5rem 0.5rem #12121250;
-	padding: 1rem 1rem;
-	transition: border-color 0.25s, box-shadow 0.25s;
+body {
+	height: 100vh;
 }
 
-input{
+main {
+	padding-top: calc(var(--headerHeight) + var(--contentPadding));
+	width: var(--headerWidth);
+	display: grid;
+	margin: 0 2.5%;
+}
+
+input {
 	padding: 1rem 2rem;
 	margin: 1.5rem 0;
 }
 
-button, input{
+button,
+input {
+	color: white;
 	border-radius: 0.8rem;
-	border: 0.1rem solid transparent;
+	border: 0.3rem solid transparent;
 	padding: 1.6rem 2rem;
 	margin-top: 1.6rem;
 	font-size: 1.6rem;
@@ -73,11 +85,15 @@ button, input{
 	cursor: pointer;
 	transition: border-color 0.25s;
 }
-button:hover, input:hover {
-  	border-color: var(--buttonBorder);
+
+button:hover,
+input:hover {
+	border-color: var(--buttonBorder);
 }
 
-button:focus, button:focus-visible, 
-input:focus, input:focus-visible{
+button:focus,
+button:focus-visible,
+input:focus,
+input:focus-visible {
 	outline: 0.2rem solid var(--buttonBorder);
 }
