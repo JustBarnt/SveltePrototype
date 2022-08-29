@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 	import EditForm from "../components/EditForm.svelte";
@@ -9,9 +9,8 @@
 
 	const EventDetails = { success: false, results: null, params: "" };
 	const AsyncAwait = Utilities.AsyncDelay;
-	const activeComponent = [LicenseTable, EditForm];
 
-	let apiContext;
+	let apiContext: ApiModel;
 	let editActive = false;
 
 	onMount(() =>
@@ -26,15 +25,15 @@
 		apiContext = get(API);
 	}
 
-	const HandleLicenseEdit = (event) => { editActive = !editActive;};
+	const HandleLicenseEdit = (event:Event) => { editActive = !editActive;};
 </script>
 
 <div class="container">
 	{#await AsyncAwait(500) then resolution}
 		{#if !editActive}
-			<LicenseTable data={apiContext.response} on:edit={HandleLicenseEdit}/>
+			<LicenseTable data={apiContext.results} on:edit={HandleLicenseEdit}/>
 		{:else}	
-			<EditForm data={apiContext.response}/>
+			<EditForm data={apiContext.results}/>
 		{/if}
 	{/await}
 </div>

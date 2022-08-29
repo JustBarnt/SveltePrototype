@@ -2,7 +2,7 @@ import { API } from "../stores/stores";
 import { API_ENDPOINT, SearchRequest } from "./ApiController";
 
 let endpoint=API_ENDPOINT;
-type details = { success: boolean, results: {} [], params: string };
+
 
 /**
 	* An event handler to handle the custom event from the svelte component
@@ -11,7 +11,7 @@ type details = { success: boolean, results: {} [], params: string };
 	* @param {details} Details - Object containing parameters to indicate successful requests.
 	* @callback Callback - Starts loading the data into the table.
 	*/
-async function HandleQuery(Details: details, Callback:() => void)
+async function HandleQuery(Details: QueryDetails, Callback:() => void)
 {
 	let { success, results, params } = Details;
 
@@ -27,7 +27,7 @@ async function HandleQuery(Details: details, Callback:() => void)
 	if(!success)
 		throw new Error("Failed to retrieve response.");
 
-	let apiStoreSchema = { success: success, response: results };
+	let apiStoreSchema: ApiModel = { success: success, results: results };
 	API.set(apiStoreSchema);
 	Callback();
 }

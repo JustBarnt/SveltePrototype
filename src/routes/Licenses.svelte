@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 	import LicensesTable from "../components/LicensesTable.svelte";
@@ -8,7 +8,7 @@
 
 	const EventDetails = { success: false, results: null, params: "" };
 	const AsyncAwait = Utilities.AsyncDelay;
-	let apiContext;
+	let apiContext: ApiModel;
 
 	onMount(() =>
 	{
@@ -25,7 +25,7 @@
 
 <div id="TableContainer">
 	{#await AsyncAwait(1000) then resolution}
-		<LicensesTable bind:data={apiContext.response}/>
+		<LicensesTable bind:data={apiContext.results}/>
 	{/await}
 </div>
 

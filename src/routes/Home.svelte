@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	const formValues = { amount: "", column: "", value: "", startDate:"", endDate:"" };
 </script>
 
