@@ -1,20 +1,30 @@
 {
 	"extends": "@tsconfig/svelte/tsconfig.json",
-	"include": ["src/**/*.d.ts", "src/**/*.ts","src/**/.svelte"],
-	"exclude": ["node_modules/*", "public/*"],
-	"compilerOptions": {                      
-		"baseUrl": ".",                  
-		"esModuleInterop": true ,
-		"forceConsistentCasingInFileNames": true ,
-		"importHelpers": true,
-		"lib": ["dom", "ESNext"],
+	"exclude": [
+		"node_modules/*",
+		"public/*"
+	],
+	"include": [
+		"src/**/*.d.ts",
+		"src/**/*.ts",
+		"src/**/*.js",
+		"src/**/*.svelte"
+	],
+	"compilerOptions": {
+		"baseUrl": ".",
+		//"esModuleInterop": true,
+		//"forceConsistentCasingInFileNames": true,
+		//"importHelpers": true,
+		//"lib": ["DOM", "ESNext"],
 		"module": "ESNext",
-		"moduleResolution": "node",
-		"noUnusedLocals": false,
-		"importsNotUsedAsValues": "preserve",
-		"skipLibCheck": true ,
-		"strict": true ,
+		"moduleResolution": "Node",
+		//"noUnusedLocals": true,
+		//"importsNotUsedAsValues": "error",
+		"isolatedModules": true,
+		"skipLibCheck": true,
+		//"strict": true,
+		"resolveJsonModule": true,
+		"useDefineForClassFields": true,
 		"target": "ESNext",
-		"typeRoots": ["/node_modules/@types", "./src/types/global.d.ts"]
 	}
 }
