@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
+	import EditForm from "../components/EditForm.svelte";
 	import LicenseTable from "../components/LicenseTable.svelte";
 	import { HandleQuery } from "../scripts/controllers/EventController";
 	import { API } from "../scripts/stores/stores";
@@ -8,7 +9,10 @@
 
 	const EventDetails = { success: false, results: null, params: "" };
 	const AsyncAwait = Utilities.AsyncDelay;
+	const activeComponent = [LicenseTable, EditForm];
+
 	let apiContext;
+	let editActive = false;
 
 	onMount(() =>
 	{
@@ -21,16 +25,16 @@
 	{
 		apiContext = get(API);
 	}
+
+	const HandleLicenseEdit = (event) => { editActive = !editActive;};
 </script>
 
-<div id="TableContainer">
-	{#await AsyncAwait(500) then success}
-		<LicenseTable bind:data={apiContext.response}/>
+<div class="container">
+	{#await AsyncAwait(500) then resolution}
+		{#if !editActive}
+			<LicenseTable data={apiContext.response} on:edit={HandleLicenseEdit}/>
+		{:else}	
+			<EditForm data={apiContext.response}/>
+		{/if}
 	{/await}
 </div>
-
-<style>
-	#TableContainer{
-		padding-top: calc(var(--headerHeight) + var(--contentPadding));
-	}
-</style>

@@ -1,9 +1,18 @@
 <script>
+	import { createEventDispatcher } from "svelte";
 	import { Utilities } from "../scripts/utilities/Utilities";
-	export let data = undefined;		
+	export let data = undefined;
+
+	const EditLicense = createEventDispatcher();
+
+	function Edit(event)
+	{
+		EditLicense("edit", event.detail);
+	}
 </script>
 
-	{#if data !== undefined}
+{#if data !== undefined}
+	<div class="license-table">
 		<table id="License">
 			{#each Object.entries(data[0]) as [key, value]}
 				<tr>
@@ -12,9 +21,18 @@
 				</tr>
 			{/each}
 		</table>
-	{/if}
+		<button class="form-edit" on:click={Edit}>Edit License</button>
+	</div>
+{/if}
 	
 <style>
+	.form-edit{
+		display: inherit;
+		padding: 0.75rem 1rem;
+		margin: 1rem auto;
+		position: relative;
+	}
+
 	#License{
 		background-color: var(--mainBG2);
 		border: 0.125rem solid transparent;
@@ -51,19 +69,5 @@
 	#License tr td:nth-of-type(odd){
 		transition: background-color 0.25s, border-color 0.25s;
 		background-color: #303030;
-	}
-
-	#License tr td:hover{
-		border-color: var(--buttonBorder);
-		background-color: var(--mainBG);
-		cursor: pointer;
-	}
-
-	#License tr td:not(:hover){
-		border: 0rem solid transparent;
-	}
-
-	#License tr td:focus, #License tr td:focus-visible{
-		outline: 0.2rem auto -webkit-focus-ring-color;
 	}
 </style>

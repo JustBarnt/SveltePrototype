@@ -24,13 +24,14 @@
 </script>
 
 <div id="TableContainer">
-	{#await AsyncAwait(1000) then success}
+	{#await AsyncAwait(1000) then resolution}
 		<LicensesTable bind:data={apiContext.response}/>
 	{/await}
 </div>
 
 <style>
 	#TableContainer{
+		position: relative;
 		padding-top: calc(var(--headerHeight) + var(--contentPadding));
 	}
 </style>

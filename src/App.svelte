@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { page } from "./routes";
 </script>
 
@@ -9,7 +9,7 @@
 	</nav>
 </header>
 
-<section id="Content">
+<section>
 	<svelte:component this={page}/>
 </section>
 
@@ -62,8 +62,6 @@
 	}
 
 	section{
-		position: fixed;
-		min-width: 100%;
-		min-height: auto;
+		padding-top: calc(var(--headerHeight) + var(--contentPadding));
 	}
 </style>
