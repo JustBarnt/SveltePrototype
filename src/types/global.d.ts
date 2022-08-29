@@ -8,5 +8,11 @@ declare global
 		results: {}[] | null | {};
 	}
 
-	type QueryDetails = { success: boolean, results: {}[] | null | {}, params: string}
+	interface Login
+	{
+		username: string;
+		password: string;
+	}
+
+	type QueryDetails = { success: boolean, results: {}[] | null | {}, params: string }
 }
