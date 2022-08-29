@@ -1,9 +1,8 @@
 {
 	"extends": "@tsconfig/svelte/tsconfig.json",
-	"include": ["src/**/*.js", "src/**/*.d.ts", "src/**/*.ts","src/**/.svelte", "src/vite-env.d.ts"],
+	"include": ["src/**/*.d.ts", "src/**/*.ts","src/**/.svelte"],
 	"exclude": ["node_modules/*", "public/*"],
-	"compilerOptions": {
-		"allowJs": true,                       
+	"compilerOptions": {                      
 		"baseUrl": ".",                  
 		"esModuleInterop": true ,
 		"forceConsistentCasingInFileNames": true ,
@@ -15,6 +14,7 @@
 		"importsNotUsedAsValues": "preserve",
 		"skipLibCheck": true ,
 		"strict": true ,
-		"target": "ESNext"
+		"target": "ESNext",
+		"typeRoots": ["/node_modules/@types", "./src/types/global.d.ts"]
 	}
 }
