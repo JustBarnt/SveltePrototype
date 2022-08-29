@@ -1,16 +1,17 @@
 import { API } from "../stores/stores";
 import { API_ENDPOINT, SearchRequest } from "./ApiController";
 
-let endpoint = API_ENDPOINT;
+let endpoint=API_ENDPOINT;
+type details = { success: boolean, results: {} [], params: string };
 
 /**
 	* An event handler to handle the custom event from the svelte component
 	* 
 	* @async
-	* @param {Object} Details - Object containing parameters to indicate successful requests.
+	* @param {details} Details - Object containing parameters to indicate successful requests.
 	* @callback Callback - Starts loading the data into the table.
 	*/
-async function HandleQuery(Details, Callback)
+async function HandleQuery(Details: details, Callback:() => void)
 {
 	let { success, results, params } = Details;
 

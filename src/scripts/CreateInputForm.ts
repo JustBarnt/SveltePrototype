@@ -12,7 +12,7 @@ export class CreateInputForm
 	* @param {String} method - Form METHOD
 	* @return {HTMLFormElement} Returns an html form element
 	*/
-	static Form(id, name, action, method)
+	static Form(id:string, name:string, action:string, method:string)
 	{
 		let form = document.createElement("form");
 		form.setAttribute("id", id);
@@ -29,7 +29,7 @@ export class CreateInputForm
 	* @param {String} value - Input value
 	* @return {HTMLInputElement} Returns an html input element
 	*/
-	static Input(type, name, value)
+	static Input(type:string, name:string, value:string)
 	{
 		let input = document.createElement("input");
 		

@@ -1,28 +1,20 @@
+interface objectFormat
+{
+	[ key: string ]: any;
+}
+
 export class Utilities
 {
 	/**
 	* Creates a Beautified string
-	* @param {String} string - an unformatted string to be prettified
+	* @param {String} header - an unformatted string to be prettified
 	* @return {String} Returns a formated string
 	*/
-	static FormatColumnHeader(string)
+	static FormatColumnHeader(header:string):string
 	{
-		let parsedStr = string.replace(/([a-z])([A-Z])/g, "$1 $2");
+		let parsedStr = header.replace(/([a-z])([A-Z])/g, "$1 $2");
 		return parsedStr.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(" ");
 		
-	}
-
-	/** //NOTE: May delete this later, waiting to see if there is another way I can use this instead of url.search
-	* Creates a query string
-	* @param {Object} object - An object containing the values of the query
-	* @return {String} returns a query string.
-	*/
-	static BuildQueryString(object)
-	{
-		let query = new URLSearchParams();
-		for (const key in object)
-			query.append(key, object[key]);
-		return `?${query.toString()}`;
 	}
 
 	/**
@@ -33,9 +25,9 @@ export class Utilities
 	* @param {String} keyName - The name of the key you want to find and replace in
 	* @param {String} replacement - The string value to replace
 	*/
-	static FormatDateTime(data, keyName, replacement)
+	static FormatDateTime( data: objectFormat[], keyName:string, replacement:string): void
 	{
-		data.forEach((item, index) => 
+		data.forEach( ( item: objectFormat, index:number) => 
 		{
 			const keys = Object.keys(item);
 			let currentKey = Object.keys(item);
@@ -50,7 +42,7 @@ export class Utilities
 		});
 	}
 
-	static #GetTimeIndex(string)
+	static #GetTimeIndex(string:string): string | number
 	{
 		if(string !== null)
 			return string.indexOf("T");
@@ -62,10 +54,10 @@ export class Utilities
 	* Takes two arrays a value to see if they share it
 	* @param {Array} arr1 - An array to check if value is included in it
 	* @param {Array} arr2 - An array to check if value is included in it
-	* @param value - The value the two arrays may share
+	* @param {String} value - The value the two arrays may share
 	* @return {Boolean}
 	*/
-	static #ArrayHas(arr1, arr2, value)
+	static #ArrayHas(arr1: Array<any>, arr2:Array<any>, value:string): boolean
 	{
 		return (arr1.includes(value) && arr2.includes(value) );
 	}
@@ -75,9 +67,9 @@ export class Utilities
 	* @param {number} delay - Amount of time in ms to wait before resolving the promise
 	* @return {Promise} Returns a resolved promise.
 	*/
-	static async AsyncDelay(delay)
+	static async AsyncDelay(delay: number): Promise<void>
 	{
-		return new Promise((success) => 
+		return new Promise((success) =>
 		{
 			setTimeout(() => 
 			{

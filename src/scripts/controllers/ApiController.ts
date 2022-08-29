@@ -7,7 +7,7 @@ export let API_ENDPOINT = "https://localhost:7150";
 * @param {String} queryString - Parsed query string leading with "?"
 * @return {Promise<response>} Returns a promise containing the JSON response
 */
-export const SearchRequest = async(endpoint, queryString) =>
+export const SearchRequest = async(endpoint: string, queryString:string) =>
 {
 	const headers = new Headers();
 	headers.append("Content-Type", "application/json");

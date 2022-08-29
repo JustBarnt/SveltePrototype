@@ -1,12 +1,16 @@
-import { defineConfig } from "vite";
+import typescript from "@rollup/plugin-typescript";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import basicSsl from "@vitejs/plugin-basic-ssl";
+import autoPreprocess from "svelte-preprocess";
+import { defineConfig } from "vite";
 
 export default defineConfig({
 	plugins: [
 		svelte({
+			preprocess: autoPreprocess(),
 		}),
 		basicSsl(),
+		typescript({ sourceMap: !production }),
 	],
 	server: {
 		https: true,
