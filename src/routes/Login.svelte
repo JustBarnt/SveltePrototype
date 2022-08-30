@@ -9,9 +9,7 @@
 	{
 		console.log((attempt.username !== accounts.username && attempt.password !== accounts.password));
 		if(attempt.username !== accounts.username && attempt.password !== accounts.password)
-		
 			isHidden = false;
-		
 	}
 
 	function HandleInput(event): void 
@@ -26,11 +24,10 @@
 </script>
 
 <main class="login-main">
-	<form id="login-form" on:submit|preventDefault="{HandleLogin}" >
+	<form id="LoginForm" on:submit|preventDefault="{HandleLogin}" autocomplete="off">
 		<h1>Sign In</h1>
 		<error
-			class="login-error-container"
-			style="display: {isHidden ? "none" : "inherit"}">
+			class="{isHidden ? "hidden" : "visible"}">
 			<p class="msg">
 				Invalid username
 				<span class="msg-cont">and/or password.</span>
@@ -56,31 +53,51 @@
 </main>
 
 <style>
-	main{
-		height: 75vh;
+	.login-main{
+		display: flex;
+		place-content: space-around space-around;
 	}
-
-	main form {
-		display: grid;
-		place-self: center;
+	main form{
+		display: inherit;
+		flex-flow: column wrap;
 		color: white;
 		padding: 5rem 5rem;
 		border-radius: 1rem;
-		background: var(--bgGrad);
+		background: var(--secondaryGrad);  
 		border-bottom: 0.5rem solid var(--purpleDark);
 		box-shadow: 0 0 0.75rem #00000075;
 	}
 
-	error {
-		display: inherit;
+	main form>*{
+		flex: 1 1;
+	}
+
+	.hidden{
 		border-radius: 1rem;
-		text-align: center;
-		margin: 1.5rem 0 0.5rem 0;
+		align-self: center;
+		margin: 0 0;
+		padding: 0;
+		font-size: 1.2rem;
+		font-weight: bold;
+		color: #ffffff;
+		background-color: var(--magenta);
+		box-shadow: 0 0 0.75rem #00000075;
+		opacity: 0;
+		transition: opacity 0.25s;
+	}
+
+	.visible{
+		opacity: 1;
+		align-self: center;
+		border-radius: 1rem;
+		margin: 1rem 0;
 		padding: 1rem;
 		font-size: 1.2rem;
 		font-weight: bold;
 		color: #ffffff;
-		background-color: var(--purpleDark);
+		background-color: var(--magenta);
+		box-shadow: 0 0 0.75rem #00000075;
+		transition: all 0.25s;
 	}
 
 	.login-field::placeholder {
@@ -88,25 +105,34 @@
 	}
 
 	.login-field {
-		border: none;
-		border-bottom: 0.25rem solid var(--purpleDark);
-		margin-bottom: 0.5rem;
+		background-color: #30303075;
+		border: 0.2rem solid transparent;
+		border-bottom: 0.2rem solid #ffffff50;
 		border-radius: 0.5rem;
-		outline: none;
-		padding: 0.5rem 0.5rem;
+		padding: 0.5rem 0.15rem;
+		transition: all 0.25s;
+	}
+
+	.login-field:hover, .login-field:active, .login-field:focus{
+		background: #303030;
+		border-color: var(--magenta);
+		padding: 0.5rem;
+		border-radius: 1rem;
 	}
 
 	.submit-login {
-		border: 0.2rem solid var(--purpleDark);
+		border: 0.2rem solid transparent;
+		background-color: #30303075;
 		padding: 0.5rem 0.5rem;
 		border-radius: 0.5rem;
 		font-weight: bold;
 		cursor: pointer;
-		outline: none;
-		transition: border-color 0.25s;
+		transition: all 0.25s;
 	}
 
 	.submit-login:hover{
-		border-color: var(--purpleLight)
+		border-color: var(--magenta);
+		background-color: #303030;
+		border-radius: 1rem;
 	}
 </style>

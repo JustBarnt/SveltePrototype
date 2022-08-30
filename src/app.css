@@ -1,15 +1,12 @@
-:root {
+:root
+{
+	/* TODO -- Implement SASS*/
 	/* Custom Variables */
 
 	/* Color Pallet */
 	--purple: #62609F;
 	--purpleDark: hsl(242, 25%, 45%);
-	--purpleLight: hsl(242, 25%, 60%);
-	--monoPurple: #8180B2;
-
 	--magenta: #9F607D;
-	--magentaDark: hsl(332, 25%, 45%);
-	--magentaLight: hsl(332, 25%, 60%);
 
 	/* Width/Height*/
 	--maxWidth: 100%;
@@ -18,7 +15,8 @@
 	--contentPadding: 4.5rem;
 
 	/* Colors */
-	--bgGrad: linear-gradient(to left top, var(--purple), var(--magenta));
+	--bgGrad: linear-gradient(to left bottom, #6e6085, #675b7b, #605572, #5a5068, #534b5f, #585063, #5d5667, #625b6b, #746d7e, #888092, #9b94a6, #afa8ba);
+	--secondaryGrad: linear-gradient(to left top, var(--purple), var(--magenta));
 	--buttonBG: linear-gradient(to left top, var(--monoPurple), var(--magenta));
 	--buttonBorder: var(--purpleDark);
 
@@ -31,9 +29,7 @@
 	font-weight: 400;
 
 	color: #ffffff;
-	background: var(--bgGrad);
 	max-width: var(--maxWidth);
-
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 
@@ -42,11 +38,19 @@
 	-webkit-text-size-adjust: 100%;
 }
 
-*::-webkit-scrollbar {
+*::-webkit-scrollbar
+{
 	display: none;
 }
 
-* {
+#app
+{
+	height: 100vh;
+	background-image: linear-gradient(to right top, #6e6085, #655978, #5c526c, #534b5f, #4a4453);
+}
+
+*
+{
 	font-size: 1.6rem;
 	font-family: Arial, Helvetica, sans-serif;
 	padding: 0;
@@ -55,24 +59,21 @@
 	scrollbar-width: none;
 }
 
-body {
-	height: 100vh;
-}
-
-main {
+main
+{
 	padding-top: calc(var(--headerHeight) + var(--contentPadding));
 	width: var(--headerWidth);
-	display: grid;
-	margin: 0 2.5%;
 }
 
-input {
+input
+{
 	padding: 1rem 2rem;
 	margin: 1.5rem 0;
 }
 
 button,
-input {
+input
+{
 	color: white;
 	border-radius: 0.8rem;
 	border: 0.3rem solid transparent;
@@ -87,13 +88,15 @@ input {
 }
 
 button:hover,
-input:hover {
+input:hover
+{
 	border-color: var(--buttonBorder);
 }
 
 button:focus,
 button:focus-visible,
 input:focus,
-input:focus-visible {
+input:focus-visible
+{
 	outline: 0.2rem solid var(--buttonBorder);
 }
