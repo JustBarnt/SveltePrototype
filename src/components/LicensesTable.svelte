@@ -1,7 +1,7 @@
 <script>
-import { onMount } from "svelte";
-import { CreateInputForm } from "../scripts/CreateInputForm";
-import { Utilities } from "../scripts/utilities/Utilities";
+	import { onMount } from "svelte";
+	import { CreateInputForm } from "../scripts/CreateInputForm";
+	import { Utilities } from "../scripts/utilities/Utilities";
 	export let data = undefined;
 
 	const tablePKs = [];
@@ -32,9 +32,7 @@ import { Utilities } from "../scripts/utilities/Utilities";
 		let input = CreateInputForm.Input("text", "selector", tablePKs[activeRow]);
 		form.append(input);
 		document.getElementById("TableContainer").append(form);
-
-		// @ts-ignore submit is a valid method on forms. @tslint is dumb.
-		document.getElementById("LicenseForm").submit(event);
+		document.getElementById("LicenseForm").onsubmit(event);
 	}
 
 	function GetRowNum(element)

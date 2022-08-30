@@ -9,9 +9,9 @@
 	{
 		console.log((attempt.username !== accounts.username && attempt.password !== accounts.password));
 		if(attempt.username !== accounts.username && attempt.password !== accounts.password)
-		{
+		
 			isHidden = false;
-		}
+		
 	}
 
 	function HandleInput(event): void 
