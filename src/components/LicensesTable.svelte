@@ -60,7 +60,7 @@
 	</table>
 {/if}
 
-<style>
+<style lang="scss">
 	#Licenses{
 		background-color: var(--mainBG2);
 		border: 0.125rem solid transparent;

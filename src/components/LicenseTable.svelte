@@ -25,7 +25,7 @@
 	</div>
 {/if}
 	
-<style>
+<style lang="scss">
 	.form-edit{
 		display: inherit;
 		padding: 0.75rem 1rem;

@@ -29,7 +29,7 @@
 	{/await}
 </div>
 
-<style>
+<style lang="scss">
 	#TableContainer{
 		position: relative;
 		padding-top: calc(var(--headerHeight) + var(--contentPadding));

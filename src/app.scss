@@ -1,0 +1,61 @@
+@import './src/sass/variables.scss';
+
+:root {
+	/* Defining Root properties*/
+	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+	font-size: 10px;
+	line-height: 1.8rem;
+	font-weight: 400;
+
+	color: #ffffff;
+	max-width: var(--maxWidth);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}
+
+#app {
+	height: 100vh;
+	width: 100vw;
+	background-image: $appBG;
+	display: flex;
+	flex-flow: column wrap;
+}
+
+* {
+	font-size: 1.6rem;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 0;
+	margin: 0;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar{
+		display: none;
+	}
+}
+
+input {
+	padding: 1rem 2rem;
+	margin: 1.5rem 0;
+}
+
+button,
+input {
+	@include button-base;
+}
+
+button:hover,
+input:hover {
+	border-color: var(--buttonBorder);
+}
+
+button:focus,
+button:focus-visible,
+input:focus,
+input:focus-visible {
+	outline: 0.2rem solid var(--buttonBorder);
+}

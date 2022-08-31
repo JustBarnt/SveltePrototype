@@ -4,6 +4,7 @@
 	import Login from "./routes/Login.svelte";
 </script>
 
+
 <header>
 	<h1>Licensing Web Tool</h1>
 	<nav>
@@ -16,54 +17,51 @@
 	</nav>
 </header>
 
-
-<content>
-	<Login/>
-</content>
-
+<Login/>
 
 <style lang="scss">
 	header{
-		display: flex;
-		place-content: space-between;
-		place-items: center;
 		width:100%;
-		min-width: 35%;
-		color:white;
-		position: fixed;
+		height: 5%;
+		display: flex;
+		place-content: center space-between;
+		align-items: center;
 		z-index: 10;
-		height: var(--headerHeight);
-		background: $primaryColor;
-		border-bottom: 0.5rem solid var(--purpleDark);
-		box-shadow: 0 0 0.5rem #00000075;
-	}
+		position: fixed;
+		color:white;
+		background: $gradBg;
+		border-bottom: 0.5rem solid $darkGrey;
+		box-shadow: 0 0 0.5rem $darkGrey;
 
-	nav > span{
-		padding: 0.75rem;
+		h1{
+			font-size: 2.5rem;
+			padding-left: 2rem
+		}
 	}
-
+	
 	nav{
 		font-size: 1.2rem;
 		padding-right: 2rem;
+
+		span{
+			padding: 0.75rem;
+		}
+		
+		a{
+			color: white;
+			text-decoration: none;
+			font-weight: 600;
+			border-radius: 1rem;
+			border: 0.15rem solid transparent;
+			transition: all 0.25s;
+			padding: 0.5rem;
+
+			&:hover, &:focus, &:focus-visible &:active{
+				padding: 0.5rem;
+				border-color: $darkGrey;
+				background-color: #30303050;
+			}
+		}
 	}
 
-	nav a{
-		color: white;
-		text-decoration: none;
-		font-weight: 600;
-		border-radius: 1rem;
-		border: 0.15rem solid transparent;
-		transition: border-color 0.5s, background-color 0.5s;
-	}
-
-	nav a:hover, nav a:focus, nav a:focus-visible, nav a:active{
-		border-color: var(--purpleDark);
-		background-color: #30303050;
-	}
-
-	header h1{
-		font-size: 2.5rem;
-		margin: 0;
-		padding-left: 2rem
-	}
 </style>

@@ -1,4 +1,19 @@
-$primaryColor: #6E6085;
-$secondaryColor: #a293ba;
-$accentColor: #00c9a5;
-$contrastColor: #F9EAff;
+$blue: #4967ec;
+$grey: #aba9bb;
+$darkGrey: #35343d;
+$red: #e01f41;
+$purple: #9f64ff;
+
+$appBG: linear-gradient(to top left, #ffffff, #f0ecec);
+$gradBg: linear-gradient(to right bottom, #4967ec, #6167f2, #7767f7, #8b66fb, #9f64ff);
+
+@mixin button-base{
+	border-radius: 0.5rem;
+	border: 0.2rem solid transparent;
+	padding: 1.1rem 6rem;
+	margin-top: 1.6rem;
+	font-size: 1.6rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.25s;
+}

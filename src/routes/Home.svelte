@@ -25,7 +25,7 @@
 	</form>
 </main>
 
-<style>
+<style lang="scss">
 	main form{
 		display: grid;
 		border: 0.25rem solid #24242450;

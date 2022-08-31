@@ -23,7 +23,8 @@
 	}
 </script>
 
-<main class="login-main">
+
+<section>
 	<form id="LoginForm" on:submit|preventDefault="{HandleLogin}" autocomplete="off">
 		<h1>Sign In</h1>
 		<error
@@ -50,89 +51,93 @@
 			value="Login"
 			class="submit-login"/>
 	</form>
-</main>
+</section>
 
-<style>
-	.login-main{
+<style lang="scss">
+
+	section{
 		display: flex;
-		place-content: space-around space-around;
+		justify-content: center;
+		align-items: center;
+		height:95%;
 	}
-	main form{
+
+	form{
+		//Svelte Components don't seem to be able to "inherit" display like html elements can
+		//So defining flex display in each component appears to be needed.
 		display: inherit;
 		flex-flow: column wrap;
+		place-content: center center;
 		color: white;
 		padding: 5rem 5rem;
 		border-radius: 1rem;
-		background: var(--secondaryGrad);  
-		border-bottom: 0.5rem solid var(--purpleDark);
-		box-shadow: 0 0 0.75rem #00000075;
+		background: $gradBg;  
+		border-bottom: 0.5rem solid $darkGrey;
+		box-shadow: 0 0 0.75rem $darkGrey;
 	}
 
-	main form>*{
-		flex: 1 1;
+	h1{
+		font-size: 2.2rem;
 	}
 
-	.hidden{
-		border-radius: 1rem;
-		align-self: center;
-		margin: 0 0;
-		padding: 0;
-		font-size: 1.2rem;
-		font-weight: bold;
-		color: #ffffff;
-		background-color: var(--magenta);
-		box-shadow: 0 0 0.75rem #00000075;
-		opacity: 0;
-		transition: opacity 0.25s;
-	}
+	error{
 
-	.visible{
-		opacity: 1;
-		align-self: center;
-		border-radius: 1rem;
-		margin: 1rem 0;
-		padding: 1rem;
-		font-size: 1.2rem;
-		font-weight: bold;
-		color: #ffffff;
-		background-color: var(--magenta);
-		box-shadow: 0 0 0.75rem #00000075;
-		transition: all 0.25s;
-	}
-
-	.login-field::placeholder {
-		color: white;
+		&.hidden{
+			border-radius: 1rem;
+			margin: 1rem 0;
+			padding: 1rem;
+			font-size: 1.2rem;
+			font-weight: bold;
+			color: #ffffff;
+			background-color: lighten($red, 10%);
+			box-shadow: 0 0 0.75rem $darkGrey;
+			opacity: 0;
+			transition: opacity 0.25s;
+		}
+	
+		&.visible{
+			opacity: 1;
+			border-radius: 1rem;
+			margin: 1rem 0;
+			padding: 1rem;
+			font-size: 1.2rem;
+			font-weight: bold;
+			color: #ffffff;
+			background-color: lighten($red, 10%);
+			box-shadow: 0 0 0.75rem $darkGrey;
+			transition: all 0.25s;
+		}
 	}
 
 	.login-field {
-		background-color: #30303075;
+		background-color: #35343d75;
 		border: 0.2rem solid transparent;
 		border-bottom: 0.2rem solid #ffffff50;
 		border-radius: 0.5rem;
-		padding: 0.5rem 0.15rem;
-		transition: all 0.25s;
-	}
-
-	.login-field:hover, .login-field:active, .login-field:focus{
-		background: #303030;
-		border-color: var(--magenta);
 		padding: 0.5rem;
-		border-radius: 1rem;
+		transition: all 0.25s;
+
+		&::placeholder{
+			color: white;
+		}
+
+		&:hover, &:active, &:focus, &:focus-visible{
+			background: $darkGrey;
+			border-color: lighten($blue, 50%);
+			padding: 0.5rem;
+			border-radius: 1rem;
+		}
 	}
 
 	.submit-login {
-		border: 0.2rem solid transparent;
-		background-color: #30303075;
-		padding: 0.5rem 0.5rem;
-		border-radius: 0.5rem;
-		font-weight: bold;
-		cursor: pointer;
-		transition: all 0.25s;
-	}
+		color: white;
+		background-color: $darkGrey;
+		box-shadow:0 0 0.25rem $darkGrey;
 
-	.submit-login:hover{
-		border-color: var(--magenta);
-		background-color: #303030;
-		border-radius: 1rem;
+		&:hover{
+			border-color: lighten($blue, 50%);
+			background: linear-gradient(to right bottom, $blue, lighten($red, 15%));
+			box-shadow: 0 0 0.75rem $darkGrey;
+		}
 	}
 </style>
