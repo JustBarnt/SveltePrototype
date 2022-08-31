@@ -1,8 +1,9 @@
 import { defineConfig, loadEnv } from "vite";
 import basicSsl from "@vitejs/plugin-basic-ssl";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
-import sveltePreprocess, { typescript } from "svelte-preprocess";
+import sveltePreprocess from "svelte-preprocess";
 import autoprefixer from "autoprefixer";
+import scss from "svelte-preprocess";
 
 // https://vitejs.dev/config/
 /**@type {import("vite").UserConfig} */
@@ -14,17 +15,19 @@ console.log(`Is production: ${production}`);
 export default defineConfig({
 	plugins: [
 		svelte({
-			preprocess: sveltePreprocess(
-				{
-					sourceMap: !production,
-					scss: {
-						prependData: `@import 'src/sass/variables.scss`
-					},
-					postcss: {
-						plugins: [ autoprefixer() ],
+			preprocess: [
+				scss({
+					prependData: "@import 'src/sass/variables.scss",
+				}),
+				sveltePreprocess(
+					{
+						sourceMap: !production,
+						postcss: {
+							plugins: [ autoprefixer() ],
+						}
 					}
-				}
-			)
+				)
+			]
 		}),
 		basicSsl(),
 	]

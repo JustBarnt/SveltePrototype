@@ -46,7 +46,7 @@
 #app
 {
 	height: 100vh;
-	background-image: linear-gradient(to right top, #6e6085, #655978, #5c526c, #534b5f, #4a4453);
+	background-image: radial-gradient(circle, #6e6085, #6e6085, #6e6085, #6e6085, #6e6085, #726489, #77688e, #7b6c92, #85769c, #8e7fa6, #9889b0, #a293ba);
 }
 
 *

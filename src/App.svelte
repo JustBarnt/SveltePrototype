@@ -22,7 +22,7 @@
 </content>
 
 
-<style>
+<style lang="scss">
 	header{
 		display: flex;
 		place-content: space-between;
@@ -33,7 +33,7 @@
 		position: fixed;
 		z-index: 10;
 		height: var(--headerHeight);
-		background: var(--secondaryGrad);
+		background: $primaryColor;
 		border-bottom: 0.5rem solid var(--purpleDark);
 		box-shadow: 0 0 0.5rem #00000075;
 	}
