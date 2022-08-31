@@ -29,7 +29,7 @@
 	main form{
 		display: grid;
 		border: 0.25rem solid #24242450;
-		border-radius: 1rem;
+		border-radius: $borderRadius;
 		background-color: var(--headerBG);
 		box-shadow: 0 0 0.5rem 0.5rem var(--primaryDarkened);
 		padding: 1rem 1rem;

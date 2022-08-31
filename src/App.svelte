@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { page } from "./routes";
-	import Home from "./routes/Home.svelte";
-	import Login from "./routes/Login.svelte";
+	//import { page } from "./routes";
+	import Login from "./pages/Login.svelte";
 </script>
 
 
@@ -9,10 +8,9 @@
 	<h1>Licensing Web Tool</h1>
 	<nav>
 		<span>
-			<a href="/" on:click={ () => location.assign(window.location.origin + "/")}>Home</a>
-		</span>
-		<span>
-			<a href="/">Login</a>
+			<!--Check if logged in, so the user doesn't go to login page. (LATER) Merge Home and Login page and just
+			keep track if they need to see a login component.-->
+			<a href="/">Home</a>
 		</span>
 	</nav>
 </header>
@@ -51,7 +49,7 @@
 			color: white;
 			text-decoration: none;
 			font-weight: 600;
-			border-radius: 1rem;
+			border-radius: $borderRadius;
 			border: 0.15rem solid transparent;
 			transition: all 0.25s;
 			padding: 0.5rem;

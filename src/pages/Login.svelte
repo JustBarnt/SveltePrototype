@@ -1,15 +1,20 @@
 <script lang="ts">
+import { afterUpdate } from "svelte";
+
+
 	let accounts: Login = { username: "justbarnt", password: "admin" };
 	let attempt: Login = { username: "", password: "" };
 
-	let isHidden:boolean = true;
-	let attempts:number = 5;
+	let success:boolean | null = null;
+	let message: {error: string, success: string} = { error: "Invalid username and/or password", success:"Success! Signing in now." };
+
+	//change success color.
+	$: hidden = success === null ? "hidden" : "";
+	$: visible = success !== null ? "visible" : "";
 
 	function HandleLogin(): void 
 	{
-		console.log((attempt.username !== accounts.username && attempt.password !== accounts.password));
-		if(attempt.username !== accounts.username && attempt.password !== accounts.password)
-			isHidden = false;
+		success = ((attempt.username === accounts.username) && (attempt.password === accounts.password));
 	}
 
 	function HandleInput(event): void 
@@ -27,13 +32,12 @@
 <section>
 	<form id="LoginForm" on:submit|preventDefault="{HandleLogin}" autocomplete="off">
 		<h1>Sign In</h1>
-		<error
-			class="{isHidden ? "hidden" : "visible"}">
-			<p class="msg">
-				Invalid username
-				<span class="msg-cont">and/or password.</span>
+		<!--Fix error messages not overlapping. Probably by just changing one message object instead of swapping two out.-->
+		<alert class:hidden class:visible>
+			<p>
+				{success ? message.success : message.error}
 			</p>
-		</error>
+		</alert>
 		<input
 			type="text"
 			name="username"
@@ -70,7 +74,7 @@
 		place-content: center center;
 		color: white;
 		padding: 5rem 5rem;
-		border-radius: 1rem;
+		border-radius: $borderRadius;
 		background: $gradBg;  
 		border-bottom: 0.5rem solid $darkGrey;
 		box-shadow: 0 0 0.75rem $darkGrey;
@@ -80,52 +84,33 @@
 		font-size: 2.2rem;
 	}
 
-	error{
-
+	alert{
+		cursor:default;
 		&.hidden{
-			border-radius: 1rem;
-			margin: 1rem 0;
-			padding: 1rem;
-			font-size: 1.2rem;
-			font-weight: bold;
-			color: #ffffff;
+			@include alert-hidden;
 			background-color: lighten($red, 10%);
-			box-shadow: 0 0 0.75rem $darkGrey;
-			opacity: 0;
-			transition: opacity 0.25s;
 		}
 	
 		&.visible{
-			opacity: 1;
-			border-radius: 1rem;
-			margin: 1rem 0;
-			padding: 1rem;
-			font-size: 1.2rem;
-			font-weight: bold;
-			color: #ffffff;
+			@include alert-visible;
 			background-color: lighten($red, 10%);
-			box-shadow: 0 0 0.75rem $darkGrey;
-			transition: all 0.25s;
 		}
 	}
 
 	.login-field {
+		@include input-base;
+		color:white;
 		background-color: #35343d75;
 		border: 0.2rem solid transparent;
-		border-bottom: 0.2rem solid #ffffff50;
-		border-radius: 0.5rem;
-		padding: 0.5rem;
 		transition: all 0.25s;
 
 		&::placeholder{
 			color: white;
 		}
 
-		&:hover, &:active, &:focus, &:focus-visible{
+		&:focus, &:focus-visible{
 			background: $darkGrey;
 			border-color: lighten($blue, 50%);
-			padding: 0.5rem;
-			border-radius: 1rem;
 		}
 	}
 

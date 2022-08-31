@@ -38,24 +38,14 @@
 	}
 }
 
-input {
-	padding: 1rem 2rem;
-	margin: 1.5rem 0;
-}
-
-button,
-input {
+button, input[type="submit"] {
 	@include button-base;
-}
 
-button:hover,
-input:hover {
-	border-color: var(--buttonBorder);
-}
+	&:hover{
+		border-color: $blue;
+	}
 
-button:focus,
-button:focus-visible,
-input:focus,
-input:focus-visible {
-	outline: 0.2rem solid var(--buttonBorder);
+	&:focus, &:focus-visible{
+		outline: 0.2rem solid $blue;
+	}
 }

@@ -36,7 +36,7 @@
 	#License{
 		background-color: var(--mainBG2);
 		border: 0.125rem solid transparent;
-		border-radius: 0.5rem;
+		border-radius: $borderRadius;
 		border-collapse: collapse;
 		box-shadow: 0 0 2rem rgba(0,0,0,0.35);
 		overflow:hidden;
