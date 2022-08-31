@@ -34,91 +34,117 @@
 		"@typescript-eslint"
 	],
 	"rules": {
-		"arrow-spacing": [
-			"warn",
-			{
-				"after": true,
-				"before": true
-			}
-		],
-		"brace-style": [
-			"error",
-			"allman",
-			{
-				"allowSingleLine": true
-			}
-		],
-		"comma-spacing": [
-			"error",
-			{
-				"after": true
-			}
-		],
-		"curly": [
-			"error",
-			"multi-or-nest"
-		],
-		"dot-location": [
-			"error",
-			"property"
-		],
-		"eqeqeq": "error",
-		"handle-callback-err": "off",
-		"indent": [
+		"svelte/css-unused-selector": 0,
+        "eqeqeq":"error",
+        "arrow-spacing": [
+            "warn",
+            {
+            "before": true,
+            "after": true
+            }
+        ],
+        "no-constant-condition": 1,
+        "brace-style": [
+            "error",
+            "allman",
+            {
+            "allowSingleLine": true
+            }
+        ],
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
+        "comma-spacing": [
+            "error",
+            {
+            "after": true
+            }
+        ],
+        "curly": 0,
+        "dot-location": [
+            "error",
+            "property"
+        ],
+        "handle-callback-err": "off",
+        "indent": [
 			"warn",
 			"tab",
 			{
-				"CallExpression": {
-					"arguments": "off"
-				},
-				"FunctionDeclaration": {
-					"body": 1,
-					"parameters": "first"
-				},
-				"FunctionExpression": {
-					"body": 1,
-					"parameters": "first"
-				},
-				"ArrayExpression": "first",
-				"ObjectExpression": "off",
-				"MemberExpression": 0,
-				"SwitchCase": 1,
-				"VariableDeclarator": "first"
+			  "CallExpression": {
+				"arguments": "off"
+			  },
+			  "FunctionDeclaration": {
+				"body": 1,
+				"parameters": "first"
+			  },
+			  "FunctionExpression": {
+				"body": 1,
+				"parameters": "first"
+			  },
+			  "ArrayExpression": "first",
+			  "ObjectExpression": "off",
+			  "MemberExpression": 0,
+			  "SwitchCase": 1,
+			  "VariableDeclarator": "first"
 			}
-		],
+		  ],
+        "max-nested-callbacks": [
+            "error",
+            {
+            "max": 4
+            }
+        ],
+        "max-statements-per-line": [
+            "error",
+            {
+            "max": 2
+            }
+        ],
 		"@typescript-eslint/no-inferrable-types": 0,
-		"no-mixed-spaces-and-tabs": "off",
-		"no-console": "off",
-		"no-constant-condition": 1,
+        "no-console": "off",
+        "no-empty-function": "warn",
+        "no-floating-decimal": "error",
+        "no-shadow": [
+            "off"
+        ],
 		"no-empty": "warn",
-		"no-empty-function": "warn",
-		"no-floating-decimal": "error",
-		"no-lonely-if": "off",
-		"no-redeclare": 1,
-		"no-shadow": [
-			"off"
-		],
-		"no-trailing-spaces": "off",
-		"no-undef": "off",
-		"no-unreachable": "warn",
+        "no-redeclare": 1,
 		"@typescript-eslint/no-unused-vars": 0,
-		"no-var": "warn",
-		"object-curly-spacing": [
-			"error",
-			"always"
-		],
-		"prefer-const": "off",
-		"quotes": [
-			"error",
-			"double",
-			{
-				"allowTemplateLiterals": true
-			}
-		],
-		"semi": "error",
-		"space-before-blocks": "off",
-		"space-before-function-paren": "off",
-		"space-in-parens": "off",
-		"yoda": "warn"
-	}
+        "no-unused-vars": 0,
+        "no-var": "warn",
+        "no-lonely-if": "off",
+        "no-undef": "off",
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "prefer-const": 0,
+        "quotes": [
+            "error",
+            "double",
+            {
+                "allowTemplateLiterals":true
+            }
+        ],
+        "semi": "error",
+        "no-trailing-spaces": "off",
+        "space-before-blocks": [
+            "error",
+            "never"
+        ],
+        "space-before-function-paren": [
+            "error",
+            {
+            "anonymous": "never",
+            "named": "never",
+            "asyncArrow": "never"
+            }
+        ],
+        "space-in-parens": [
+            "error",
+            "never"
+        ],
+        "yoda": "warn"
+        }
 }
