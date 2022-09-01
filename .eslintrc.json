@@ -35,116 +35,115 @@
 	],
 	"rules": {
 		"svelte/css-unused-selector": 0,
-        "eqeqeq":"error",
-        "arrow-spacing": [
-            "warn",
-            {
-            "before": true,
-            "after": true
-            }
-        ],
-        "no-constant-condition": 1,
-        "brace-style": [
-            "error",
-            "allman",
-            {
-            "allowSingleLine": true
-            }
-        ],
-        "comma-dangle": [
-            "error",
-            "always-multiline"
-        ],
-        "comma-spacing": [
-            "error",
-            {
-            "after": true
-            }
-        ],
-        "curly": 0,
-        "dot-location": [
-            "error",
-            "property"
-        ],
-        "handle-callback-err": "off",
-        "indent": [
+		"eqeqeq": "error",
+		"arrow-spacing": [
+			"warn",
+			{
+				"before": true,
+				"after": true
+			}
+		],
+		"no-constant-condition": 1,
+		"brace-style": [
+			"error",
+			"allman",
+			{
+				"allowSingleLine": true
+			}
+		],
+		"comma-dangle": [
+			"error",
+			"always-multiline"
+		],
+		"comma-spacing": [
+			"error",
+			{
+				"after": true
+			}
+		],
+		"curly": 0,
+		"dot-location": [
+			"error",
+			"property"
+		],
+		"handle-callback-err": "off",
+		"@typescript-eslint/indent": [
 			"warn",
 			"tab",
 			{
-			  "CallExpression": {
-				"arguments": "off"
-			  },
-			  "FunctionDeclaration": {
-				"body": 1,
-				"parameters": "first"
-			  },
-			  "FunctionExpression": {
-				"body": 1,
-				"parameters": "first"
-			  },
-			  "ArrayExpression": "first",
-			  "ObjectExpression": "off",
-			  "MemberExpression": 0,
-			  "SwitchCase": 1,
-			  "VariableDeclarator": "first"
+				"CallExpression": {
+					"arguments": "off"
+				},
+				"FunctionDeclaration": {
+					"body": 1,
+					"parameters": "first"
+				},
+				"FunctionExpression": {
+					"body": 1,
+					"parameters": "first"
+				},
+				"ArrayExpression": "first",
+				"ObjectExpression": "off",
+				"MemberExpression": 0,
+				"SwitchCase": 1
 			}
-		  ],
-        "max-nested-callbacks": [
-            "error",
-            {
-            "max": 4
-            }
-        ],
-        "max-statements-per-line": [
-            "error",
-            {
-            "max": 2
-            }
-        ],
+		],
+		"max-nested-callbacks": [
+			"error",
+			{
+				"max": 4
+			}
+		],
+		"max-statements-per-line": [
+			"error",
+			{
+				"max": 2
+			}
+		],
 		"@typescript-eslint/no-inferrable-types": 0,
-        "no-console": "off",
-        "no-empty-function": "warn",
-        "no-floating-decimal": "error",
-        "no-shadow": [
-            "off"
-        ],
+		"no-console": "off",
+		"no-empty-function": "warn",
+		"no-floating-decimal": "error",
+		"no-shadow": [
+			"off"
+		],
 		"no-empty": "warn",
-        "no-redeclare": 1,
+		"no-redeclare": 1,
 		"@typescript-eslint/no-unused-vars": 0,
-        "no-unused-vars": 0,
-        "no-var": "warn",
-        "no-lonely-if": "off",
-        "no-undef": "off",
-        "object-curly-spacing": [
-            "error",
-            "always"
-        ],
-        "prefer-const": 0,
-        "quotes": [
-            "error",
-            "double",
-            {
-                "allowTemplateLiterals":true
-            }
-        ],
-        "semi": "error",
-        "no-trailing-spaces": "off",
-        "space-before-blocks": [
-            "error",
-            "never"
-        ],
-        "space-before-function-paren": [
-            "error",
-            {
-            "anonymous": "never",
-            "named": "never",
-            "asyncArrow": "never"
-            }
-        ],
-        "space-in-parens": [
-            "error",
-            "never"
-        ],
-        "yoda": "warn"
-        }
+		"no-unused-vars": 0,
+		"no-var": "warn",
+		"no-lonely-if": "off",
+		"no-undef": "off",
+		"object-curly-spacing": [
+			"error",
+			"always"
+		],
+		"prefer-const": 0,
+		"quotes": [
+			"error",
+			"double",
+			{
+				"allowTemplateLiterals": true
+			}
+		],
+		"semi": "error",
+		"no-trailing-spaces": "off",
+		"space-before-blocks": [
+			"error",
+			"never"
+		],
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "never",
+				"named": "never",
+				"asyncArrow": "never"
+			}
+		],
+		"space-in-parens": [
+			"error",
+			"never"
+		],
+		"yoda": "warn"
+	}
 }
