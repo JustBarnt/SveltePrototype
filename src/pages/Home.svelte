@@ -1,42 +1,23 @@
 <script lang="ts">
-	const formValues = { amount: "", column: "", value: "", startDate:"", endDate:"" };
+	import { GetLicenses, GetLicense } from "../scripts/controllers/EventController";
+	import Form from "../components/Form.svelte";
+	import Response from "./Response.svelte";
+
+	let isSuccessful = false;
+
+	//Look into reactive responses for updating page show. Compared to svelte:component
+	$:LoadData = isSuccessful;
+	
+	async function HandleRequest(event)
+	{
+		const data: QueryDetails = { success: false, results: null, params: event.detail };
+		isSuccessful = await GetLicenses(data);
+	}
+
 </script>
 
-<main id="container">
-	<form method="GET" id="SearchLicense" action="/Licenses">
-		
-		<label for="amount">Top Results:</label>
-		<input type="text" id="amount" name="Amount" placeholder="Number of results" bind:value={formValues.amount}/>
-	
-		<label for="name">With Tag:</label>
-		<input type="text" id="name" name="Column" placeholder="Tag to search" bind:value={formValues.column}/>
-	
-		<label for="value">Tag Value:</label>
-		<input type="text" id="value" name="Value" placeholder="Tag value to search by" bind:value={formValues.value}/>
-	
-		<label for="startDate">Earliest Date:</label>
-		<input type="text" id="startDate" name="StartDate" placeholder="Earliest date available" bind:value={formValues.startDate}/>
-	
-		<label for="endDate">Latest Date:</label>
-		<input type="text" id="endDate" name="EndDate" placeholder="Latest date available" bind:value={formValues.endDate}/>
+<Form on:request={HandleRequest} display="{LoadData === true ? "none" : "flex"}"/>
 
-		<input type="submit" value="Search" />
-		
-	</form>
-</main>
-
-<style lang="scss">
-	main form{
-		display: grid;
-		border: 0.25rem solid #24242450;
-		border-radius: $borderRadius;
-		background-color: var(--headerBG);
-		box-shadow: 0 0 0.5rem 0.5rem var(--primaryDarkened);
-		padding: 1rem 1rem;
-		transition: border-color 0.25s, box-shadow 0.25s;
-	}
-
-	label{
-		width: 100%;
-	}
-</style>
+{#if LoadData}
+	<Response/>
+{/if}

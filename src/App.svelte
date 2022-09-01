@@ -1,6 +1,16 @@
 <script lang="ts">
 	//import { page } from "./routes";
+	import Home from "./pages/Home.svelte";
 	import Login from "./pages/Login.svelte";
+
+	let loginSuccess:boolean = false;
+	$: userAuth = loginSuccess;
+	$: loginDisplay = loginSuccess ? "none" : "flex";
+
+	function HandleLogin(event)
+	{
+		loginSuccess = event.detail;
+	}
 </script>
 
 
@@ -15,7 +25,12 @@
 	</nav>
 </header>
 
-<Login/>
+
+{#if !userAuth}
+	<Login on:login="{HandleLogin}" display="{loginDisplay}"/>
+{:else}
+	<Home/>
+{/if}
 
 <style lang="scss">
 	header{

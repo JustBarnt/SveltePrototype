@@ -1,36 +1,53 @@
 import { API } from "../stores/stores";
 import { API_ENDPOINT, SearchRequest } from "./ApiController";
 
-let endpoint=API_ENDPOINT;
-
+let endpoint = API_ENDPOINT;
 
 /**
 	* An event handler to handle the custom event from the svelte component
 	* 
 	* @async
-	* @param {details} Details - Object containing parameters to indicate successful requests.
-	* @callback Callback - Starts loading the data into the table.
+	* @param {QueryDetails} Details - Object containing parameters to indicate successful requests.
 	*/
-async function HandleQuery(Details: QueryDetails, Callback:() => void)
+async function GetLicenses(Details: QueryDetails)
 {
 	let { success, results, params } = Details;
 
-	if(params.toLowerCase().includes("amount"))
-		endpoint = `${API_ENDPOINT}/licenses/search`;
-	else
-		endpoint = `${API_ENDPOINT}/license/search`;
-		
+	endpoint = `${API_ENDPOINT}/licenses/search`;
+
 	//TODO: (Brent) update HTTP request to return object including status.
 	results = await SearchRequest(endpoint, params);
 	success = typeof results !== "object" ? false : true;
-	
-	if(!success)
+
+	if (!success)
 		throw new Error("Failed to retrieve response.");
 
-	let apiStoreSchema: ApiModel = { success: success, results: results };
+	let apiStoreSchema: IResponse = { success: success, results: results };
 	API.set(apiStoreSchema);
-	Callback();
+	//Callback();
+
+	return success;
 }
 
-export { HandleQuery };
+async function GetLicense(Details: QueryDetails)
+{
+	let { success, results, params } = Details;
+
+	endpoint = `${API_ENDPOINT}/license/search`;
+
+	//TODO: (Brent) update HTTP request to return object including status.
+	results = await SearchRequest(endpoint, params);
+	success = typeof results !== "object" ? false : true;
+
+	if (!success)
+		throw new Error("Failed to retrieve response.");
+
+	let apiStoreSchema: IResponse = { success: success, results: results };
+	API.set(apiStoreSchema);
+	//Callback();
+
+	return success;
+}
+
+export { GetLicenses, GetLicense };
 

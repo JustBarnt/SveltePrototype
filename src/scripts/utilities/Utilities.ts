@@ -18,6 +18,20 @@ export class Utilities
 	}
 
 	/**
+	* Creates a query string
+	* @param {Object} object - An object containing the values of the query
+	* @return {String} returns a query string.
+	*/
+	static BuildQueryString(object): string
+	{
+		let query = new URLSearchParams();
+		for (const key in object)
+			query.append(key, object[ key ]);
+
+		return `?${query.toString()}`;
+	}
+
+	/**
 	* Edits any value in an array of objects that matches keyName's value with the replacement
 	* values.
 	*
@@ -57,7 +71,7 @@ export class Utilities
 	* @param {String} value - The value the two arrays may share
 	* @return {Boolean}
 	*/
-	static #ArrayHas(arr1: Array<string|number>, arr2: Array<string|number>, value: string): boolean
+	static #ArrayHas(arr1: Array<string | number>, arr2: Array<string | number>, value: string): boolean
 	{
 		return (arr1.includes(value) && arr2.includes(value));
 	}
@@ -76,5 +90,28 @@ export class Utilities
 				success();
 			}, delay);
 		});
+	}
+
+	/**
+	* returns an array of guids
+	* @param {Results} array - An array of results
+	* @return {Array<string>} returns an array of GUID strings.
+	*/
+	static SaveGUID(array: Results): Array<string>
+	{
+		const guidArray: Array<string> = [];
+		array.forEach((license) => 
+		{
+			for (const key in license)
+			{
+				if (Object.hasOwnProperty.call(license, key))
+				{
+					guidArray.push(license[ "id" ]);
+					break;
+				}
+			}
+		});
+
+		return guidArray;
 	}
 }
