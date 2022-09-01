@@ -19,12 +19,12 @@ export default defineConfig({
 							plugins: [ autoprefixer() ],
 						},
 						scss: {
-							prependData: `@import './src/sass/variables.scss';`
-						}
-					}
-				)
-			]
+							prependData: `@import './src/sass/variables.scss';`,
+						},
+					},
+				),
+			],
 		}),
 		basicSsl(),
-	]
+	],
 });

@@ -6,10 +6,10 @@ const config =
 		{
 			scss:
 			{
-				prependData: `@import './src/sass/variables.scss';`
-			}
-		}
-	)
+				prependData: `@import './src/sass/variables.scss';`,
+			},
+		},
+	),
 };
 
 export default config;

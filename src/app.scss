@@ -1,4 +1,4 @@
-@import './src/sass/variables.scss';
+@import "./src/sass/variables.scss";
 
 :root {
 	/* Defining Root properties*/
@@ -23,6 +23,8 @@
 	background-image: $appBG;
 	display: flex;
 	flex-flow: column wrap;
+
+
 }
 
 * {
@@ -33,19 +35,25 @@
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 
-	&::-webkit-scrollbar{
+	&::-webkit-scrollbar {
 		display: none;
 	}
 }
 
-button, input[type="submit"] {
+section {
+	transition: all 0.25s;
+}
+
+button,
+input[type="submit"] {
 	@include button-base;
 
-	&:hover{
+	&:hover {
 		border-color: $blue;
 	}
 
-	&:focus, &:focus-visible{
+	&:focus,
+	&:focus-visible {
 		outline: 0.2rem solid $blue;
 	}
 }
