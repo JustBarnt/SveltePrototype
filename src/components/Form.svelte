@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from "svelte";
 	import { Utilities } from "../scripts/utilities/Utilities";
 
-	export let display = "Flex";
+	export let display = "flex";
 
 	const requestDispatch = createEventDispatcher();
 
@@ -18,7 +18,7 @@
 <section style:display>
 	<form
 		method="GET"
-		on:submit|preventDefault={HandleSubmit}>
+		on:submit|preventDefault={HandleSubmit} autocomplete="off">
 		<label for="amount">Top Results:</label>
 		<input
 			type="text"
@@ -60,12 +60,13 @@
 
 <style lang="scss">
 	section {
-		@include section;
+		@include flex-base;
 	}
 
 	form {
+		@include flex-base;
+		align-items:stretch;
 		@include form-base;
-		width: 25%;
 		input {
 			@include input-base;
 		}
@@ -85,9 +86,5 @@
 				box-shadow: 0 0 0.75rem $darkGrey;
 			}
 		}
-	}
-
-	label {
-		width: 100%;
 	}
 </style>

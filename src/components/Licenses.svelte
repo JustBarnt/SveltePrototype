@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { CreateInputForm } from "../scripts/CreateInputForm";
+	import { createEventDispatcher } from "svelte";
 	import { Utilities } from "../scripts/utilities/Utilities";
+
 	export let data = undefined;
+
+	const licenseDispatch = createEventDispatcher();
 
 	let guids:Array<string> = [];
 	let activeRow = 0;
@@ -15,13 +18,8 @@
 
 	function HandleLicenseSelect(event)
 	{
-		//These all needs refactored. 
 		activeRow = GetRowNum(event.currentTarget);
-		let form = CreateInputForm.Form("LicenseForm", "licenseForm", "/license", "GET");
-		let input = CreateInputForm.Input("text", "selector", guids[activeRow]);
-		form.append(input);
-		document.getElementById("TableContainer").append(form);
-		document.getElementById("LicenseForm").onsubmit(event);
+		licenseDispatch("license", { id: guids[activeRow], view:"license" });
 	}
 
 	function GetRowNum(element)
@@ -40,7 +38,7 @@
 		</thead>
 		<tbody>
 			{#each data as query}
-				<tr on:click={(event) => HandleLicenseSelect(event)}>
+				<tr on:click={HandleLicenseSelect}>
 					{#each Object.values(query) as Values, index}
 						<td headers={Object.keys(data[0])[index]} >{Values}</td>
 					{/each}
@@ -53,7 +51,7 @@
 <style lang="scss">
 	section{
 		display:flex;
-		@include section;
+		@include flex-base;
 		*{
 			transition: all 0.25s;
 		}

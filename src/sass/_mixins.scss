@@ -8,16 +8,27 @@
 	}
 }
 
-@mixin section {
+@mixin flex-base {
 	justify-content: center;
 	align-items: center;
-	height: 95%;
+	flex-flow: column wrap;
+	display: flex;
+}
+
+@mixin grid-base {
+	display: grid;
+	width: 75vw;
+	height: 75vh;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-areas:$gridTemplate;
+	place-items: center;
+		
 }
 
 @mixin button-base {
 	cursor: pointer;
 	color: white;
-	background-color: $darkGrey;
+	background: $darkGrey;
 	box-shadow: 0 0 0.25rem $darkGrey;
 	border-radius: $borderRadius;
 	border: 0.2rem solid transparent;
@@ -32,12 +43,10 @@
 	border-color: lighten($blue, 50%);
 	background: linear-gradient(to right bottom, $blue, lighten($red, 15%));
 	box-shadow: 0 0 0.75rem $darkGrey;
+	transition: all 0.25s;
 }
 
 @mixin form-base {
-	display: inherit;
-	flex-flow: column wrap;
-	place-content: center center;
 	color: white;
 	padding: 5rem;
 	border-radius: $borderRadius;

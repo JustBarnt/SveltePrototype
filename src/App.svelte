@@ -26,18 +26,20 @@
 </header>
 
 
-{#if !userAuth}
-	<Login on:login="{HandleLogin}" display="{loginDisplay}"/>
-{:else}
-	<Home/>
-{/if}
+<main>
+	{#if !userAuth}
+		<Login on:login="{HandleLogin}" display="{loginDisplay}"/>
+	{:else}
+		<Home/>
+	{/if}
+</main>
 
 <style lang="scss">
 	header{
 		width:100%;
 		height: 5%;
 		display: flex;
-		place-content: center space-between;
+		justify-content: space-between;
 		align-items: center;
 		z-index: 10;
 		position: fixed;
@@ -75,6 +77,14 @@
 				background-color: #30303050;
 			}
 		}
+	}
+
+	main{
+		display:flex;
+		place-content: center center;
+		flex-flow: column wrap;
+		height: 95vh;
+		margin-top: 5vh;
 	}
 
 </style>

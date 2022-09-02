@@ -65,7 +65,7 @@
 <style lang="scss">
 
 	section{
-		@include section;
+		@include flex-base;
 	}
 
 	form{

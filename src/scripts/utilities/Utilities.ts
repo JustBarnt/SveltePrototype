@@ -20,10 +20,12 @@ export class Utilities
 	/**
 	* Creates a query string
 	* @param {Object} object - An object containing the values of the query
+	* @param {String} id - A string containing the id for a single license.
 	* @return {String} returns a query string.
 	*/
-	static BuildQueryString(object): string
+	static BuildQueryString(object: Form): string
 	{
+
 		let query = new URLSearchParams();
 		for (const key in object)
 			query.append(key, object[ key ]);

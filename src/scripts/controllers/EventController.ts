@@ -15,6 +15,8 @@ async function GetLicenses(Details: QueryDetails)
 
 	endpoint = `${API_ENDPOINT}/licenses/search`;
 
+	console.log(params);
+
 	//TODO: (Brent) update HTTP request to return object including status.
 	results = await SearchRequest(endpoint, params);
 	success = typeof results !== "object" ? false : true;
@@ -24,7 +26,6 @@ async function GetLicenses(Details: QueryDetails)
 
 	let apiStoreSchema: IResponse = { success: success, results: results };
 	API.set(apiStoreSchema);
-	//Callback();
 
 	return success;
 }
@@ -44,7 +45,6 @@ async function GetLicense(Details: QueryDetails)
 
 	let apiStoreSchema: IResponse = { success: success, results: results };
 	API.set(apiStoreSchema);
-	//Callback();
 
 	return success;
 }

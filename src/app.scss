@@ -43,17 +43,3 @@
 section {
 	transition: all 0.25s;
 }
-
-button,
-input[type="submit"] {
-	@include button-base;
-
-	&:hover {
-		border-color: $blue;
-	}
-
-	&:focus,
-	&:focus-visible {
-		outline: 0.2rem solid $blue;
-	}
-}
