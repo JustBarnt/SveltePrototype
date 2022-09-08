@@ -3,6 +3,8 @@
 	import Home from "./pages/Home.svelte";
 	import Login from "./pages/Login.svelte";
 
+	//Add anchors to url with each compontent to see if browser history support will work
+
 	let loginSuccess:boolean = false;
 	$: userAuth = loginSuccess;
 	$: loginDisplay = loginSuccess ? "none" : "flex";
