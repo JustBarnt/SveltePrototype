@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { onMount, afterUpdate } from "svelte";
-	import { get } from "svelte/store";
 	import Licenses from "../components/Licenses.svelte";
 	import License from "../components/License.svelte";
-	import { API } from "../scripts/stores/stores";
+	import { LICENSE_STORE } from "../scripts/stores/stores";
 	import { Utilities } from "../scripts/utilities/Utilities";
-	import { GetLicense } from "../scripts/controllers/EventController";
+	import { ViewLicense } from "../scripts/controllers/LicenseController";
 	import { Colors } from "../sass/scss";
 
 	const AsyncAwait = Utilities.AsyncDelay;
@@ -18,7 +16,7 @@
 		DispatchResponse.view = view;
 	};
 
-	let DispatchResponse: {id: string | null, view: string} = { id: null, view: "licenses" };
+	let DispatchResponse: { id: string | null, view: string } = { id: null, view: "licenses" };
 	let alertDisplay = "inherit";
 
 	//TODO (Brent): Look into reactive statements for updating page show. Compared to svelte:component
@@ -33,14 +31,14 @@
 {#await AsyncAwait(250) then success}
 	<!--Create Table-->
 	{#if CurrentView === "licenses"}
-		<Licenses on:license={HandleLicense} bind:data={$API.results}/>
+		<Licenses on:license={HandleLicense} bind:data={$LICENSE_STORE.results}/>
 	{:else}
-		{#await GetLicense({ success:false, results: null, params: LicenseId })}
+		{#await ViewLicense({ success:false, results: null, params: LicenseId })}
 			<alert style:display style={`background: ${Colors.BLUE}`}>Gettings selected license information...</alert>
 		{:then success}
 			<alert style:display style={`background: ${Colors.GREEN}`}>License found! Loading license now.</alert>
 			{#await AsyncAwait(250) then success}
-				<License on:loaded={() => alertDisplay = "none"} bind:data={$API.results}/>
+				<License on:loaded={() => alertDisplay = "none"} bind:data={$LICENSE_STORE.results}/>
 			{/await}
 		{:catch error}
 			<alert style:display style={`background: ${Colors.RED}`}>{error}</alert>

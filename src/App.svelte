@@ -3,7 +3,11 @@
 	import Home from "./pages/Home.svelte";
 	import Login from "./pages/Login.svelte";
 
-	//Add anchors to url with each compontent to see if browser history support will work
+	/* TODO: Brent
+	* Refector code going with the methodology that I have  researched using Svelte Stores is the best for state
+	* managment for components. Following this should easily allow me to use the <svelte:component> tag for swapping
+	* comonents out easily, then adding an anchor to the url for back and next navigation.
+	*/
 
 	let loginSuccess:boolean = false;
 	$: userAuth = loginSuccess;

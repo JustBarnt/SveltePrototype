@@ -1,9 +1,15 @@
 <script lang="ts">
-	import { GetLicenses, GetLicense } from "../scripts/controllers/EventController";
+	import { GetLicenses } from "../scripts/controllers/LicenseController";
 	import Form from "../components/Form.svelte";
 	import Response from "./Response.svelte";
+	import { onMount } from "svelte";
 
 	let isSuccessful = false;
+
+	onMount(() => 
+	{
+		window.location.href = window.location.href + "#home";
+	});
 
 	//Look into reactive responses for updating page show. Compared to svelte:component
 	$:LoadData = isSuccessful;
