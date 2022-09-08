@@ -1,13 +1,14 @@
 <script lang="ts">
+	import { USER_SESSION, AUTH_SESSION } from "../scripts/stores/stores";
 	import { Colors } from "../sass/scss";
 	import { createEventDispatcher } from "svelte";
+	import { GetAuthorization } from "../scripts/controllers/AuthorizationController";
 
 	export let display = "flex";
 
-	let accounts: ILogin = { username: "admin", password: "admin" };
 	let attempt: ILogin = { username: "", password: "" };
-	let success:boolean | null = null;
-	let message: {error: string, success: string} = { error: "Invalid username and/or password", success:"Success! Signing in now." };
+	let success: Awaited<boolean> | null = null;
+	let message: IMessage = { success:"Success! Signing in now.", error: "Invalid username and/or password" };
 
 	//Reactive Svelte Varialbes.
 	$: hidden = success === null ? "hidden" : "";
@@ -16,10 +17,19 @@
 
 	const loginDispatch = createEventDispatcher();
 
-	function HandleLogin(): void 
+	async function HandleLogin(): Promise<void>
 	{
-		success = ((attempt.username === accounts.username) && (attempt.password === accounts.password));
-		loginDispatch("login", success);
+		success = await GetAuthorization(attempt);
+
+		if(success)
+		{
+			/* TODO: Brent
+			* Finish setting up the rest of local session / history
+			*/
+			localStorage.setItem("user", $USER_SESSION);
+			AUTH_SESSION.set({ key: "auth", default: localStorage.getItem("user") });
+			loginDispatch("login", success);
+		}
 	}
 
 	function HandleInput(event): void 
@@ -35,7 +45,7 @@
 
 
 <section style:display>
-	<form id="LoginForm" on:submit|preventDefault="{HandleLogin}" autocomplete="off">
+	<form id="LoginForm" on:submit|preventDefault="{HandleLogin}" method="POST" autocomplete="off">
 		<h1>Sign In</h1>
 		<!--Fix error messages not overlapping. Probably by just changing one message object instead of swapping two out.-->
 		<alert class:hidden class:visible style:background>
