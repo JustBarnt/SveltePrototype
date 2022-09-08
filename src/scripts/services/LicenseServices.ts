@@ -1,6 +1,9 @@
+import { get } from "svelte/store";
 import { Utilities } from "../utilities/Utilities";
+import { USER_SESSION } from "../stores/stores";
 
-export let API_ENDPOINT = "https://localhost:7150";
+const token = get(USER_SESSION);
+
 /**
 * Creates a new post request to MSSQL Server
 * @param {String} endpoint - API Endpoint for the request
@@ -12,9 +15,14 @@ export const SearchRequest = async(endpoint: string, queryString:string) =>
 	const headers = new Headers();
 	headers.append("Content-Type", "application/json");
 
+	/* TODO: Brent
+	* Test to make sure it accepts the token and authenticates, once authentication is successful switch to paseto
+	* tokens
+	*/
 	const options = {
 		method: "GET",
 		headers: headers,
+		Authorization: $token
 	};
 
 	const request = new Request(`${endpoint}/${queryString}`, options);

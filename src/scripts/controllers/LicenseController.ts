@@ -1,7 +1,5 @@
-import { API } from "../stores/stores";
-import { API_ENDPOINT, SearchRequest } from "./ApiController";
-
-let endpoint = API_ENDPOINT;
+import { LICENSE_STORE } from "../stores/stores";
+import { SearchRequest } from "../services/LicenseServices";
 
 /**
 	* An event handler to handle the custom event from the svelte component
@@ -11,11 +9,8 @@ let endpoint = API_ENDPOINT;
 	*/
 async function GetLicenses(Details: QueryDetails)
 {
+	const endpoint = `https://localhost:7150/licenses/search`;
 	let { success, results, params } = Details;
-
-	endpoint = `${API_ENDPOINT}/licenses/search`;
-
-	console.log(params);
 
 	//TODO: (Brent) update HTTP request to return object including status.
 	results = await SearchRequest(endpoint, params);
@@ -25,16 +20,16 @@ async function GetLicenses(Details: QueryDetails)
 		throw new Error("Failed to retrieve response.");
 
 	let apiStoreSchema: IResponse = { success: success, results: results };
-	API.set(apiStoreSchema);
+	LICENSE_STORE.set(apiStoreSchema);
 
 	return success;
 }
 
-async function GetLicense(Details: QueryDetails)
+async function ViewLicense(Details: QueryDetails)
 {
 	let { success, results, params } = Details;
 
-	endpoint = `${API_ENDPOINT}/license/search`;
+	endpoint = `${licenseEndpoint}/license/search`;
 
 	//TODO: (Brent) update HTTP request to return object including status.
 	results = await SearchRequest(endpoint, params);
@@ -44,10 +39,10 @@ async function GetLicense(Details: QueryDetails)
 		throw new Error("Failed to retrieve response.");
 
 	let apiStoreSchema: IResponse = { success: success, results: results };
-	API.set(apiStoreSchema);
+	LICENSE_STORE.set(apiStoreSchema);
 
 	return success;
 }
 
-export { GetLicenses, GetLicense };
+export { GetLicenses, ViewLicense };
 
