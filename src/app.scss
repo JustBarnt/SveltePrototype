@@ -41,5 +41,10 @@
 }
 
 section {
+	@include flex-base;
 	transition: all 0.25s;
+}
+
+form {
+	@include form-base;
 }
