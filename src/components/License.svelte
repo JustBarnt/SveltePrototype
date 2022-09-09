@@ -31,14 +31,6 @@
 </section>
 	
 <style lang="scss">
-
-section{
-		@include flex-base;
-		*{
-			transition: all 0.25s;
-		}
-	}
-
 	table{
 		border-radius: $borderRadius;
 		border-collapse: collapse;

@@ -1,22 +1,19 @@
 <script lang="ts">
-	import { GetLicenses } from "../scripts/controllers/LicenseController";
 	import Form from "../components/Form.svelte";
 	import Response from "./Response.svelte";
-	import { onMount } from "svelte";
+	import { GetLicenses } from "../scripts/controllers/LicenseController";
+	import { USER_SESSION } from "../scripts/stores/stores";
 
-	let isSuccessful = false;
+	let isSuccessful:boolean = false;
 
-	onMount(() => 
-	{
-		window.location.href = window.location.href + "#home";
-	});
+	//Yes using ANCHORS to control history works.
 
 	//Look into reactive responses for updating page show. Compared to svelte:component
 	$:LoadData = isSuccessful;
 	
-	async function HandleRequest(event)
+	async function HandleRequest(event: any)
 	{
-		const data: QueryDetails = { success: false, results: null, params: event.detail };
+		const data: QueryDetails = { success: false, results: null, params: event.detail, token: $USER_SESSION };
 		isSuccessful = await GetLicenses(data);
 	}
 

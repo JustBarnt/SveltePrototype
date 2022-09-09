@@ -13,7 +13,7 @@
 	$: userAuth = loginSuccess;
 	$: loginDisplay = loginSuccess ? "none" : "flex";
 
-	function HandleLogin(event)
+	function HandleLogin(event:any)
 	{
 		loginSuccess = event.detail;
 	}

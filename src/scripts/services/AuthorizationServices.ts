@@ -7,11 +7,9 @@ import { Utilities } from "../utilities/Utilities";
 * @param {Record<unknown, string>} requestBody - body of the request object.
 * @return {Promise<never | T>} Returns a fulfilled or rejected promise
 */
-export const AuthorizeUser = async(endpoint:string, requestBody: ILogin): Promise<never | T> =>
+export const AuthorizeUser = async(endpoint:string, requestBody: ILogin): Promise<string> =>
 {
 	const headers = new Headers();
-
-	console.log(`Username: ${requestBody.username} | Password: ${requestBody.password}`);
 
 	const options = {
 		method: "POST",
@@ -24,7 +22,7 @@ export const AuthorizeUser = async(endpoint:string, requestBody: ILogin): Promis
 
 	const request = new Request(`${endpoint}`, options);
 
-	const response = await fetch(request).then((response) => 
+	const response = await fetch(request).then((response):Promise<any> => 
 	{
 		if(response.ok)
 			return response.json();

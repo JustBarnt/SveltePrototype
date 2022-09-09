@@ -52,6 +52,7 @@
 		"@typescript-eslint/default-param-last": "error",
 		"@typescript-eslint/no-base-to-string": "error",
 		"@typescript-eslint/no-duplicate-enum-values": "error",
+		"@typescript-eslint/no-explicit-any": 0,
 		"@typescript-eslint/no-empty-function": "warn",
 		"@typescript-eslint/no-inferrable-types": 0,
 		"@typescript-eslint/no-redeclare": 1,

@@ -1,27 +1,24 @@
 <script lang="ts">
 	import Licenses from "../components/Licenses.svelte";
 	import License from "../components/License.svelte";
-	import { LICENSE_STORE } from "../scripts/stores/stores";
+	import { LICENSE_STORE, USER_SESSION } from "../scripts/stores/stores";
 	import { Utilities } from "../scripts/utilities/Utilities";
 	import { ViewLicense } from "../scripts/controllers/LicenseController";
-	import { Colors } from "../sass/scss";
+	import { Colors } from "../enums/scss";
 
 	const AsyncAwait = Utilities.AsyncDelay;
 	
-	const HandleLicense = (event) => 
+	const HandleLicense = (event:CustomEvent) => 
 	{
 		const { id, view } = event.detail;
 		DispatchResponse.id = `?selector=${id}`;
-		console.log(DispatchResponse.id);
 		DispatchResponse.view = view;
 	};
 
 	let DispatchResponse: { id: string | null, view: string } = { id: null, view: "licenses" };
 	let alertDisplay = "inherit";
 
-	//TODO (Brent): Look into reactive statements for updating page show. Compared to svelte:component
-	//TODO (Brent): Look at possible using a derived version of the API store for singular licenes- That way in the
-	//				future in an actual build, they user can go back without losing data of the licenses they queried.
+	//Replace alert tags with the alert component.
 	$: CurrentView = DispatchResponse.view;
 	$: LicenseId = DispatchResponse.id;
 	$: display = alertDisplay;
@@ -33,7 +30,7 @@
 	{#if CurrentView === "licenses"}
 		<Licenses on:license={HandleLicense} bind:data={$LICENSE_STORE.results}/>
 	{:else}
-		{#await ViewLicense({ success:false, results: null, params: LicenseId })}
+		{#await ViewLicense({ success:false, results: null, params: LicenseId, token: $USER_SESSION })}
 			<alert style:display style={`background: ${Colors.BLUE}`}>Gettings selected license information...</alert>
 		{:then success}
 			<alert style:display style={`background: ${Colors.GREEN}`}>License found! Loading license now.</alert>

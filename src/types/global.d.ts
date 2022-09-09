@@ -4,10 +4,11 @@ export { };
 
 declare global
 {
-	type QueryDetails = { success: boolean, results: Record<string, unknown>[] | null | Record<string, unknown>, params: string; };
-	type Results = Record<string, unknown>[] | null | Record<string, unknown>;
-	type Form = { amount: string, column: string, value: string, startDate: string, endDate: string; };
+	type QueryDetails = { success: boolean, results: Results, params: string; token: string };
+	type Results = Array<Record<string, any>>| null | Array<Record<string, any>>;
+	type Form = { [amount: string]: string, [column: string]: string, [value: string]: string, [startDate: string]: string, [endDate: string]: string; };
 	type Page = { name: string, component: SvelteComponentDev; }[];
+	type Message = { success: string, error: string, info: string; };
 
 	interface IResponse
 	{
@@ -17,13 +18,14 @@ declare global
 
 	interface ILogin
 	{
-		username: string;
-		password: string;
+		[username: string]: string | any;
+		[password: string]: string | any;
 	}
 
-	interface IMessage
+	interface IAlert
 	{
-		success: string;
-		error: string;
+		visible: string;
+		background: string;
+		message: string;
 	}
 }

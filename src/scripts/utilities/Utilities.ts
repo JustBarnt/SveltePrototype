@@ -1,6 +1,6 @@
 interface objectFormat
 {
-	[ key: string ]: string | number;
+	[ key: string ]: any;
 }
 
 export class Utilities
@@ -81,15 +81,15 @@ export class Utilities
 	/**
 	* A simple async timeout. Literally used only for Svelte Await blocks.
 	* @param {number} delay - Amount of time in ms to wait before resolving the promise
-	* @return {Promise} Returns a resolved promise.
+	* @return {Promise<boolean>} Returns a resolved promise.
 	*/
-	static async AsyncDelay(delay: number): Promise<void>
+	static async AsyncDelay(delay: number): Promise<boolean>
 	{
 		return new Promise((success) =>
 		{
 			setTimeout(() => 
 			{
-				success();
+				success(true);
 			}, delay);
 		});
 	}

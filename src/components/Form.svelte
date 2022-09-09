@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from "svelte";
 	import { Utilities } from "../scripts/utilities/Utilities";
 
-	export let display = "flex";
+	export let display:string = "flex";
 
 	const requestDispatch = createEventDispatcher();
 
@@ -59,14 +59,10 @@
 </section>
 
 <style lang="scss">
-	section {
-		@include flex-base;
-	}
-
 	form {
 		@include flex-base;
 		align-items:stretch;
-		@include form-base;
+		
 		input {
 			@include input-base;
 		}

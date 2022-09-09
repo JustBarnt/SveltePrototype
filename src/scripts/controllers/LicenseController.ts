@@ -1,19 +1,18 @@
 import { LICENSE_STORE } from "../stores/stores";
-import { SearchRequest } from "../services/LicenseServices";
+import { SearchLicenses } from "../services/LicenseServices";
 
 /**
-	* An event handler to handle the custom event from the svelte component
-	* 
-	* @async
-	* @param {QueryDetails} Details - Object containing parameters to indicate successful requests.
-	*/
-async function GetLicenses(Details: QueryDetails)
+* Retrieves a group of licenses on the passed details.
+* @param {QueryDetails} Details - details from the event.
+* @return {Return} Returns a resolved promise
+*/
+async function GetLicenses(Details: QueryDetails): Promise<boolean>
 {
 	const endpoint = `https://localhost:7150/licenses/search`;
-	let { success, results, params } = Details;
+	let { success, results, params, token } = Details;
 
 	//TODO: (Brent) update HTTP request to return object including status.
-	results = await SearchRequest(endpoint, params);
+	results = await SearchLicenses(endpoint, params, token);
 	success = typeof results !== "object" ? false : true;
 
 	if (!success)
@@ -25,14 +24,19 @@ async function GetLicenses(Details: QueryDetails)
 	return success;
 }
 
-async function ViewLicense(Details: QueryDetails)
+/**
+* Retrieves a single license using the passed GUID
+* @param {QueryDetails} Details - details from the event.
+* @return {Return} Returns a resolved promise
+*/
+async function ViewLicense(Details: QueryDetails): Promise<boolean>
 {
-	let { success, results, params } = Details;
+	let { success, results, params, token } = Details;
 
-	endpoint = `${licenseEndpoint}/license/search`;
+	const endpoint = `https://localhost:7150/licenses/view`;
 
 	//TODO: (Brent) update HTTP request to return object including status.
-	results = await SearchRequest(endpoint, params);
+	results = await SearchLicenses(endpoint, params, token);
 	success = typeof results !== "object" ? false : true;
 
 	if (!success)

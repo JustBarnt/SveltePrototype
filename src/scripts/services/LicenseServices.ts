@@ -1,33 +1,17 @@
-import { get } from "svelte/store";
 import { Utilities } from "../utilities/Utilities";
-import { USER_SESSION } from "../stores/stores";
-
-const token = get(USER_SESSION);
 
 /**
 * Creates a new post request to MSSQL Server
 * @param {String} endpoint - API Endpoint for the request
-* @param {String} queryString - Parsed query string leading with "?"
+* @param {String} params - Parsed query string leading with "?"
+* @param {String} token - Authentication Token
 * @return {Promise<response>} Returns a promise containing the JSON response
 */
-export const SearchRequest = async(endpoint: string, queryString:string) =>
+export const SearchLicenses = async(endpoint: string, params:string, token: string):Promise<Results> =>
 {
-	const headers = new Headers();
-	headers.append("Content-Type", "application/json");
+	const request = new Request(`${endpoint}/${params}`, { method: "GET", headers: { "content-type":"application/json", "authorization": `Bearer ${token}` } });
 
-	/* TODO: Brent
-	* Test to make sure it accepts the token and authenticates, once authentication is successful switch to paseto
-	* tokens
-	*/
-	const options = {
-		method: "GET",
-		headers: headers,
-		Authorization: $token
-	};
-
-	const request = new Request(`${endpoint}/${queryString}`, options);
-
-	const response = await fetch(request).then((response) => 
+	const response = await fetch(request).then((response):Promise<any> => 
 	{
 		if(response.ok)
 			return response.json();

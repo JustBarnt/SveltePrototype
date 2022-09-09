@@ -3,29 +3,31 @@
 	import { createEventDispatcher } from "svelte";
 	import { Utilities } from "../scripts/utilities/Utilities";
 
-	export let data = undefined;
+	export let data: Results;
 
 	const licenseDispatch = createEventDispatcher();
 
 	let guids:Array<string> = [];
-	let activeRow = 0;
-		
-	onMount(() => 
-	{
-		if(data !== undefined)
-			guids = Utilities.SaveGUID(data);
-	});
 
-	function HandleLicenseSelect(event)
-	{
-		activeRow = GetRowNum(event.currentTarget);
-		licenseDispatch("license", { id: guids[activeRow], view:"license" });
-	}
+	/**
+	*  Runs when component initializes, and saves all GUID data to the the GUID<Array<String>>
+	*/
+	onMount(() => { if(data !== undefined) guids = Utilities.SaveGUID(data); });
 
-	function GetRowNum(element)
-	{
-		return element.closest("tr").rowIndex;
-	}
+	/**
+	* Custom event dispatcher that fires off when user clicks a row in the table, it passes a GUID and a VIEW property
+	* in the {detail} property of the event to the parent component.
+	* @param {<T>} event - Any event handler, in this case an on click.
+	*/
+	const HandleLicenseSelect = (event: MouseEvent) => licenseDispatch("license", { id: guids[GetRowNum(event.target)], view:"license" });
+	
+	/**
+	* Returns the row number from the clicked license
+	* @param {<T>} element - the html element that was clicked
+	* @return {Number} Returns the index number of the row.
+	*/
+	const GetRowNum = ((element: any):number => element.clostest("tr").rowIndex); 
+	
 </script>
 
 
@@ -49,14 +51,6 @@
 </section>
 
 <style lang="scss">
-	section{
-		display:flex;
-		@include flex-base;
-		*{
-			transition: all 0.25s;
-		}
-	}
-
 	table{
 		background: $gradBg;
 		border-radius: $borderRadius;
