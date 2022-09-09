@@ -1,67 +1,96 @@
 <script lang="ts">
-	import { page } from "./routes";
+	//import { page } from "./routes";
+	import Home from "./pages/Home.svelte";
+	import Login from "./pages/Login.svelte";
+
+	/* TODO: Brent
+	* Refector code going with the methodology that I have  researched using Svelte Stores is the best for state
+	* managment for components. Following this should easily allow me to use the <svelte:component> tag for swapping
+	* comonents out easily, then adding an anchor to the url for back and next navigation.
+	*/
+
+	let loginSuccess:boolean = false;
+	$: userAuth = loginSuccess;
+	$: loginDisplay = loginSuccess ? "none" : "flex";
+
+	function HandleLogin(event:any)
+	{
+		loginSuccess = event.detail;
+	}
 </script>
+
 
 <header>
 	<h1>Licensing Web Tool</h1>
 	<nav>
-		<a href="/" on:click={ () => location.assign(window.location.origin + "/")}>Home</a>
+		<span>
+			<!--Check if logged in, so the user doesn't go to login page. (LATER) Merge Home and Login page and just
+			keep track if they need to see a login component.-->
+			<a href="/">Home</a>
+		</span>
 	</nav>
 </header>
 
-<section>
-	<svelte:component this={page}/>
-</section>
 
-<style>
+<main>
+	{#if !userAuth}
+		<Login on:login="{HandleLogin}" display="{loginDisplay}"/>
+	{:else}
+		<Home/>
+	{/if}
+</main>
+
+<style lang="scss">
 	header{
-		background-color: var(--headerBG);
-		width: 100%;
-		height: var(--headerHeight);
-		position:fixed;
-		top: 0;
-		left: 0;
-		box-shadow: 0 0 1.5rem rgba(0,0,0,0.50);
+		width:100%;
+		height: 5%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		z-index: 10;
-	}
-
-	nav{
-		width: 100%;
-		height: var(--headerHeight);
 		position: fixed;
-		top: 0;
-		right: 0;
-		z-index: 11;
+		color:white;
+		background: $gradBg;
+		border-bottom: 0.5rem solid $darkGrey;
+		box-shadow: 0 0 0.5rem $darkGrey;
+
+		h1{
+			font-size: 2.5rem;
+			padding-left: 2rem
+		}
+	}
+	
+	nav{
+		font-size: 1.2rem;
+		padding-right: 2rem;
+
+		span{
+			padding: 0.75rem;
+		}
+		
+		a{
+			color: white;
+			text-decoration: none;
+			font-weight: 600;
+			border-radius: $borderRadius;
+			border: 0.15rem solid transparent;
+			transition: all 0.25s;
+			padding: 0.5rem;
+
+			&:hover, &:focus, &:focus-visible &:active{
+				padding: 0.5rem;
+				border-color: $darkGrey;
+				background-color: #30303050;
+			}
+		}
 	}
 
-	nav a{
-		color: white;
-		font-size: 2rem;
-		font-weight: bold;
-		border-radius: 0.8rem;
-		border: 0.1rem solid transparent;
-		margin: 1.25rem 0.75rem;
-		padding: 0.5rem 0.5rem;
-		float: right;
-		position: relative;
-		text-decoration: none;
-		transition: border-color 0.25s, background-color 0.25s;
+	main{
+		display:flex;
+		place-content: center center;
+		flex-flow: column wrap;
+		height: 95vh;
+		margin-top: 5vh;
 	}
 
-	nav a:hover {
-		border-color: var(--buttonBorder);
-		background-color: var(--mainBG);
-	}
-
-	header h1{
-		font-size: 3.2rem;
-		width: inherit;
-		float: left;
-		position: relative;
-		padding: var(--headerContentPadding);
-	}
-
-	section{
-		padding-top: calc(var(--headerHeight) + var(--contentPadding));
-	}
 </style>

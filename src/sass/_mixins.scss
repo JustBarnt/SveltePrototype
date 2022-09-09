@@ -1,0 +1,102 @@
+@mixin animate($animation, $duration, $method, $time) {
+	animation: $animation $duration $method $time;
+}
+
+@mixin keyframes($name) {
+	@keyframes #{$name} {
+		@content;
+	}
+}
+
+@mixin flex-base {
+	justify-content: center;
+	align-items: center;
+	flex-flow: column wrap;
+	display: flex;
+}
+
+@mixin grid-base {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: repeat(9, 1fr);
+	align-items: center;
+	justify-items: stretch;
+}
+
+@mixin button-base {
+	cursor: pointer;
+	color: white;
+	background: $darkGrey;
+	box-shadow: 0 0 0.25rem $darkGrey;
+	border-radius: $borderRadius;
+	border: 0.2rem solid transparent;
+	padding: 1rem 2rem;
+	margin-top: 1rem;
+	font-size: 1.6rem;
+	font-weight: 500;
+	transition: all 0.25s;
+}
+
+@mixin button-hover {
+	border-color: lighten($blue, 50%);
+	background: linear-gradient(to right bottom, $blue, lighten($red, 15%));
+	box-shadow: 0 0 0.75rem $darkGrey;
+	transition: all 0.25s;
+}
+
+@mixin form-base {
+	color: white;
+	padding: 5rem;
+	border-radius: $borderRadius;
+	background: $gradBg;
+	border-bottom: 0.5rem solid $darkGrey;
+	box-shadow: 0 0 0.75rem $darkGrey;
+	transition: all 0.25s;
+}
+
+@mixin alert-base {
+	border-radius: $borderRadius;
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #ffffff;
+	transition: all 0.25s;
+	box-shadow: 0 0 0.75rem $darkGrey;
+}
+
+@mixin alert-hidden {
+	transform: scale(0, 0);
+	opacity: 0;
+}
+
+@mixin alert-visible {
+	margin: 2rem 0 0 0;
+	padding: 1rem;
+	transform: scale(1, 1);
+	opacity: 1;
+}
+
+@mixin input-base {
+	padding: 1rem 2rem;
+	margin: 1rem 0;
+	border-radius: $borderRadius;
+	color: white;
+	background-color: #35343d75;
+	border: 0.2rem solid transparent;
+	transition: all 0.25s;
+
+	&::placeholder {
+		color: white;
+	}
+
+	&:focus,
+	&:focus-visible {
+		background: $darkGrey;
+		border-color: lighten($blue, 30%);
+	}
+
+	&:active,
+	&:focus,
+	&:focus-visible {
+		outline: none;
+	}
+}
