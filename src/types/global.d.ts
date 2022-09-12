@@ -22,10 +22,9 @@ declare global
 		[password: string]: string | any;
 	}
 
-	interface IAlert
+	interface ILocation
 	{
-		visible: string;
-		background: string;
-		message: string;
+		[name: string]: string;
+		[page: string]: SvelteComponentDev
 	}
 }

@@ -21,7 +21,7 @@
 	async function HandleLogin(): Promise<void>
 	{
 		isSuccessful = await GetAuthorization(attempt);
-		if(isSuccessful) loginDispatch("login", isSuccessful);
+		if(isSuccessful) loginDispatch("login", { success: isSuccessful, userInfo: attempt });
 		else visible = AlertVisibility.Visible;
 	}
 

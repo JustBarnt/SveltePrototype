@@ -1,22 +1,27 @@
 <script lang="ts">
-	//import { page } from "./routes";
+	import { onMount } from "svelte";
 	import Home from "./pages/Home.svelte";
 	import Login from "./pages/Login.svelte";
+	import { Authentication } from "./scripts/controllers/AuthenticationController";
 
 	/* TODO: Brent
-	* Refector code going with the methodology that I have  researched using Svelte Stores is the best for state
-	* managment for components. Following this should easily allow me to use the <svelte:component> tag for swapping
-	* comonents out easily, then adding an anchor to the url for back and next navigation.
+	* Edit routing so that display values aren't being changed. Doesn't appear to be the natural flow of
+	* svelte components.
 	*/
 
-	let loginSuccess:boolean = false;
-	$: userAuth = loginSuccess;
-	$: loginDisplay = loginSuccess ? "none" : "flex";
+	let isSuccessful:boolean = false;
+	$: userAuth = isSuccessful;
+	$: loginDisplay = isSuccessful ? "none" : "flex";
 
-	function HandleLogin(event:any)
+	//Checking if localStorage exists, if it does log in that existing user automatically.
+	onMount(() => 
 	{
-		loginSuccess = event.detail;
-	}
+		if(localStorage.getItem("id") !== undefined)
+		{
+			let login: ILogin = { username: localStorage.id, password: localStorage.password };
+			Authentication.ReturningUser(login);
+		}
+	});
 </script>
 
 
@@ -26,7 +31,8 @@
 		<span>
 			<!--Check if logged in, so the user doesn't go to login page. (LATER) Merge Home and Login page and just
 			keep track if they need to see a login component.-->
-			<a href="/">Home</a>
+			<a href="#home">Home</a>
+			<a href="#signin" on:click="{Authentication.HandleLogout}">Logout</a>
 		</span>
 	</nav>
 </header>
@@ -34,7 +40,7 @@
 
 <main>
 	{#if !userAuth}
-		<Login on:login="{HandleLogin}" display="{loginDisplay}"/>
+		<Login on:login="{Authentication.HandleLogin}" display="{loginDisplay}"/>
 	{:else}
 		<Home/>
 	{/if}
