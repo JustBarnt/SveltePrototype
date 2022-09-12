@@ -52,11 +52,26 @@
 
 <style lang="scss">
 	section{
-		display: block;
-		overflow-y: scroll;
-		margin: 1em;
+		flex-flow: row wrap;
+		overflow-y: auto;
 		border-radius: 1rem;
-		border: 0.2rem solid transparent;
+		height: auto;
+		margin: 1rem 0;
+		width: 100vw;
+		@include scroll-base;
+		&::-webkit-scrollbar{
+			display:block;
+		}
+		&::-webkit-scrollbar-track{
+			background-color: $grey;
+			border-radius: 1rem;
+			width: 1.5rem;
+		}
+		&::-webkit-scrollbar-thumb{
+			background-color: $darkGrey;
+			border-radius: 1rem;
+			width: 1rem;
+		}	
 	}
 	table{
 		background: $gradBg;
@@ -64,6 +79,7 @@
 		border-collapse: collapse;
 		box-shadow: 0 0 0.75rem $darkGrey;
 		overflow:hidden;
+		margin: 0.5rem;
 		color:#fff;
 
 		th[headers="id"], td[headers="id"]{

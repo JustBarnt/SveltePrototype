@@ -8,6 +8,11 @@
 	}
 }
 
+@mixin scroll-base {
+	scrollbar-color: $grey $darkGrey;
+	scrollbar-width: auto;
+}
+
 @mixin flex-base {
 	justify-content: center;
 	align-items: center;
