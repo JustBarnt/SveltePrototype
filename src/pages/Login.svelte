@@ -27,7 +27,7 @@
 
 	/**
 	* Updates login attempt with input.
-	* @param {<T>} event - Input event
+	* @param {any} event - Input event
 	*/
 	const HandleInput = ((event: any): void => attempt[event.target.name] = event.target.value);
 </script>
