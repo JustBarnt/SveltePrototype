@@ -51,6 +51,13 @@
 </section>
 
 <style lang="scss">
+	section{
+		display: block;
+		overflow-y: scroll;
+		margin: 1em;
+		border-radius: 1rem;
+		border: 0.2rem solid transparent;
+	}
 	table{
 		background: $gradBg;
 		border-radius: $borderRadius;
