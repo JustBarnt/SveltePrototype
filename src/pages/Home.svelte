@@ -4,6 +4,7 @@
 	import { GetLicenses } from "@controllers/LicenseController";
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { USER_SESSION } from "@stores/stores";
+	import { Utilities } from "@utilities/Utilities";
 
 	let isSuccessful:Awaited<boolean> | null = null;
 	const alertCss: IStyles = { position: "relative", bottom: "clamp(0px, 3rem, 3.5rem)", background: Colors.RED };
@@ -23,6 +24,13 @@
 
 </script>
 
-<Form on:request={HandleRequest}> 
-	<Alert visible="{visibity}" message="Attempt to query licenses was unsuccessful, please double check your input and try again." styles={alertCss} />
-</Form>
+{#if localStorage.getItem("id") !== null}
+	<Form on:request={HandleRequest}> 
+		<Alert visible="{visibity}" message="Attempt to query licenses was unsuccessful, please double check your input and try again." styles={alertCss} />
+	</Form>
+{:else}
+	<Alert visible="visible" message="Unauthorized access. Redirecting to login page" styles={alertCss} />
+	{#await Utilities.AsyncDelay(2000) then success}
+		{ window.location.href = "/#/" }
+	{/await}
+{/if}
