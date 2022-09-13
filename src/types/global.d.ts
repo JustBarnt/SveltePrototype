@@ -1,3 +1,4 @@
+import { Colors } from "@enums/enums";
 import type { SvelteComponentDev } from "svelte";
 export { };
 
@@ -22,9 +23,13 @@ declare global
 		[password: string]: string | any;
 	}
 
-	interface ILocation
+	interface IStyles
 	{
-		[name: string]: string;
-		[page: string]: SvelteComponentDev
+		[position:string ]: string;
+		[top:string ]: string | number;
+		[bottom: string ]: string | number;
+		[margin: string ]: string | number;
+		[padding: string ]: string | number;
+		[background: string ]: string | Colors;
 	}
 }
