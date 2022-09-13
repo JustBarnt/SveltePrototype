@@ -1,12 +1,19 @@
 <script lang="ts">
-	import { Utilities } from "../scripts/utilities/Utilities";
+	import { Utilities } from "@utilities/Utilities";
+	import { createEventDispatcher } from "svelte";
 	export let data: Results;
 
 	let downloadable:boolean = false;
 	let json: string, jsonArry: Array<string>, jBlob:Blob, link:string;
 	
+	const cancelDispatch = createEventDispatcher();
 	const DisplayDownload = () => downloadable = !downloadable;
+	const HandleCancel = () => cancelDispatch("cancel", { editing: false });
 
+	/**
+	* Creates a downloadable txt file containing the new license information
+	* @param {HTMLElement} Node - html node element
+	*/
 	function PrepareJson(node: HTMLElement)
 	{
 		json = JSON.stringify(data);
@@ -56,6 +63,7 @@
 		<input class={`Input-${index+1} input-field`} style={SetGridArea(index, true)} type="text" id={key} name={key} bind:value={value}/>
 	{/each}
 	<input type="submit" class="submit" value="Submit Edit" on:click|once|preventDefault={DisplayDownload}/>
+	<button class="cancel" on:click="{HandleCancel}">Cancel</button>
 	{#if downloadable}
 		<button class="download-license" use:PrepareJson>
 			<a href={link} download="license.txt">Download Updated License</a>
@@ -78,13 +86,26 @@
 
 		.submit{
 			@include button-base;
-			grid-area: 9 / 1 / 10 / 13;
+			grid-area: 9 / 1 / 9 / 9;
 			color: white;
 			background-color: $darkGrey;
 			box-shadow: 0 0 0.25rem $darkGrey;
 
 			&:hover {
 				@include button-hover;
+			}
+		}
+
+		.cancel{
+			@include button-base;
+			grid-area: 9 / 10 / 9 / 13;
+			color: white;
+			font-weight: bold;
+			background-color: $red;
+
+			&:hover{
+				@include button-hover;
+				background: darken($red, 10%);
 			}
 		}
 

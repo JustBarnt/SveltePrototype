@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import { createEventDispatcher } from "svelte";
-	import { Utilities } from "../scripts/utilities/Utilities";
+	import { Utilities } from "@utilities/Utilities";
+	import { createEventDispatcher, onMount } from "svelte";
 
 	export let data: Results;
 
@@ -26,7 +25,7 @@
 	* @param {<T>} element - the html element that was clicked
 	* @return {Number} Returns the index number of the row.
 	*/
-	const GetRowNum = ((element: any):number => element.clostest("tr").rowIndex); 
+	const GetRowNum = ((element: any):number => element.closest("tr").rowIndex); 
 	
 </script>
 
@@ -74,7 +73,6 @@
 		}	
 	}
 	table{
-		background: $gradBg;
 		border-radius: $borderRadius;
 		border-collapse: collapse;
 		box-shadow: 0 0 0.75rem $darkGrey;
@@ -88,6 +86,23 @@
 
 		thead th, tbody td{
 			padding: 1.2rem 1.6rem;
+		}
+
+		thead{
+			background: $gradBg;
+			//border-radius: $borderRadius;
+			box-shadow: 0 0 0.75rem $darkGrey;
+			position: sticky;
+			top:0;
+		}
+
+		thead th{
+			&:nth-child(2){
+				border-top-left-radius: 1rem;
+			}
+			&:last-child{
+				border-top-right-radius: 1rem;
+			}
 		}
 
 		tbody{

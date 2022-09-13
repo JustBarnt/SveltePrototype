@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher } from "svelte";
-	import { Utilities } from "../scripts/utilities/Utilities";
 
 	export let display:string = "flex";
 
@@ -19,6 +19,7 @@
 	<form
 		method="GET"
 		on:submit|preventDefault={HandleSubmit} autocomplete="off">
+		<slot></slot>
 		<label for="amount">Top Results:</label>
 		<input
 			type="text"
@@ -59,9 +60,14 @@
 </section>
 
 <style lang="scss">
+	section{
+		align-content: center;
+		width: clamp(300px, 45%, 45%);
+	}
 	form {
 		@include flex-base;
 		align-items:stretch;
+		align-content:center;
 		
 		input {
 			@include input-base;

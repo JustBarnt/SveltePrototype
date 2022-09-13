@@ -1,21 +1,34 @@
 <script lang="ts">
+	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
-	import { Utilities } from "../scripts/utilities/Utilities";
 	import EditForm from "./EditForm.svelte";
-	export let data = undefined;
+	
+	export let data: Results;
 
 	const messageDispatch = createEventDispatcher();
 	let isEditing:boolean = false;
+	$:editing = isEditing;
 
-	function LicenseLoaded(isHidden: boolean)
-	{
-		messageDispatch("loaded", { hide: isHidden });
-	}
+	/**
+	* Runs on initialization, lets the parent know it can hide the loading alert
+	*/
 	onMount(() => LicenseLoaded(true));
+	
+	/**
+	* Cancels the edit
+	* @param {CustomEvent} event - The event dispatcher
+	*/
+	const CancelEdit = (event: CustomEvent) => isEditing = event.detail.editing;
+	
+	/**
+	* Display single license once the data is fetched
+	* @param {Boolean} isHidden - boolean
+	*/
+	const LicenseLoaded = (isHidden: boolean) => messageDispatch("loaded", { hide: isHidden });
 </script>
 
 <section>
-	{#if !isEditing}
+	{#if !editing}
 		<table id="License">
 			{#each Object.entries(data[0]) as [key, value]}
 				<tr>
@@ -26,7 +39,7 @@
 		</table>
 		<button on:click={() => isEditing = !isEditing}>Edit License</button>
 	{:else}
-		<EditForm data={data}/>
+		<EditForm data={data} on:cancel={CancelEdit}/>
 	{/if}
 </section>
 	

@@ -1,27 +1,29 @@
 <script lang="ts">
-	import { Colors, AlertVisibility } from "../enums/enums";
-	import { createEventDispatcher } from "svelte";
-	import { GetAuthorization } from "../scripts/controllers/AuthorizationController";
-	import Alert from "../components/Alert.svelte";
-
-	export let display:string = "flex";
+	import Alert from "@components/Alert.svelte";
+	import { Authentication } from "@controllers/AuthenticationController";
+	import { GetAuthorization } from "@controllers/AuthorizationController";
+	import { AlertVisibility, Colors } from "@enums/enums";
+	import { onMount } from "svelte";
 
 	//Login control
 	let attempt: ILogin = { username: "", password: "" };
 	let isSuccessful: Awaited<boolean> | null = null;
-	const loginDispatch = createEventDispatcher();
-
+	const alertCss: IStyles = { position: "relative", bottom: "clamp(0px, 0.5rem, 3.5rem)", background: Colors.RED };
+	
 	//Reactive Statement Controll
 	$: visible = AlertVisibility.Hidden;
 
+	//Checking if localStorage contains an item called id
+	onMount(() => localStorage.getItem("id") !== null ? Authentication.ReturningUser({ username: localStorage.id, password: localStorage.password }) : null);
+
 	/**
-	* Handles login attempts
+	* Attempts to log the user in, if successul updates the localStorage and svelte store.
 	* @return {Boolean} Returns true or false
 	*/
-	async function HandleLogin(): Promise<void>
+	async function Login(): Promise<void>
 	{
 		isSuccessful = await GetAuthorization(attempt);
-		if(isSuccessful) loginDispatch("login", { success: isSuccessful, userInfo: attempt });
+		if(isSuccessful) Authentication.HandleLogin({ success: isSuccessful, userInfo: attempt });
 		else visible = AlertVisibility.Visible;
 	}
 
@@ -33,10 +35,10 @@
 </script>
 
 
-<section style:display>
-	<form id="LoginForm" on:submit|preventDefault="{HandleLogin}" method="POST" autocomplete="off">
+<section>
+	<form id="LoginForm" on:submit|preventDefault="{Login}" method="POST" autocomplete="off">
 		<h1>Sign In</h1>
-		<Alert visible={visible} background={Colors.RED} message="Invalid username and/or password." />
+		<Alert visible={visible} styles={alertCss} message="Invalid username and/or password." />
 		<input
 			type="text"
 			name="username"
