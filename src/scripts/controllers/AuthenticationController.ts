@@ -1,22 +1,22 @@
-import { AUTH_SESSION } from "../stores/stores";
+import { AUTH_SESSION } from "@stores/stores";
 import { GetAuthorization } from "./AuthorizationController";
 class Authentication
 {
-	private static _isSuccessful: boolean = false;
+	private static _LoggedIn: boolean | Promise<boolean> | Awaited<boolean> = false;
 
 	constructor(isSuccessful:boolean)
 	{
-		Authentication._isSuccessful = isSuccessful;
+		Authentication._LoggedIn = isSuccessful;
 	}
 
 	/**
 	* Handles login attempts, if success user info gets saved to localStorage
 	* @param {Event<any>} event - Event listener for loggin
 	*/
-	static HandleLogin(event:any): void
+	public static HandleLogin(details: { success: boolean, userInfo: ILogin }): void
 	{
-		let { success, userInfo } = event.detail;
-		this._isSuccessful = success;
+		let { success, userInfo } = details;
+		this._LoggedIn = success;
 		
 		//save user session to localStorage
 		if(success)
@@ -24,36 +24,38 @@ class Authentication
 			localStorage.setItem("id", userInfo.username);
 			localStorage.setItem("password", userInfo.password);
 			AUTH_SESSION.set(localStorage);
+			window.location.href = "/#/home";
 		}
 	}
 
 	/**
 	* Handles logging out the user and clearing the localStorage.
 	*/
-	static HandleLogout(): void
+	public static HandleLogout(): void
 	{
 		localStorage.clear();
-		this._isSuccessful = false;
+		this._LoggedIn = false;
 	}
 
 	/**
 	* Signs user back in with localStorage.
 	* @param {ILogin} userInfo - Implementation of the ILogin interface
 	*/
-	static async ReturningUser(userInfo: ILogin): Promise<void> 
+	public static async ReturningUser(userInfo: ILogin): Promise<boolean> 
 	{
-		this._isSuccessful = await GetAuthorization(userInfo);
+		return this._LoggedIn = await GetAuthorization(userInfo);
 	}
 
-	static get isSuccessful()
+	public static get LoggedIn()
 	{
-		return this._isSuccessful;
+		return this._LoggedIn;
 	}
 
-	static set isSuccessful(success: boolean)
+	public static set LoggedIn(success: boolean | Promise<boolean>)
 	{
-		this._isSuccessful = success;
+		this._LoggedIn = success;
 	}
 }
 
 export { Authentication };
+
