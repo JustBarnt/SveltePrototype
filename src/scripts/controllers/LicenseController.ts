@@ -1,5 +1,5 @@
-import { LICENSE_STORE } from "../stores/stores";
 import { SearchLicenses } from "../services/LicenseServices";
+import { LICENSE_STORE } from "../stores/stores";
 
 /**
 * Retrieves a group of licenses on the passed details.
@@ -16,12 +16,17 @@ async function GetLicenses(Details: QueryDetails): Promise<boolean>
 	success = typeof results !== "object" ? false : true;
 
 	if (!success)
-		throw new Error("Failed to retrieve response.");
+	{
+		new Error("Failed to retrieve response.");
+		return success;
+	}
+	else
+	{
+		let apiStoreSchema: IResponse = { success: success, results: results };
+		LICENSE_STORE.set(apiStoreSchema);
+		return success;	
+	}
 
-	let apiStoreSchema: IResponse = { success: success, results: results };
-	LICENSE_STORE.set(apiStoreSchema);
-
-	return success;
 }
 
 /**

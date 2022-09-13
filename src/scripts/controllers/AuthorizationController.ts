@@ -1,5 +1,5 @@
-import { USER_SESSION } from "../stores/stores";
 import { AuthorizeUser } from "../services/AuthorizationServices";
+import { USER_SESSION } from "../stores/stores";
 
 /**
 * An event handler to handle the custom event from the svelte component
