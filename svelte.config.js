@@ -7,6 +7,7 @@ const config =
 			scss:
 			{
 				prependData: `@import './src/sass/variables.scss';`,
+				renderSync: true,
 			},
 		},
 	),

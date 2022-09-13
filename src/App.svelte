@@ -1,27 +1,15 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import Home from "./pages/Home.svelte";
-	import Login from "./pages/Login.svelte";
-	import { Authentication } from "./scripts/controllers/AuthenticationController";
+	import { Authentication } from "@controllers/AuthenticationController";
+	import Router from "svelte-spa-router";
+	import { routes } from "./routes";
 
-	/* TODO: Brent
-	* Edit routing so that display values aren't being changed. Doesn't appear to be the natural flow of
-	* svelte components.
-	*/
-
-	let isSuccessful:boolean = false;
-	$: userAuth = isSuccessful;
-	$: loginDisplay = isSuccessful ? "none" : "flex";
-
-	//Checking if localStorage exists, if it does log in that existing user automatically.
-	onMount(() => 
+	$: if(localStorage.getItem("id") !== null)
 	{
-		if(localStorage.getItem("id") !== undefined)
-		{
-			let login: ILogin = { username: localStorage.id, password: localStorage.password };
-			Authentication.ReturningUser(login);
-		}
-	});
+		let login: ILogin = { username: localStorage.id, password: localStorage.password };
+		Authentication.LoggedIn = Authentication.ReturningUser(login);
+	}
+
+	$:Authentication.LoggedIn ? window.location.href = "/#/home" : null;
 </script>
 
 
@@ -31,24 +19,20 @@
 		<span>
 			<!--Check if logged in, so the user doesn't go to login page. (LATER) Merge Home and Login page and just
 			keep track if they need to see a login component.-->
-			<a href="#home">Home</a>
-			<a href="#signin" on:click="{Authentication.HandleLogout}">Logout</a>
+			<a href="/#/home">Home</a>
+			<a href="/#/" on:click="{Authentication.HandleLogout}">Logout</a>
 		</span>
 	</nav>
 </header>
 
 
 <main>
-	{#if !userAuth}
-		<Login on:login="{Authentication.HandleLogin}" display="{loginDisplay}"/>
-	{:else}
-		<Home/>
-	{/if}
+	<Router { routes }/>
 </main>
 
 <style lang="scss">
 	header{
-		width:100%;
+		width:clamp(25%, 100%, 100%);
 		height: 5%;
 		display: flex;
 		justify-content: space-between;

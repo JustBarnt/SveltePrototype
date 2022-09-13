@@ -4,29 +4,48 @@
 		"baseUrl": ".",
 		"checkJs": true,
 		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"isolatedModules": true,
 		"module": "ESNext",
-		"moduleResolution": "Node",
-		"noUnusedLocals": false,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
 		"preserveValueImports": true,
 		"skipLibCheck": true,
-		"sourceMap": true,
 		"strict": true,
 		"strictNullChecks": false,
 		"target": "ESNext",
-		"useDefineForClassFields": true
+		"paths": {
+			"@components/*": [
+				"src/components/*"
+			],
+			"@controllers/*": [
+				"src/scripts/controllers/*",
+			],
+			"@services/*": [
+				"src/scripts/services/*",
+			],
+			"@stores/*": [
+				"src/scripts/stores/*",
+			],
+			"@utilities/*": [
+				"src/scripts/utilities/*",
+			],
+			"@pages/*": [
+				"src/pages/*"
+			],
+			"@enums/*": [
+				"src/enums/*"
+			],
+			"@sass/*": [
+				"src/sass/*"
+			]
+		}
 	},
 	"exclude": [
 		"node_modules/*",
 		"public/*"
 	],
 	"include": [
-		"src/**/*.d.ts",
-		"src/**/*.ts",
-		"src/**/*.js",
-		"src/**/*.svelte",
-		"src/**/*"
+		"src/**/*",
+		"src/**/*.svelte"
 	],
 	"references": [
 		{
