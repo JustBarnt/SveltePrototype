@@ -60,12 +60,15 @@
 }
 
 @mixin alert-base {
+	display: flex;
+	align-self: center;
 	border-radius: $borderRadius;
 	font-size: 1.2rem;
 	font-weight: bold;
 	color: #ffffff;
 	transition: all 0.25s;
 	box-shadow: 0 0 0.75rem $darkGrey;
+	//width: clamp(300px, 50%, 66%);
 }
 
 @mixin alert-hidden {
@@ -88,6 +91,7 @@
 	background-color: #35343d75;
 	border: 0.2rem solid transparent;
 	transition: all 0.25s;
+	cursor: pointer;
 
 	&::placeholder {
 		color: white;
