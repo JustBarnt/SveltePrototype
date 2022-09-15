@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { Authentication } from "@controllers/AuthenticationController";
+	import { Authentication } from "@controllers/Authentication";
+	import { routes } from "@services/Route";
 	import Router from "svelte-spa-router";
-	import { routes } from "./routes";
 
-	$: if(localStorage.getItem("id") !== null)
-	{
-		let login: ILogin = { username: localStorage.id, password: localStorage.password };
-		Authentication.LoggedIn = Authentication.ReturningUser(login);
-	}
+	// $: if(Cookies.get("id") !== null)
+	// {
+	// 	let login: ILogin = { username: Cookies.get("id"), password: Cookies.get("password") };
+	// 	Authentication.LoggedIn = Authentication.ReturningUser(login);
+	// }
 
-	$:Authentication.LoggedIn ? window.location.href = "/#/home" : null;
+	// $:Authentication.LoggedIn ? window.location.href = "/#/home" : window.location.href = "/#/";
 </script>
 
 
@@ -27,7 +27,7 @@
 
 
 <main>
-	<Router { routes }/>
+	<Router {routes}/>
 </main>
 
 <style lang="scss">
