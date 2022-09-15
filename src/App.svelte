@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { Authentication } from "@controllers/Authentication";
 	import { routes } from "@services/Route";
+	import Cookies from "js-cookie";
 	import Router from "svelte-spa-router";
 
-	// $: if(Cookies.get("id") !== null)
-	// {
-	// 	let login: ILogin = { username: Cookies.get("id"), password: Cookies.get("password") };
-	// 	Authentication.LoggedIn = Authentication.ReturningUser(login);
-	// }
+	$: if(Cookies.get("selector") !== undefined)
+	{
+		let login: Cookie = { selector: Cookies.get("selector"), validator: Cookies.get("validator") };
+		Authentication.LoggedIn = Authentication.ReturningUser(login);
+	}
 
-	// $:Authentication.LoggedIn ? window.location.href = "/#/home" : window.location.href = "/#/";
+	$:Authentication.LoggedIn ? window.location.href = "/#/home" : window.location.href = "/#/";
 </script>
 
 

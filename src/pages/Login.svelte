@@ -14,8 +14,11 @@
 	//Reactive Statement Controll
 	$: visible = AlertVisibility.Hidden;
 
-	//Checking if localStorage contains an item called id
-	onMount(() => Cookies.get("id") !== undefined ? Authentication.ReturningUser({ username: Cookies.get("id"), password: Cookies.get("password") }) : null);
+	//Checking if cookies contains an item called id
+	onMount(() => 
+	{
+		Cookies.get("selector") !== undefined ? Authentication.ReturningUser({ selector: Cookies.get("selector"), validator: Cookies.get("validator") }) : null;
+	});
 
 	/**
 	* Attempts to log the user in, if successul updates the localStorage and svelte store.
