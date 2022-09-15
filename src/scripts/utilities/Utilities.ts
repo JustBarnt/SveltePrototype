@@ -47,10 +47,10 @@ export class Utilities
 		{
 			const keys = Object.keys(item);
 			let currentKey = Object.keys(item);
-			let tIndex = this.#GetTimeIndex(data[ index ][ keyName ]);
+			let tIndex = Utilities.GetTimeIndex(data[ index ][ keyName ]);
 			let subStrEnd = data[ index ][ keyName ]?.length;
 
-			if (this.#ArrayHas(keys, currentKey, keyName))
+			if (Utilities.ArrayHas(keys, currentKey, keyName))
 				for (const key in item)
 					if (key === keyName)
 						data[ index ][ key ] = item[ key ] !== null ?
@@ -58,7 +58,7 @@ export class Utilities
 		});
 	}
 
-	static #GetTimeIndex(string: string): string | number
+	private static GetTimeIndex(string: string): string | number
 	{
 		if (string !== null)
 			return string.indexOf("T");
@@ -73,7 +73,7 @@ export class Utilities
 	* @param {String} value - The value the two arrays may share
 	* @return {Boolean}
 	*/
-	static #ArrayHas(arr1: Array<string | number>, arr2: Array<string | number>, value: string): boolean
+	private static ArrayHas(arr1: Array<string | number>, arr2: Array<string | number>, value: string): boolean
 	{
 		return (arr1.includes(value) && arr2.includes(value));
 	}
@@ -115,5 +115,22 @@ export class Utilities
 		});
 
 		return guidArray;
+	}
+
+	/**
+	* Creates a randomly generated string of characters based of request length
+	* @param {Number} length - the length of the requested string
+	* @return {String} A randomly generated string
+	*/
+
+	static GenerateRandomToken(length: number)
+	{
+		let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		let str = "";
+		for (let i = 0; i < length; i++)
+			str += chars.charAt(Math.floor(Math.random() * chars.length));
+		
+		return str;
 	}
 }
