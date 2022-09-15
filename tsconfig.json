@@ -22,6 +22,9 @@
 			"@services/*": [
 				"src/scripts/services/*",
 			],
+			"@requests/*": [
+				"src/scripts/requests/*",
+			],
 			"@stores/*": [
 				"src/scripts/stores/*",
 			],

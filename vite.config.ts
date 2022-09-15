@@ -8,12 +8,6 @@ import { defineConfig } from "vite";
 // https://vitejs.dev/config/
 /**@type {import("vite").UserConfig} */
 const production = (process.env.NODE_ENV === "production");
-const scriptPaths = ["src/scripts/*",
-					 "src/scripts/controllers/*",
-					 "src/scripts/services/*",
-					 "src/scripts/stores/*",
-					 "src/scripts/utilities/*"
-					];
 export default defineConfig({
 	plugins: [
 		svelte({
@@ -34,10 +28,11 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			"@components": resolve("./src/components"),
-			"@controllers": resolve("src/scripts/controllers"),
-			"@services": resolve("src/scripts/services"),
-			"@stores": resolve("src/scripts/stores"),
-			"@utilities": resolve("src/scripts/utilities"),
+			"@controllers": resolve("./src/scripts/controllers"),
+			"@requests": resolve("./src/scripts/requests"),
+			"@services": resolve("./src/scripts/services"),
+			"@stores": resolve("./src/scripts/stores"),
+			"@utilities": resolve("./src/scripts/utilities"),
 			"@pages": resolve("./src/pages/"),
 			"@enums": resolve("./src/enums"),
 			"@sass": resolve("./src/sass")

@@ -55,6 +55,7 @@
 		"@typescript-eslint/no-explicit-any": 0,
 		"@typescript-eslint/no-empty-function": "warn",
 		"@typescript-eslint/no-inferrable-types": 0,
+		"@typescript-eslint/no-namespace": "off",
 		"@typescript-eslint/no-redeclare": 1,
 		"@typescript-eslint/no-shadow": [
 			"off"
@@ -64,7 +65,7 @@
 			"error",
 			"always"
 		],
-		"@typescript-eslint/prefer-for-of": "warn",
+		"@typescript-eslint/prefer-for-of": 0,
 		"@typescript-eslint/quotes": [
 			"error",
 			"double",
