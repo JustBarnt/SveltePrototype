@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { GetLicenses } from "@requests/Licenses";
+	import { PREV_QUERY, USER_SESSION } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
 	import EditForm from "./EditForm.svelte";
@@ -6,6 +8,7 @@
 	export let data: Results;
 
 	const messageDispatch = createEventDispatcher();
+	const returnDispatch = createEventDispatcher();
 	let isEditing:boolean = false;
 	$:editing = isEditing;
 
@@ -25,6 +28,27 @@
 	* @param {Boolean} isHidden - boolean
 	*/
 	const LicenseLoaded = (isHidden: boolean) => messageDispatch("loaded", { hide: isHidden });
+
+	/**
+	* Tells the parent to change the view to the licenses table
+	*/
+	const ChangeDisplay = () => returnDispatch("change", { view: "licenses" });
+
+	/**
+	* Returns to the licenses table with the last query ran
+	* @param {String} query - a URI containing the query string.
+	*/
+	 const ReturnToLicenses = async (query: string) => 
+	{
+		const data: QueryDetails = { success: false, results: null, params: $PREV_QUERY, token: $USER_SESSION };
+		const success: Awaited<boolean> = await GetLicenses(data);
+
+		if(success)
+		{
+			ChangeDisplay();
+			window.location.href = "/#/licenses";
+		}
+	}; 
 </script>
 
 <section>
@@ -37,7 +61,10 @@
 				</tr>
 			{/each}
 		</table>
-		<button on:click={() => isEditing = !isEditing}>Edit License</button>
+		<div class="buttonContainer">
+			<button class="edit" on:click={() => isEditing = !isEditing}>Edit License</button>
+			<button class="return" on:click={() => ReturnToLicenses("")}>Return to Licenses</button>
+		</div>
 	{:else}
 		<EditForm data={data} on:cancel={CancelEdit}/>
 	{/if}
@@ -67,9 +94,17 @@
 	}
 	button{
 		@include button-base;
+		width: 45%;
 		
 		&:hover{
 			@include button-hover;
 		}
+	}
+
+	.buttonContainer{
+		@include flex-base;
+		flex-flow: row wrap;
+		width: 100%;
+		justify-content: space-between;
 	}
 </style>

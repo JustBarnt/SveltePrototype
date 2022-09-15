@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Alert from "@components/Alert.svelte";
-	import { Authentication } from "@controllers/AuthenticationController";
-	import { GetAuthorization } from "@controllers/AuthorizationController";
+	import { Authentication } from "@controllers/Authentication";
 	import { AlertVisibility, Colors } from "@enums/enums";
+	import { GetAuthorization } from "@requests/Authorization";
+	import Cookies from "js-cookie";
 	import { onMount } from "svelte";
 
 	//Login control
@@ -14,7 +15,7 @@
 	$: visible = AlertVisibility.Hidden;
 
 	//Checking if localStorage contains an item called id
-	onMount(() => localStorage.getItem("id") !== null ? Authentication.ReturningUser({ username: localStorage.id, password: localStorage.password }) : null);
+	onMount(() => Cookies.get("id") !== undefined ? Authentication.ReturningUser({ username: Cookies.get("id"), password: Cookies.get("password") }) : null);
 
 	/**
 	* Attempts to log the user in, if successul updates the localStorage and svelte store.
@@ -23,7 +24,7 @@
 	async function Login(): Promise<void>
 	{
 		isSuccessful = await GetAuthorization(attempt);
-		if(isSuccessful) Authentication.HandleLogin({ success: isSuccessful, userInfo: attempt });
+		if(isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
 		else visible = AlertVisibility.Visible;
 	}
 
