@@ -10,6 +10,8 @@ declare global
 	type Form = { [amount: string]: string, [column: string]: string, [value: string]: string, [startDate: string]: string, [endDate: string]: string; };
 	type Page = { name: string, component: SvelteComponentDev; }[];
 	type Message = { success: string, error: string, info: string; };
+	type User = { id: number, firstName: string, lastName: string, username: string, token: string; } | null;
+	type Cookie = { selector: string, validator: string, userId?: number, expires?: Date | string | null };
 
 	interface IResponse
 	{
@@ -19,14 +21,8 @@ declare global
 
 	interface ILogin
 	{
-		[username: string]: string | any;
-		[password: string]: string | any;
-	}
-
-	interface ICookie
-	{
-		[selector: string]: string;
-		[validator: string]: string;
+		[username:string]: string | any;
+		[password:string]: string | any;
 	}
 
 	interface IStyles
