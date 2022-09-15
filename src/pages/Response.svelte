@@ -30,7 +30,7 @@
 	{#if CurrentView === "licenses"}
 		<Licenses on:license={HandleLicense} bind:data={$LICENSES.results}/>
 	{:else}
-		{#await ViewLicense({ success:false, results: null, params: LicenseId, token: $USER_SESSION })}
+		{#await ViewLicense({ success:false, results: null, params: LicenseId, token: $USER_SESSION.token })}
 			<alert style:display style={`background: ${Colors.BLUE}`}>Gettings selected license information...</alert>
 		{:then success}
 			<alert style:display style={`background: ${Colors.GREEN}`}>License found! Loading license now.</alert>

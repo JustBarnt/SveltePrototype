@@ -40,7 +40,7 @@
 	*/
 	 const ReturnToLicenses = async (query: string) => 
 	{
-		const data: QueryDetails = { success: false, results: null, params: $PREV_QUERY, token: $USER_SESSION };
+		const data: QueryDetails = { success: false, results: null, params: $PREV_QUERY, token: $USER_SESSION.token };
 		const success: Awaited<boolean> = await GetLicenses(data);
 
 		if(success)
