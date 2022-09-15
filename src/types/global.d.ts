@@ -23,6 +23,12 @@ declare global
 		[password: string]: string | any;
 	}
 
+	interface ICookie
+	{
+		[selector: string]: string;
+		[validator: string]: string;
+	}
+
 	interface IStyles
 	{
 		[position:string ]: string;
