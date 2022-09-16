@@ -19,11 +19,19 @@ export class Authorization
 		USER_SESSION.set(results);
 		return (typeof results === "object");
 	}
+
+	async RegisterUser(): Promise<boolean>
+	{
+		const request = this._request = new Request(`${this._url}/register`, this._options);
+		let results: Awaited<boolean> = await UserRequest(request);
+
+		return results;
+	}
 	
 	async GetValidation(): Promise<boolean>
 	{
-		this._request = new Request(`${this._url}/validate`, this._options);
-		let results: Awaited<User> = await UserRequest(this._request);
+		const request = this._request = new Request(`${this._url}/validate`, this._options);
+		let results: Awaited<User> = await UserRequest(request);
 		
 		USER_SESSION.set(results);
 		return (typeof results === "object");
@@ -31,16 +39,16 @@ export class Authorization
 
 	async RegisterValidation(): Promise<boolean>
 	{
-		this._request = new Request(`${this._url}/rememberme`, this._options);
-		let results: Awaited<string> = await UserRequest(this._request);
+		const request = this._request = new Request(`${this._url}/rememberme`, this._options);
+		let results: Awaited<string> = await UserRequest(request);
 	
 		return (typeof results === "string");
 	}
 	
 	async DeleteValidation(): Promise<boolean | void>
 	{
-		this._request = new Request(`${this._url}/token`, this._options);
-		let results: Awaited<boolean | void> = await UserRequest(this._request);
+		const request = this._request = new Request(`${this._url}/token`, this._options);
+		let results: Awaited<boolean | void> = await UserRequest(request);
 	
 		return results;
 	}
