@@ -10,6 +10,7 @@ class Authentication
 	private static Date: Date | null = null;
 	private static Selector: string;
 	private static Validator: string;
+	static RememberMe: boolean = false;
 
 	/**
 	* Handles login attempts, if success user info gets saved to localStorage
@@ -27,10 +28,12 @@ class Authentication
 			let user = get(USER_SESSION);
 
 			//In future add check box that controls whether this is ran or not.
-			Authentication.RememberUser();
-			cookie = { selector: this.Selector, validator: this.Validator, userId: user.id, expires: this.Date };
-			new Authorization("POST", cookie, { "content-type": "application/json" }).RegisterValidation();
-
+			if (Authentication.RememberMe)
+			{
+				Authentication.RememberUser();
+				cookie = { selector: this.Selector, validator: this.Validator, userId: user.id, expires: this.Date };
+				new Authorization("POST", cookie, { "content-type": "application/json" }).RegisterValidation();
+			}
 			//add check if here to make sure remember was successful. Or to alert the user is if wasn't
 
 			window.location.href = "/#/home";
@@ -38,21 +41,24 @@ class Authentication
 	}
 
 	/**
-	* Handles logging out the user and clearing the localStorage.
+	* Handles logging out the user and clearing the cookies if they are present.
 	*/
 	public static async HandleLogout(): Promise<void>
 	{
+		if (Cookies.get("selector") === undefined)
+		{
+			this._LoggedIn = false;
+			return;
+		}
+		
 		const user: User = get(USER_SESSION);
 		const cookie: Cookie = { selector: Cookies.get("selector"), validator: Cookies.get("validator"), userId: user.id };
 		await new Authorization("DELETE", cookie, { "content-type": "application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` }).DeleteValidation()
 		.then(success => 
 		{
-			if (success)
-			{
-				Cookies.remove("selector", { expires: 90 });
-				Cookies.remove("validator", { expires: 90 });
-				this._LoggedIn = false;
-			}
+			Cookies.remove("selector", { expires: 90 });
+			Cookies.remove("validator", { expires: 90 });
+			this._LoggedIn = false;
 		})
 		.catch(err => console.log(err));
 	}
@@ -61,8 +67,10 @@ class Authentication
 	{
 		Authentication.Date = new Date();
 		let expires = Authentication.Date.setDate(Authentication.Date.getDate() + 90);
+
 		Cookies.set("selector", Utilities.GenerateRandomToken(12), { expires: expires });
 		Cookies.set("validator", Utilities.GenerateRandomToken(32), { expires: expires });
+
 		this.Selector = Cookies.get("selector");
 		this.Validator = Cookies.get("validator");
 	}
