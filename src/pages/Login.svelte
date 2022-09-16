@@ -37,6 +37,8 @@
 	* @param {any} event - Input event
 	*/
 	const HandleInput = ((event: any): void => attempt[event.target.name] = event.target.value);
+
+	//TODO: FINISH ACCOUNT CREATION
 </script>
 
 
@@ -44,30 +46,21 @@
 	<form id="LoginForm" on:submit|preventDefault="{Login}" method="POST" autocomplete="off">
 		<h1>Sign In</h1>
 		<Alert visible={visible} styles={alertCss} message="Invalid username and/or password." />
-		<input
-			type="text"
-			name="username"
-			class="login-field"
-			placeholder="Username"
-			on:input="{HandleInput}" />
-		<input
-			type="password"
-			name="password"
-			class="login-field"
-			placeholder="Password"
-			on:input="{HandleInput}" />
-		<input
-			type="submit"
-			value="Login"
-			class="submit-login"/>
-			<label for="rememberme" class="remember-me">
-				<input type="checkbox" name="rememberme" on:click={() => Authentication.RememberMe = !Authentication.RememberMe}>
+		<input type="text" name="username" class="login-field" placeholder="Username" on:input="{HandleInput}" />
+		<input type="password"name="password"	class="login-field"	placeholder="Password" on:input="{HandleInput}" />
+		<input type="submit" value="Login" class="submit-login"/>
+		<span class="additionals">
+			<span class="remember-me">
+				<input type="checkbox" on:click={() => Authentication.RememberMe = !Authentication.RememberMe}>
 				Remember Me
-			</label>
+			</span>
+			<p class="create-account">Create Account</p>
+		</span>
 	</form>
 </section>
 
 <style lang="scss">
+
 	form{
 		@include flex-base;
 		align-items:stretch;
@@ -89,34 +82,47 @@
 		}
 	}
 
-	.remember-me{
+	.additionals{
 		display: flex;
-		padding-top: 2rem;
-		align-items: center;
-		align-self: center;
+		justify-content:space-between;
+		position: relative;
+		top: clamp(15px, 10%, 10%);
 
-		input{
-			width: 16px;
-			height: 16px;
-			border: 0.2rem solid $grey50;
-			background: $grey50;
-			border-radius: 0.3rem;
-			transition: all 0.25s;
-			margin-right: 1rem;
-			
-			-webkit-appearance: none;
-			   -moz-appearance: none;
-			        appearance: none;
+		.remember-me{
+			display: flex;
+			align-items:center;
+			input{
+				width: 16px;
+				height: 16px;
+				border: 0.2rem solid $grey50;
+				background: $grey50;
+				border-radius: 0.3rem;
+				transition: all 0.25s;
+				margin-right: 1rem;
+				
+				-webkit-appearance: none;
+				   -moz-appearance: none;
+						appearance: none;
 
-			&:checked {
-				background: $green;
-				border-color: $green;
-				text-align: center;
-				line-height: 1.5rem;
+				&:checked{
+					background: $green;
+					border-color: $green;
+					text-align: center;
+					line-height: 1.5rem;
+				}
+	
+				&:hover{
+					border-color: $green;
+				}
 			}
+		}
+
+		.create-account{
+			transition: all 0.25s;
+			border-bottom: 0.1rem solid transparent;
 
 			&:hover{
-				border-color: $green;
+				border-color: white;
 			}
 		}
 	}
