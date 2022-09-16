@@ -3,7 +3,6 @@
 	import { Authentication } from "@controllers/Authentication";
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Authorization } from "@requests/Authorization";
-	import { USER_SESSION } from "@stores/stores";
 	import Cookies from "js-cookie";
 	import { onMount } from "svelte";
 
@@ -27,13 +26,7 @@
 	*/
 	async function Login(): Promise<void>
 	{
-		isSuccessful = await new Authorization(
-			"POST", 
-			attempt, 
-			{ 
-				"content-type": "application/json", 
-				"authorization": `Bearer: ${$USER_SESSION.token}` 
-			}).GetAuthorization();
+		isSuccessful = await new Authorization("POST", attempt, { "content-type": "application/json" }).GetAuthorization();
 
 		if(isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
 		else visible = AlertVisibility.Visible;
@@ -67,6 +60,10 @@
 			type="submit"
 			value="Login"
 			class="submit-login"/>
+			<label for="rememberme" class="remember-me">
+				<input type="checkbox" name="rememberme" on:click={() => Authentication.RememberMe = !Authentication.RememberMe}>
+				Remember Me
+			</label>
 	</form>
 </section>
 
@@ -89,6 +86,38 @@
 		
 		&:hover{
 			@include button-hover;
+		}
+	}
+
+	.remember-me{
+		display: flex;
+		padding-top: 2rem;
+		align-items: center;
+		align-self: center;
+
+		input{
+			width: 16px;
+			height: 16px;
+			border: 0.2rem solid $grey50;
+			background: $grey50;
+			border-radius: 0.3rem;
+			transition: all 0.25s;
+			margin-right: 1rem;
+			
+			-webkit-appearance: none;
+			   -moz-appearance: none;
+			        appearance: none;
+
+			&:checked {
+				background: $green;
+				border-color: $green;
+				text-align: center;
+				line-height: 1.5rem;
+			}
+
+			&:hover{
+				border-color: $green;
+			}
 		}
 	}
 </style>

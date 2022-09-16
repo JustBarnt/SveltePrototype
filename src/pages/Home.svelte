@@ -2,7 +2,7 @@
 	import Alert from "@components/Alert.svelte";
 	import Form from "@components/Form.svelte";
 	import { AlertVisibility, Colors } from "@enums/enums";
-	import { ViewLicense } from "@requests/Licenses";
+	import { Licenses } from "@requests/Licenses";
 	import { Utilities } from "@utilities/Utilities";
 	import Cookies from "js-cookie";
 
@@ -27,7 +27,7 @@
 	async function HandleRequest(event: any)
 	{
 		const data: QueryDetails = { success: false, results: null, params: event.detail };
-		isSuccessful = await ViewLicense(data);
+		isSuccessful = await new Licenses("GET", event.detail).Search();
 	}
 
 </script>

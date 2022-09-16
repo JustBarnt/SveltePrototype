@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ViewLicense } from "@requests/Licenses";
+	import { Licenses } from "@requests/Licenses";
 	import { PREV_QUERY } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
@@ -41,7 +41,8 @@
 	 const ReturnToLicenses = async (query: string) => 
 	{
 		const data: QueryDetails = { success: false, results: null, params: $PREV_QUERY };
-		const success: Awaited<boolean> = await ViewLicense(data);
+		console.log($PREV_QUERY);
+		const success: Awaited<boolean> = await new Licenses("GET", $PREV_QUERY).Search();
 
 		if(success)
 		{
