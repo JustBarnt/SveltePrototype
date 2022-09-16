@@ -1,17 +1,16 @@
 import { Colors } from "@enums/enums";
-import type { SvelteComponentDev } from "svelte";
 export { };
 
 
 declare global
 {
-	type QueryDetails = { success: boolean, results: Results, params: string; token: string };
-	type Results = Array<Record<string, any>>| null | Array<Record<string, any>>;
+	type QueryDetails = { success: boolean, results: Results, params: string; };
+	type Results = Map<Record<string, any>> | void;
+	//type Results = Array<Record<string, any>> | void;
 	type Form = { [amount: string]: string, [column: string]: string, [value: string]: string, [startDate: string]: string, [endDate: string]: string; };
-	type Page = { name: string, component: SvelteComponentDev; }[];
-	type Message = { success: string, error: string, info: string; };
 	type User = { id: number, firstName: string, lastName: string, username: string, token: string; } | null;
 	type Cookie = { selector: string, validator: string, userId?: number, expires?: Date | string | null };
+	type Options = { method: string, headers: Record<string, string>, body: any };
 
 	interface IResponse
 	{
