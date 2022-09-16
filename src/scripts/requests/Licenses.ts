@@ -2,48 +2,54 @@ import { LICENSES, PREV_QUERY, USER_SESSION } from "@stores/stores";
 import { Utilities } from "@utilities/Utilities";
 import { get } from "svelte/store";
 
-/**
-* Retrieves a group of licenses on the passed details.
-* @param {QueryDetails} Details - details from the event.
-* @return {Return} Returns a resolved promise
-*/
-export async function ViewLicense(Details: QueryDetails, endpoint: string = "search"): Promise<boolean>
+export class Licenses
 {
-	const url = `https://localhost:7150/licenses/${endpoint}`;
-	let { success, results, params } = Details;
+	private _options: Options;
+	private _url: string = "https://localhost:7150/Licenses";
+	private _request: Request;
+	private _searchParams: string;
 
-	//TODO: (Brent) update HTTP request to return object including status.
-	results = await SearchLicenses(url, params).then((results) => 
+	constructor(method: string, searchParams: string)
 	{
-		success = true;
-		let apiStoreSchema: IResponse = { success: success, results: results };
-		LICENSES.set(apiStoreSchema);
-		endpoint === "search" ? PREV_QUERY.set(params) : null;
-	})
-	.catch((err) => 
-	{
-		success = false;
-		console.log("Failed to retrieve response.");
-	});
+		this._options = { method: method, headers: { "content-type": "application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` } };
+		this._searchParams = searchParams;
+	}
 
-	return success; 
+	async Search(): Promise<boolean>
+	{
+		this._request = new Request(`${this._url}/search/${this._searchParams}`, this._options);
+		
+		const response = await LicenseRequest(this._request).then((results) => 
+		{
+			LICENSES.set({ success: true, results: results });
+			PREV_QUERY.set(this._searchParams);
+			return true;
+		});
+
+		return response;
+	}
+
+	async View(): Promise<boolean>
+	{
+		this._request = new Request(`${this._url}/view/${this._searchParams}`, this._options);
+
+		const response = await LicenseRequest(this._request).then((results) => 
+		{
+			LICENSES.set({ success: true, results: results });
+			return true;
+		});
+
+		return response;
+	}
 }
 
 /**
 * Creates a new post request to MSSQL Server
-* @param {String} endpoint - API Endpoint for the request
-* @param {String} params - Parsed query string leading with "?"
-* @param {String} token - Authentication Token
+* @param {Request} request - The endpoint request.
 * @return {Promise<response>} Returns a promise containing the JSON response
 */
-const SearchLicenses = async(endpoint: string, params:string):Promise<Results> =>
+const LicenseRequest = async(request: Request):Promise<Results> =>
 {
-	const request = new Request(`${endpoint}/${params}`,
-		{
-			method: "GET",
-			headers: { "content-type": "application/json", "authorization": `Bearer ${get(USER_SESSION).token}` }
-		});
-
 	const response = await fetch(request).then((response):Promise<any> => 
 	{
 		if(response.ok)
