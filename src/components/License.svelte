@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Licenses } from "@requests/Licenses";
-	import { PREV_QUERY } from "@stores/stores";
-	import { Utilities } from "@utilities/Utilities";
-	import { createEventDispatcher, onMount } from "svelte";
-	import EditForm from "./EditForm.svelte";
+    import { Navigation } from "@controllers/Navigation";
+    import { Licenses } from "@requests/Licenses";
+    import { PREV_QUERY } from "@stores/stores";
+    import { Utilities } from "@utilities/Utilities";
+    import { createEventDispatcher, onMount } from "svelte";
+    import EditForm from "./EditForm.svelte";
 	
 	export let data: Results;
 
@@ -47,7 +48,7 @@
 		if(success)
 		{
 			ChangeDisplay();
-			window.location.href = "/#/licenses";
+			Navigation.ChangePage(Navigation.Page.Licenses);
 		}
 	}; 
 </script>

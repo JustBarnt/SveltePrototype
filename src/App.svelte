@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Authentication } from "@controllers/Authentication";
-	import { routes } from "@services/Route";
+	import { Navigation } from "@controllers/Navigation";
 	import Cookies from "js-cookie";
 	import Router from "svelte-spa-router";
 
@@ -10,7 +10,7 @@
 		Authentication.LoggedIn = Authentication.ReturningUser(login);
 	}
 
-	$:Authentication.LoggedIn ? window.location.href = "/#/home" : window.location.href = "/#/";
+	$:Authentication.LoggedIn ? Navigation.ChangePage(Navigation.Page.Home) : Navigation.ChangePage(Navigation.Page.Login);
 </script>
 
 
@@ -28,7 +28,7 @@
 
 
 <main>
-	<Router {routes}/>
+	<Router routes={Navigation.Routes} />
 </main>
 
 <style lang="scss">

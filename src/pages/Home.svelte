@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Alert from "@components/Alert.svelte";
 	import Form from "@components/Form.svelte";
+	import { Navigation } from "@controllers/Navigation";
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Licenses } from "@requests/Licenses";
 	import { Utilities } from "@utilities/Utilities";
@@ -17,7 +18,7 @@
 	*}
 	*$: foo(myVar) // will run function whenever `myVar` changes
 	*/
-	$:isSuccessful ? window.location.href = "/#/licenses" : null;
+	$:isSuccessful ? Navigation.ChangePage(Navigation.Page.Licenses) : null;
 	$:visibity = !isSuccessful && isSuccessful !== null ? AlertVisibility.Visible : AlertVisibility.Hidden;
 	
 	/**
