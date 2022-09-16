@@ -10,7 +10,7 @@ declare global
 	type Form = { [amount: string]: string, [column: string]: string, [value: string]: string, [startDate: string]: string, [endDate: string]: string; };
 	type User = { id: number, firstName: string, lastName: string, username: string, token: string; } | null;
 	type Cookie = { selector: string, validator: string, userId?: number, expires?: Date | string | null };
-	type Options = { method: string, headers: Record<string, string>, body: any };
+	type Options = { method: string, headers: Record<string, string>, body?: any };
 
 	interface IResponse
 	{
