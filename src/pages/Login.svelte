@@ -2,7 +2,7 @@
 	import Alert from "@components/Alert.svelte";
 	import { Authentication } from "@controllers/Authentication";
 	import { AlertVisibility, Colors } from "@enums/enums";
-	import { GetAuthorization } from "@requests/Authorization";
+	import { Authorization } from "@requests/Authorization";
 	import Cookies from "js-cookie";
 	import { onMount } from "svelte";
 
@@ -26,7 +26,7 @@
 	*/
 	async function Login(): Promise<void>
 	{
-		isSuccessful = await GetAuthorization(attempt);
+		isSuccessful = await Authorization.GetAuthorization("POST", attempt );
 		if(isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
 		else visible = AlertVisibility.Visible;
 	}

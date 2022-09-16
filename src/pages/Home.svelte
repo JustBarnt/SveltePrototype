@@ -2,8 +2,7 @@
 	import Alert from "@components/Alert.svelte";
 	import Form from "@components/Form.svelte";
 	import { AlertVisibility, Colors } from "@enums/enums";
-	import { GetLicenses } from "@requests/Licenses";
-	import { USER_SESSION } from "@stores/stores";
+	import { ViewLicense } from "@requests/Licenses";
 	import { Utilities } from "@utilities/Utilities";
 	import Cookies from "js-cookie";
 
@@ -27,8 +26,8 @@
 	*/
 	async function HandleRequest(event: any)
 	{
-		const data: QueryDetails = { success: false, results: null, params: event.detail, token: $USER_SESSION };
-		isSuccessful = await GetLicenses(data);
+		const data: QueryDetails = { success: false, results: null, params: event.detail };
+		isSuccessful = await ViewLicense(data);
 	}
 
 </script>

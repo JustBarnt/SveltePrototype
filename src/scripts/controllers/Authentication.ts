@@ -1,4 +1,4 @@
-import { DeleteValidationToken, GetValidation, RegisterValidation } from "@requests/Authorization";
+import { Authorization } from "@requests/Authorization";
 import { USER_SESSION } from "@stores/stores";
 import { Utilities } from "@utilities/Utilities";
 import Cookies from "js-cookie";
@@ -29,7 +29,7 @@ class Authentication
 			//In future add check box that controls whether this is ran or not.
 			Authentication.RememberUser();
 			cookie = { selector: this.Selector, validator: this.Validator, userId: user.id, expires: this.Date };
-			RegisterValidation(cookie);
+			Authorization.RegisterValidation("POST", cookie);
 
 			//add check if here to make sure remember was successful. Or to alert the user is if wasn't
 
@@ -44,7 +44,7 @@ class Authentication
 	{
 		const user: User = get(USER_SESSION);
 		const cookie: Cookie = { selector: Cookies.get("selector"), validator: Cookies.get("validator"), userId: user.id };
-		const isDeleted: any = await DeleteValidationToken(cookie)
+		const isDeleted: any = await Authorization.DeleteValidation("DELETE", cookie)
 		.then(success => 
 		{
 			if (success)
@@ -81,7 +81,7 @@ class Authentication
 	public static async ReturningUser(cookieInfo: Cookie): Promise<boolean> 
 	{
 		console.log(`Cookies found. Checking if they match.`);
-		return this._LoggedIn = await GetValidation(cookieInfo);
+		return this._LoggedIn = await Authorization.GetValidation("POST", cookieInfo);
 	}
 
 	public static get LoggedIn()

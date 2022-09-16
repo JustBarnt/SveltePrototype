@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { GetLicenses } from "@requests/Licenses";
-	import { PREV_QUERY, USER_SESSION } from "@stores/stores";
+	import { ViewLicense } from "@requests/Licenses";
+	import { PREV_QUERY } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
 	import EditForm from "./EditForm.svelte";
@@ -40,8 +40,8 @@
 	*/
 	 const ReturnToLicenses = async (query: string) => 
 	{
-		const data: QueryDetails = { success: false, results: null, params: $PREV_QUERY, token: $USER_SESSION.token };
-		const success: Awaited<boolean> = await GetLicenses(data);
+		const data: QueryDetails = { success: false, results: null, params: $PREV_QUERY };
+		const success: Awaited<boolean> = await ViewLicense(data);
 
 		if(success)
 		{
