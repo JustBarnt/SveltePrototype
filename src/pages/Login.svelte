@@ -3,6 +3,7 @@
 	import { Authentication } from "@controllers/Authentication";
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Authorization } from "@requests/Authorization";
+	import { USER_SESSION } from "@stores/stores";
 	import Cookies from "js-cookie";
 	import { onMount } from "svelte";
 
@@ -26,7 +27,14 @@
 	*/
 	async function Login(): Promise<void>
 	{
-		isSuccessful = await Authorization.GetAuthorization("POST", attempt );
+		isSuccessful = await new Authorization(
+			"POST", 
+			attempt, 
+			{ 
+				"content-type": "application/json", 
+				"authorization": `Bearer: ${$USER_SESSION.token}` 
+			}).GetAuthorization();
+
 		if(isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
 		else visible = AlertVisibility.Visible;
 	}

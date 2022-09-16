@@ -1,15 +1,18 @@
 import { USER_SESSION } from "@stores/stores";
-import { get } from "svelte/store";
 
 export class Authorization
 {
-	private static _options: Options;
-	private static _url: string = "https://localhost:7150/Users";
-	private static _request: Request;
+	private _options: Options;
+	private _url: string = "https://localhost:7150/Users";
+	private _request: Request;
 
-	static async GetAuthorization(method: string, body: any): Promise<boolean>
+	constructor(method: string, body: any, headers: Record<string, string>)
 	{
-		this._options = { method: method, headers: { "content-type": "application/json" }, body: JSON.stringify(body) };
+		this._options = { method: method, headers: headers, body: JSON.stringify(body) };
+	}
+
+	async GetAuthorization(): Promise<boolean>
+	{
 		this._request = new Request(`${this._url}/authenticate`, this._options);
 		const results: Awaited<User> = await UserRequest(this._request);
 		
@@ -17,9 +20,8 @@ export class Authorization
 		return (typeof results === "object");
 	}
 	
-	static async GetValidation(method: string, body: any): Promise<boolean>
+	async GetValidation(): Promise<boolean>
 	{
-		this._options = { method: method, headers: { "content-type": "application/json" }, body: JSON.stringify(body) };
 		this._request = new Request(`${this._url}/validate`, this._options);
 		let results: Awaited<User> = await UserRequest(this._request);
 		
@@ -27,24 +29,16 @@ export class Authorization
 		return (typeof results === "object");
 	}
 
-	static async RegisterValidation(method: string, body: any): Promise<boolean>
+	async RegisterValidation(): Promise<boolean>
 	{
-		this._options = { method: method, headers: { "content-type": "application/json" }, body: JSON.stringify(body) };
 		this._request = new Request(`${this._url}/rememberme`, this._options);
 		let results: Awaited<string> = await UserRequest(this._request);
 	
 		return (typeof results === "string");
 	}
 	
-	static async DeleteValidation(method: string, body: any): Promise<boolean | void>
+	async DeleteValidation(): Promise<boolean | void>
 	{
-		this._options =
-		{
-			method: method,
-			headers: { "content-type": "application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` },
-			body: JSON.stringify(body)
-		};
-		
 		this._request = new Request(`${this._url}/token`, this._options);
 		let results: Awaited<boolean | void> = await UserRequest(this._request);
 	
