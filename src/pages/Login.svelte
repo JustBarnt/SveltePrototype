@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Alert from "@components/Alert.svelte";
 	import { Authentication } from "@controllers/Authentication";
+	import { Navigation } from "@controllers/Navigation";
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Authorization } from "@requests/Authorization";
 	import Cookies from "js-cookie";
@@ -38,7 +39,10 @@
 	*/
 	const HandleInput = ((event: any): void => attempt[event.target.name] = event.target.value);
 
-	//TODO: FINISH ACCOUNT CREATION
+	/**
+	*  Routes the user to the create user page.
+	*/
+	const HandleCreateAccount = ():void => Navigation.ChangePage(Navigation.Page.Register);
 </script>
 
 
@@ -54,7 +58,7 @@
 				<input type="checkbox" on:click={() => Authentication.RememberMe = !Authentication.RememberMe}>
 				Remember Me
 			</span>
-			<p class="create-account">Create Account</p>
+			<p class="create-account" on:click="{HandleCreateAccount}">Create Account</p>
 		</span>
 	</form>
 </section>
@@ -120,6 +124,7 @@
 		.create-account{
 			transition: all 0.25s;
 			border-bottom: 0.1rem solid transparent;
+			cursor: pointer;
 
 			&:hover{
 				border-color: white;
