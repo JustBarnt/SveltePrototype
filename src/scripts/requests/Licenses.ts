@@ -15,18 +15,29 @@ export class Licenses
 		this._searchParams = searchParams;
 	}
 
-	async Search(): Promise<boolean>
+	async Search(): Promise<Query>
 	{
 		this._request = new Request(`${this._url}/search/${this._searchParams}`, this._options);
-		
-		const response = await LicenseRequest(this._request).then((results) => 
+		let response: Awaited<Response>;
+		try 
 		{
-			LICENSES.set({ success: true, results: results });
-			PREV_QUERY.set(this._searchParams);
-			return true;
-		});
+			response = await LicenseRequest(this._request);
 
-		return response;
+			if (response.ok)
+			{
+				LICENSES.set({ success: response.ok, results: response });
+				PREV_QUERY.set(this._searchParams);
+				return { success: response.ok };	
+			}
+
+			throw new Error(`An error occured while attempting to query the database. Code: ${response.status}`);
+		}
+		catch (error)
+		{
+			const messageHandler:Query = { message: error, code: response.status, success: false };
+			console.log(error);
+			return messageHandler;
+		}
 	}
 
 	async View(): Promise<boolean>
@@ -36,7 +47,11 @@ export class Licenses
 		const response = await LicenseRequest(this._request).then((results) => 
 		{
 			LICENSES.set({ success: true, results: results });
-			return true;
+			return Promise.resolve(true);
+		}).catch(error => 
+		{
+			console.log();
+			return Promise.reject(false);
 		});
 
 		return response;
@@ -48,22 +63,30 @@ export class Licenses
 * @param {Request} request - The endpoint request.
 * @return {Promise<response>} Returns a promise containing the JSON response
 */
-const LicenseRequest = async(request: Request):Promise<Results> =>
+async function LicenseRequest(request: Request):Promise<Results>
 {
-	const response = await fetch(request).then((response):Promise<any> => 
-	{
-		if(response.ok)
-			return response.json();
-		
-		throw new Error(`Response not received. Status: ${response.status}`);
-	})
-	.then((json) => 
-	{ 
-		Utilities.FormatDateTime(json, "created", "");
-		Utilities.FormatDateTime(json, "expires", "");
-		return json; 
-	})
-	.catch(err => console.log(err));
+	let response;
 
-	return response;
-};
+	try
+	{
+		response = await fetch(request);
+
+		if (response.ok)
+		{
+			let data = response.json()
+				.then((json) => 
+				{
+					Utilities.FormatDateTime(json, "created", "");
+					Utilities.FormatDateTime(json, "expires", "");
+					return json;
+				});
+			return data;
+		}
+
+		throw new Error(`Failed to retrieve a response. CODE: ${response.status}`);
+	}
+	catch(error)
+	{ 
+		return response;
+	}
+}

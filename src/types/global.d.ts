@@ -11,7 +11,7 @@ declare global
 	type User = { id: number, firstName: string, lastName: string, username: string, token: string; } | null;
 	type Cookie = { selector: string, validator: string, userId?: number, expires?: Date | string | null };
 	type Options = { method: string, headers: Record<string, string>, body?: any };
-	type Register = { firstName: string, lastName: string, username: string, password: string };
+	type Query = { message?: string | any, code?: number, success: boolean };
 
 	interface IResponse
 	{

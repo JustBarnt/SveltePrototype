@@ -4,42 +4,34 @@
 	import { Navigation } from "@controllers/Navigation";
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Licenses } from "@requests/Licenses";
-	import { Utilities } from "@utilities/Utilities";
 	import Cookies from "js-cookie";
 
-	let isSuccessful:Awaited<boolean> | null = null;
+	let ResultDetails: Awaited<Query> | null = null;
 	const alertCss: IStyles = { position: "relative", bottom: "clamp(0px, 3rem, 3.5rem)", background: Colors.RED };
-	
-	/*
-	* Reactive function calling
-	* function foo(var)
-	*{
-	*	code
-	*}
-	*$: foo(myVar) // will run function whenever `myVar` changes
-	*/
-	$:isSuccessful ? Navigation.ChangePage(Navigation.Page.Licenses) : null;
-	$:visibity = !isSuccessful && isSuccessful !== null ? AlertVisibility.Visible : AlertVisibility.Hidden;
-	
-	/**
-	* Handles the users request to view data
-	* @param {Event<Any>} event - HtmlEvent passed up containing event.detail property
-	*/
-	async function HandleRequest(event: any)
-	{
-		const data: QueryDetails = { success: false, results: null, params: event.detail };
-		isSuccessful = await new Licenses("GET", event.detail).Search();
-	}
 
+	/*
+	 * Reactive function calling
+	 * function foo(var)
+	 *{
+	 *	code
+	 *}
+	 *$: foo(myVar) // will run function whenever `myVar` changes
+	 */
+	$: ResultDetails.success ? Navigation.ChangePage(Navigation.Page.Licenses) : null;
+	$: visibity = ResultDetails === null && !ResultDetails ? AlertVisibility.Hidden : AlertVisibility.Visible;
+
+	/**
+	 * Handles the users request to view data
+	 * @param {Event<Any>} event - HtmlEvent passed up containing event.detail property
+	 */
+	const HandleRequest = async(event: any) => ResultDetails = await new Licenses("GET", event.detail).Search();
 </script>
 
 {#if Cookies.get("id") !== null}
-	<Form on:request={HandleRequest}> 
-		<Alert visible="{visibity}" message="Attempt to query licenses was unsuccessful, please double check your input and try again." styles={alertCss} />
+	<Form on:request={HandleRequest}>
+		<Alert
+			visible={visibity}
+			message={ResultDetails.message}
+			styles={alertCss} />
 	</Form>
-{:else}
-	<Alert visible="visible" message="Unauthorized access. Redirecting to login page" styles={alertCss} />
-	{#await Utilities.AsyncDelay(2000) then success}
-		{ window.location.href = "/#/" }
-	{/await}
 {/if}
