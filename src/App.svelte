@@ -1,6 +1,8 @@
 <script lang="ts">
+	import NavButton from "@components/NavButton.svelte";
 	import { Authentication } from "@controllers/Authentication";
 	import { Navigation } from "@controllers/Navigation";
+	import { USER_SESSION } from "@stores/stores";
 	import Cookies from "js-cookie";
 	import Router from "svelte-spa-router";
 
@@ -10,7 +12,8 @@
 		Authentication.LoggedIn = Authentication.ReturningUser(login);
 	}
 
-	$:Authentication.LoggedIn ? Navigation.ChangePage(Navigation.Page.Home) : Navigation.ChangePage(Navigation.Page.Login);
+	$: Authentication.LoggedIn ? Navigation.ChangePage(Navigation.Page.Home) : Navigation.ChangePage(Navigation.Page.Login);
+	$: LoggedIn = Authentication.LoggedIn; 
 </script>
 
 
@@ -20,8 +23,22 @@
 		<span>
 			<!--Check if logged in, so the user doesn't go to login page. (LATER) Merge Home and Login page and just
 			keep track if they need to see a login component.-->
-			<a href="/#/home">Home</a>
-			<a href="/#/" on:click="{Authentication.HandleLogout}">Logout</a>
+			<NavButton 
+				text="Home" 
+				gridArea="1 / 1 / 2 / 2"
+				on:navigation={() => Navigation.ChangePage("/#/home")} />
+
+			<NavButton 
+				text="Logout" 
+				gridArea="1 / 2 / 2 / 3" 
+				on:navigation={() => Navigation.ChangePage("/#/")} 
+				on:click={(Authentication.HandleLogout)} />
+				
+			{#if LoggedIn}
+				<NavButton 
+					text={`Hello, ${$USER_SESSION.username}`}
+					gridArea="1 / 3 / 2 / 4" />
+			{/if}
 		</span>
 	</nav>
 </header>
@@ -36,6 +53,7 @@
 		width:clamp(25%, 100%, 100%);
 		height: 5%;
 		display: flex;
+		flex-flow: row nowrap;
 		justify-content: space-between;
 		align-items: center;
 		z-index: 10;
@@ -57,22 +75,7 @@
 
 		span{
 			padding: 0.75rem;
-		}
-		
-		a{
-			color: white;
-			text-decoration: none;
-			font-weight: 600;
-			border-radius: $borderRadius;
-			border: 0.15rem solid transparent;
-			transition: all 0.25s;
-			padding: 0.5rem;
-
-			&:hover, &:focus, &:focus-visible &:active{
-				padding: 0.5rem;
-				border-color: $darkGrey;
-				background-color: #30303050;
-			}
+			display:grid;
 		}
 	}
 

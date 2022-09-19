@@ -76,6 +76,31 @@
 		"@typescript-eslint/semi": "error",
 		"@typescript-eslint/space-before-blocks": "off",
 		"@typescrupt-eslint/space-before-function-paren": "off",
+		"svelte/first-attribute-linebreak": [
+			"error",
+			{
+				"multiline": "below",
+				"singleline": "beside"
+			}
+		],
+		"svelte/html-closing-bracket-spacing": [
+			"error",
+			{
+				"startTag": "never",
+				"endTag": "never",
+				"selfClosingTag": "always"
+			}
+		],
+		"svelte/html-quotes": [
+			"error",
+			{
+				"prefer": "double",
+				"dynamic": {
+					"quoted": false,
+					"avoidInvalidUnquotedInHTML": false
+				}
+			}
+		],
 		"arrow-spacing": [
 			"warn",
 			{

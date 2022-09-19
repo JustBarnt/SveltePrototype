@@ -10,67 +10,101 @@
 	//Login control
 	let attempt: ILogin = { username: "", password: "" };
 	let isSuccessful: Awaited<boolean> | null = null;
-	const alertCss: IStyles = { position: "relative", bottom: "clamp(0px, 0.5rem, 3.5rem)", background: Colors.RED };
-	
+	const alertCss: IStyles = {
+		position: "relative",
+		bottom: "clamp(0px, 0.5rem, 3.5rem)",
+		background: Colors.RED,
+	};
+
 	//Reactive Statement Controll
 	$: visible = AlertVisibility.Hidden;
 
 	//Checking if cookies contains an item called id
 	onMount(() => 
-	{
-		Cookies.get("selector") !== undefined ? Authentication.ReturningUser({ selector: Cookies.get("selector"), validator: Cookies.get("validator") }) : null;
+{
+		Cookies.get("selector") !== undefined
+			? Authentication.ReturningUser({
+					selector: Cookies.get("selector"),
+					validator: Cookies.get("validator"),
+			  })
+			: null;
 	});
 
 	/**
-	* Attempts to log the user in, if successul updates the localStorage and svelte store.
-	* @return {Boolean} Returns true or false
-	*/
-	async function Login(): Promise<void>
-	{
-		isSuccessful = await new Authorization("POST", attempt, { "content-type": "application/json" }).GetAuthorization();
+	 * Attempts to log the user in, if successul updates the localStorage and svelte store.
+	 * @return {Boolean} Returns true or false
+	 */
+	async function Login(): Promise<void> 
+{
+		isSuccessful = await new Authorization("POST", attempt, {
+			"content-type": "application/json",
+		}).GetAuthorization();
 
-		if(isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
+		if (isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
 		else visible = AlertVisibility.Visible;
 	}
 
 	/**
-	* Updates login attempt with input.
-	* @param {any} event - Input event
-	*/
-	const HandleInput = ((event: any): void => attempt[event.target.name] = event.target.value);
+	 * Updates login attempt with input.
+	 * @param {any} event - Input event
+	 */
+	const HandleInput = (event: any): void =>
+		(attempt[event.target.name] = event.target.value);
 
 	/**
-	*  Routes the user to the create user page.
-	*/
-	const HandleCreateAccount = ():void => Navigation.ChangePage(Navigation.Page.Register);
+	 *  Routes the user to the create user page.
+	 */
+	const HandleCreateAccount = (): void =>
+		Navigation.ChangePage(Navigation.Page.Register);
 </script>
 
-
 <section>
-	<form id="LoginForm" on:submit|preventDefault="{Login}" method="POST" autocomplete="off">
+	<form
+		id="LoginForm"
+		on:submit|preventDefault={Login}
+		method="POST"
+		autocomplete="off">
 		<h1>Sign In</h1>
-		<Alert visible={visible} styles={alertCss} message="Invalid username and/or password." />
-		<input type="text" name="username" class="login-field" placeholder="Username" on:input="{HandleInput}" />
-		<input type="password"name="password"	class="login-field"	placeholder="Password" on:input="{HandleInput}" />
-		<input type="submit" value="Login" class="submit-login"/>
+		<Alert
+			visible={visible}
+			styles={alertCss}
+			message="Invalid username and/or password." />
+		<input
+			type="text"
+			name="username"
+			class="login-field"
+			placeholder="Username"
+			on:input={HandleInput} />
+		<input
+			type="password"
+			name="password"
+			class="login-field"
+			placeholder="Password"
+			on:input={HandleInput} />
+		<input type="submit" value="Login" class="submit-login" />
 		<span class="additionals">
 			<span class="remember-me">
-				<input type="checkbox" on:click={() => Authentication.RememberMe = !Authentication.RememberMe}>
+				<input
+					type="checkbox"
+					on:click={() =>
+						(Authentication.RememberMe =
+							!Authentication.RememberMe)} />
 				Remember Me
 			</span>
-			<p class="create-account" on:click="{HandleCreateAccount}">Create Account</p>
+			<p class="create-account" on:click={HandleCreateAccount}>
+				Create Account
+			</p>
 		</span>
 	</form>
 </section>
 
 <style lang="scss">
-
-	form{
+	form {
 		@include flex-base;
-		align-items:stretch;
+		align-items: stretch;
 	}
 
-	h1{
+	h1 {
 		font-size: 2.2rem;
 	}
 
@@ -80,22 +114,22 @@
 
 	.submit-login {
 		@include button-base;
-		
-		&:hover{
+
+		&:hover {
 			@include button-hover;
 		}
 	}
 
-	.additionals{
+	.additionals {
 		display: flex;
-		justify-content:space-between;
+		justify-content: space-between;
 		position: relative;
 		top: clamp(15px, 10%, 10%);
 
-		.remember-me{
+		.remember-me {
 			display: flex;
-			align-items:center;
-			input{
+			align-items: center;
+			input {
 				width: 16px;
 				height: 16px;
 				border: 0.2rem solid $grey50;
@@ -103,30 +137,30 @@
 				border-radius: 0.3rem;
 				transition: all 0.25s;
 				margin-right: 1rem;
-				
-				-webkit-appearance: none;
-				   -moz-appearance: none;
-						appearance: none;
 
-				&:checked{
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+
+				&:checked {
 					background: $green;
 					border-color: $green;
 					text-align: center;
 					line-height: 1.5rem;
 				}
-	
-				&:hover{
+
+				&:hover {
 					border-color: $green;
 				}
 			}
 		}
 
-		.create-account{
+		.create-account {
 			transition: all 0.25s;
 			border-bottom: 0.1rem solid transparent;
 			cursor: pointer;
 
-			&:hover{
+			&:hover {
 				border-color: white;
 			}
 		}

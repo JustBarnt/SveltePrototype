@@ -17,7 +17,7 @@ export class Navigation
 		"/register": RegisterUser
 	};
 
-	public static ChangePage(page: Navigation.Page)
+	public static ChangePage(page: Navigation.Page | string)
 	{
 		window.location.href = page;
 	}

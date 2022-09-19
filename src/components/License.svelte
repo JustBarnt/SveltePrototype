@@ -1,56 +1,65 @@
 <script lang="ts">
-    import { Navigation } from "@controllers/Navigation";
-    import { Licenses } from "@requests/Licenses";
-    import { PREV_QUERY } from "@stores/stores";
-    import { Utilities } from "@utilities/Utilities";
-    import { createEventDispatcher, onMount } from "svelte";
-    import EditForm from "./EditForm.svelte";
-	
+	import { Navigation } from "@controllers/Navigation";
+	import { Licenses } from "@requests/Licenses";
+	import { PREV_QUERY } from "@stores/stores";
+	import { Utilities } from "@utilities/Utilities";
+	import { createEventDispatcher, onMount } from "svelte";
+	import EditForm from "./EditForm.svelte";
+
 	export let data: Results;
 
 	const messageDispatch = createEventDispatcher();
 	const returnDispatch = createEventDispatcher();
-	let isEditing:boolean = false;
-	$:editing = isEditing;
+	let isEditing: boolean = false;
+	$: editing = isEditing;
 
 	/**
-	* Runs on initialization, lets the parent know it can hide the loading alert
-	*/
+	 * Runs on initialization, lets the parent know it can hide the loading alert
+	 */
 	onMount(() => LicenseLoaded(true));
-	
-	/**
-	* Cancels the edit
-	* @param {CustomEvent} event - The event dispatcher
-	*/
-	const CancelEdit = (event: CustomEvent) => isEditing = event.detail.editing;
-	
-	/**
-	* Display single license once the data is fetched
-	* @param {Boolean} isHidden - boolean
-	*/
-	const LicenseLoaded = (isHidden: boolean) => messageDispatch("loaded", { hide: isHidden });
 
 	/**
-	* Tells the parent to change the view to the licenses table
-	*/
+	 * Cancels the edit
+	 * @param {CustomEvent} event - The event dispatcher
+	 */
+	const CancelEdit = (event: CustomEvent) =>
+		(isEditing = event.detail.editing);
+
+	/**
+	 * Display single license once the data is fetched
+	 * @param {Boolean} isHidden - boolean
+	 */
+	const LicenseLoaded = (isHidden: boolean) =>
+		messageDispatch("loaded", { hide: isHidden });
+
+	/**
+	 * Tells the parent to change the view to the licenses table
+	 */
 	const ChangeDisplay = () => returnDispatch("change", { view: "licenses" });
 
 	/**
-	* Returns to the licenses table with the last query ran
-	* @param {String} query - a URI containing the query string.
-	*/
-	 const ReturnToLicenses = async (query: string) => 
-	{
-		const data: QueryDetails = { success: false, results: null, params: $PREV_QUERY };
+	 * Returns to the licenses table with the last query ran
+	 * @param {String} query - a URI containing the query string.
+	 */
+	const ReturnToLicenses = async (query: string) => 
+{
+		const data: QueryDetails = {
+			success: false,
+			results: null,
+			params: $PREV_QUERY,
+		};
 		console.log($PREV_QUERY);
-		const success: Awaited<boolean> = await new Licenses("GET", $PREV_QUERY).Search();
+		const success: Awaited<boolean> = await new Licenses(
+			"GET",
+			$PREV_QUERY
+		).Search();
 
-		if(success)
-		{
+		if (success) 
+{
 			ChangeDisplay();
 			Navigation.ChangePage(Navigation.Page.Licenses);
 		}
-	}; 
+	};
 </script>
 
 <section>
@@ -58,52 +67,53 @@
 		<table id="License">
 			{#each Object.entries(data[0]) as [key, value]}
 				<tr>
-					<th scope="col" headers={key.toLowerCase()}>{Utilities.FormatColumnHeader(key)}</th>
-					<td headers={key} >{value}</td>
+					<th scope="col" headers={key.toLowerCase()}
+						>{Utilities.FormatColumnHeader(key)}</th>
+					<td headers={key}>{value}</td>
 				</tr>
 			{/each}
 		</table>
 		<div class="buttonContainer">
-			<button class="edit" on:click={() => isEditing = !isEditing}>Edit License</button>
-			<button class="return" on:click={() => ReturnToLicenses("")}>Return to Licenses</button>
+			<button class="edit" on:click={() => (isEditing = !isEditing)}
+				>Edit License</button>
+			<button class="return" on:click={() => ReturnToLicenses("")}
+				>Return to Licenses</button>
 		</div>
 	{:else}
-		<EditForm data={data} on:cancel={CancelEdit}/>
+		<EditForm data={data} on:cancel={CancelEdit} />
 	{/if}
 </section>
-	
+
 <style lang="scss">
-	table{
+	table {
 		border-radius: $borderRadius;
 		border-collapse: collapse;
 		box-shadow: 0 0 0.75rem $darkGrey;
-		overflow:hidden;
-		color:#fff;
+		overflow: hidden;
+		color: #fff;
 
-		tr{
-			
-			th{
+		tr {
+			th {
 				padding: 1.2rem 1.6rem;
 				background: $verticleBG;
 			}
 
-			td{
+			td {
 				padding: 1.2rem 1.6rem;
 				background: $darkGrey;
 			}
 		}
-
 	}
-	button{
+	button {
 		@include button-base;
 		width: 45%;
-		
-		&:hover{
+
+		&:hover {
 			@include button-hover;
 		}
 	}
 
-	.buttonContainer{
+	.buttonContainer {
 		@include flex-base;
 		flex-flow: row wrap;
 		width: 100%;

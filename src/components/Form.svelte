@@ -2,15 +2,21 @@
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher } from "svelte";
 
-	export let display:string = "flex";
+	export let display: string = "flex";
 
 	const requestDispatch = createEventDispatcher();
 
-	let form: Form = { amount: "", column:"", value: "", startDate: "", endDate:"" };
+	let form: Form = {
+		amount: "",
+		column: "",
+		value: "",
+		startDate: "",
+		endDate: "",
+	};
 
 	function HandleSubmit(): void 
 	{
-		const searchParams:string = Utilities.BuildQueryString(form);
+		const searchParams: string = Utilities.BuildQueryString(form);
 		requestDispatch("request", searchParams);
 	}
 </script>
@@ -18,37 +24,58 @@
 <section style:display>
 	<form
 		method="GET"
-		on:submit|preventDefault={HandleSubmit} autocomplete="off">
-		<slot></slot>
+		on:submit|preventDefault={HandleSubmit}
+		autocomplete="off">
+		<slot />
 		<label for="amount">Top Results:</label>
-		<input type="text" name="Amount" placeholder="Number of results" bind:value={form.amount} />
-		
-		<label for="name">With Tag:</label> 
-		<input type="text" name="Column" placeholder="Tag to search" bind:value={form.column} /> 
-		
+		<input
+			type="text"
+			name="Amount"
+			placeholder="Number of results"
+			bind:value={form.amount} />
+
+		<label for="name">With Tag:</label>
+		<input
+			type="text"
+			name="Column"
+			placeholder="Tag to search"
+			bind:value={form.column} />
+
 		<label for="value">Tag Value:</label>
-		<input type="text" name="Value" placeholder="Tag value to search by" bind:value={form.value} />
+		<input
+			type="text"
+			name="Value"
+			placeholder="Tag value to search by"
+			bind:value={form.value} />
 
 		<label for="startDate">Earliest Date:</label>
-		<input type="text" name="StartDate" placeholder="Earliest date available" bind:value={form.startDate} />
+		<input
+			type="text"
+			name="StartDate"
+			placeholder="Earliest date available"
+			bind:value={form.startDate} />
 
 		<label for="endDate">Latest Date:</label>
-		<input type="text" name="EndDate" placeholder="Latest date available" bind:value={form.endDate} /> 
+		<input
+			type="text"
+			name="EndDate"
+			placeholder="Latest date available"
+			bind:value={form.endDate} />
 
 		<input type="submit" value="Search" />
 	</form>
 </section>
 
 <style lang="scss">
-	section{
+	section {
 		align-content: center;
 		width: clamp(300px, 45%, 45%);
 	}
 	form {
 		@include flex-base;
-		align-items:stretch;
-		align-content:center;
-		
+		align-items: stretch;
+		align-content: center;
+
 		input {
 			@include input-base;
 		}
