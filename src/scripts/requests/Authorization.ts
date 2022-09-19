@@ -24,7 +24,7 @@ export class Authorization
 	{
 		const request = this._request = new Request(`${this._url}/register`, this._options);
 		let results: Awaited<boolean> = await UserRequest(request);
-
+		console.log(results);
 		return results;
 	}
 	
@@ -59,18 +59,21 @@ export class Authorization
 
 async function UserRequest(request: Request): Promise<User | any>
 {
-	const response = await fetch(request).then((response):Promise<any> => 
+	const response = await fetch(request).then((response): Promise<any> => 
 	{
-		if(response.ok)
+		if (response.ok)
 			return response.json();
 		
 		throw new Error(`Request failed. Status: ${response.status}`);
 	})
 	.then((json) => 
 	{
-		return json; 
+		return json;
 	})
-	.catch(err => console.log(err));
+	.catch(err =>
+	{
+		console.log(err);
+	});
 
 	return response;
 }

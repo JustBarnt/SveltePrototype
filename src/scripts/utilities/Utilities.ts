@@ -102,7 +102,7 @@ export class Utilities
 	static SaveGUID(array: Results): Array<string>
 	{
 		const guidArray: Array<string> = [];
-		array.forEach((license) => 
+		array.forEach((license: any) => 
 		{
 			for (const key in license)
 			{
@@ -132,5 +132,24 @@ export class Utilities
 			str += chars.charAt(Math.floor(Math.random() * chars.length));
 		
 		return str;
+	}
+
+	static FormValidation(data: { [fieldName: string]: any }): boolean
+	{
+		if (!Utilities.IsRequiredFieldValid(data.firstName))
+			return false;
+		if (!Utilities.IsRequiredFieldValid(data.lastname))
+			return false;
+		if (!Utilities.IsRequiredFieldValid(data.username))
+			return false;
+		if (!Utilities.IsRequiredFieldValid(data.password))
+			return false;
+		
+		return true;
+	}
+
+	static IsRequiredFieldValid(value: any)
+	{
+		return value !== null && value !== "";
 	}
 }
