@@ -9,7 +9,7 @@
 	const AsyncAwait = Utilities.AsyncDelay;
 
 	const HandleLicense = (event: CustomEvent) => 
-{
+	{
 		const { id, view } = event.detail;
 		DispatchResponse.id = `?selector=${id}`;
 		DispatchResponse.view = view;
@@ -26,7 +26,7 @@
 	$: LicenseId = DispatchResponse.id;
 	$: display = alertDisplay;
 </script>
-
+<!-- TODO: Brent move licenses fetch request here. That way users can easily know its searching, and if it fails. -->
 {#await AsyncAwait(250) then success}
 	<!--Create Table-->
 	{#if CurrentView === "licenses"}

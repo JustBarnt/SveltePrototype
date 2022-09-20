@@ -7,18 +7,14 @@
 
 	let isSuccessful: boolean | Promise<boolean> | null = null;
 
-	const AwaitRegistration = async (awaited: any): Promise<any> => 
-{
-		return await awaited;
-	};
 	const alertCss: IStyles = {
 		position: "relative",
 		bottom: "clamp(0px, 2.5rem, 3.5rem)",
-		background: AwaitRegistration(isSuccessful) ? Colors.GREEN : Colors.RED,
+		background: Utilities.AwaitFetch(isSuccessful) ? Colors.GREEN : Colors.RED,
 	};
 	const emptyFields: Array<boolean | null> = [null, null, null, null];
 
-	$: alertMessage = AwaitRegistration(isSuccessful) ? "User registration successful." : "User registration was unsuccessful, please check to make sure the fields are filled out correctly.";
+	$: alertMessage = Utilities.AwaitFetch(isSuccessful) ? "User registration successful." : "User registration was unsuccessful, please check to make sure the fields are filled out correctly.";
 
 /**
  * Attempts to register the users.\
@@ -55,7 +51,7 @@ function Register(event: any): boolean | Promise<boolean>
 	<form method="POST" on:submit|preventDefault={Register} autocomplete="off">
 		<h2>Create New Account</h2>
 
-		{#await AwaitRegistration(isSuccessful) then PromiseResults}
+		{#await Utilities.AwaitFetch(isSuccessful) then PromiseResults}
 			<Alert
 				visible={PromiseResults === null ? AlertVisibility.Hidden : AlertVisibility.Visible}
 				message={alertMessage}
