@@ -94,6 +94,11 @@ export class Utilities
 		});
 	}
 
+	static async AwaitFetch(awaited: any): Promise<any>
+	{
+		return await awaited;
+	}
+
 	/**
 	* returns an array of guids
 	* @param {Results} array - An array of results
