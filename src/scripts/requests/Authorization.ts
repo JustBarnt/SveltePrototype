@@ -8,7 +8,10 @@ export class Authorization
 
 	constructor(method: string, body: any, headers: Record<string, string>)
 	{
-		this._options = { method: method, headers: headers, body: JSON.stringify(body) };
+		if(method !== "GET")
+			this._options = { method: method, headers: headers, body: JSON.stringify(body) };
+		else
+			this._options = { method: method, headers: headers };
 	}
 
 	async GetAuthorization(): Promise<boolean>
@@ -52,8 +55,6 @@ export class Authorization
 	
 		return results;
 	}
-
-
 }
 
 
