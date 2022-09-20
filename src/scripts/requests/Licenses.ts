@@ -18,75 +18,61 @@ export class Licenses
 	async Search(): Promise<Query>
 	{
 		this._request = new Request(`${this._url}/search/${this._searchParams}`, this._options);
-		let response: Awaited<Response>;
-		try 
-		{
-			response = await LicenseRequest(this._request);
+		let response: Awaited<Query>;
 
-			if (response.ok)
+		response = await fetch(this._request).then(response => 
+		{
+			if (response.ok) return response.json();
+			
+			throw new Error(`An error occured while attempting to query the database. CODE: ${response.status}`);
+		})
+			.then((json) => 
 			{
-				LICENSES.set({ success: response.ok, results: response });
+				Utilities.FormatDateTime(json, "created", "");
+				Utilities.FormatDateTime(json, "expires", "");
+
+				LICENSES.set({ success: true, results: json });
 				PREV_QUERY.set(this._searchParams);
-				return { success: response.ok };	
-			}
-
-			throw new Error(`An error occured while attempting to query the database. Code: ${response.status}`);
-		}
-		catch (error)
-		{
-			const messageHandler:Query = { message: error, code: response.status, success: false };
-			console.log(error);
-			return messageHandler;
-		}
-	}
-
-	async View(): Promise<boolean>
-	{
-		this._request = new Request(`${this._url}/view/${this._searchParams}`, this._options);
-
-		const response = await LicenseRequest(this._request).then((results) => 
-		{
-			LICENSES.set({ success: true, results: results });
-			return Promise.resolve(true);
-		}).catch(error => 
-		{
-			console.log();
-			return Promise.reject(false);
-		});
+				return { message: "Query Successful.", code: 200, success: true, results: json };
+			})
+			.catch(error =>
+			{
+				console.log(error);
+			
+				const messageHandler: Query = { message: error, success: false };
+				return messageHandler;
+			});
 
 		return response;
 	}
-}
 
-/**
-* Creates a new post request to MSSQL Server
-* @param {Request} request - The endpoint request.
-* @return {Promise<response>} Returns a promise containing the JSON response
-*/
-async function LicenseRequest(request: Request):Promise<Results>
-{
-	let response;
-
-	try
+	async View(): Promise<Query>
 	{
-		response = await fetch(request);
+		this._request = new Request(`${this._url}/view/${this._searchParams}`, this._options);
+		let response: Awaited<Query>;
 
-		if (response.ok)
+		response = await fetch(this._request).then(response => 
 		{
-			let data = response.json()
-				.then((json) => 
-				{
-					Utilities.FormatDateTime(json, "created", "");
-					Utilities.FormatDateTime(json, "expires", "");
-					return json;
-				});
-			return data;
-		}
+			if (response.ok) return response.json();
+			
+			throw new Error(`An error occured while attempting to query the database. CODE: ${response.status}`);
+		})
+		.then((json) => 
+		{
+			Utilities.FormatDateTime(json, "created", "");
+			Utilities.FormatDateTime(json, "expires", "");
 
-		throw new Error(`Failed to retrieve a response. CODE: ${response.status}`);
-	}
-	catch(error)
-	{ 
+			LICENSES.set({ success: true, results: json });
+			return { message: "Query Successful.", code: 200, success: true, results: json };
+		})
+		.catch(error =>
+		{
+			console.log(error);
+
+			const messageHandler: Query = { message: error, success: false };
+			return messageHandler;
+			});
+
 		return response;
 	}
 }
