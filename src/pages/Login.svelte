@@ -5,19 +5,16 @@
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Authorization } from "@requests/Authorization";
 	import Cookies from "js-cookie";
-	import { onMount } from "svelte";
+	import { onMount, SvelteComponentTyped } from "svelte";
 
 	//Login control
 	let attempt: ILogin = { username: "", password: "" };
 	let isSuccessful: Awaited<boolean> | null = null;
-	const alertCss: IStyles = {
-		position: "relative",
-		bottom: "clamp(0px, 0.5rem, 3.5rem)",
-		background: Colors.RED,
-	};
-
-	//Reactive Statement Controll
+	let canDestroy = false;
 	$: visible = AlertVisibility.Hidden;
+
+	const alertCss: IStyles = { position: "relative", bottom: "clamp(0px, 0.5rem, 3.5rem)", background: Colors.RED };
+	const alertProps:any = { visible: visible, message: "Invalid username and/or password.", styles: alertCss };
 
 	//Checking if cookies contains an item called id
 	onMount(() => 
@@ -49,19 +46,22 @@
 	 */
 	const HandleCreateAccount = (): void =>
 		Navigation.ChangePage(Navigation.Page.Register);
+
+	const Active = (bool: boolean): typeof SvelteComponentTyped | boolean => canDestroy = bool;
+	const HandleDestruct = (event: CustomEvent) => Active(event.detail.destroy);
 </script>
 
 <section>
+
+	<!-- <svelte:component this={!canDestroy ? Alert : null} message="Hello there" visible="visible" styles={alertCss} expiration={1000} on:destroyed={HandleDestruct} /> -->
+
 	<form
 		id="LoginForm"
 		on:submit|preventDefault={Login}
 		method="POST"
 		autocomplete="off">
 		<h1>Sign In</h1>
-		<Alert
-			visible={visible}
-			styles={alertCss}
-			message="Invalid username and/or password." />
+		<svelte:component this={Alert} {...alertProps} />
 		<input
 			type="text"
 			name="username"
@@ -121,7 +121,6 @@
 
 		.remember-me {
 			display: flex;
-			align-items: center;
 			input {
 				width: 16px;
 				height: 16px;

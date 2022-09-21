@@ -1,42 +1,79 @@
 <script lang="ts">
+	//TODO: NOT STARTED: Brent create index.ts files to house all exports.
+	import Alert from "@components/Alert.svelte";
 	import License from "@components/License.svelte";
-	import LicensesComp from "@components/Licenses.svelte";
+	import Licenses from "@components/Licenses.svelte";
 	import { Colors } from "@enums/enums";
-	import { Licenses } from "@requests/Licenses";
-	import { LICENSES } from "@stores/stores";
+	import { LicensesController } from "@requests/Licenses";
+	import { licensesStore, uriParamsStore } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 
+	let DispatchResponse: { id: string | null; view: string } = { id: null, view: "all" };
+
 	const AsyncAwait = Utilities.AsyncDelay;
-
+	const AlertProps: any = { visible:"visible", message: "", styles: { background: Colors.RED } };
+	
 	const HandleLicense = (event: CustomEvent) => 
-	{
-		const { id, view } = event.detail;
-		DispatchResponse.id = `?selector=${id}`;
-		DispatchResponse.view = view;
-	};
+		({ id: event.detail.id, view: event.detail.view } = DispatchResponse);
 
-	let DispatchResponse: { id: string | null; view: string } = {
-		id: null,
-		view: "licenses",
-	};
-	let alertDisplay = "inherit";
+	const UpdateProps = (vis: string, msg:string, style: Colors | IStyles): any =>
+		({ visible: vis, message: msg, styles: style } = AlertProps);
 
-	//Replace alert tags with the alert component.
-	$: CurrentView = DispatchResponse.view;
-	$: LicenseId = DispatchResponse.id;
-	$: display = alertDisplay;
+
+	//Reactive variables.
+	$: currentView = DispatchResponse.view;
+	$: licenseId = DispatchResponse.id;
+	$: props = AlertProps;
 </script>
-<!-- TODO: Brent move licenses fetch request here. That way users can easily know its searching, and if it fails. -->
-{#await AsyncAwait(250) then success}
-	<!--Create Table-->
-	{#if CurrentView === "licenses"}
-		<LicensesComp
-			on:license={HandleLicense}
-			bind:data={$LICENSES.results} />
+
+<!-- TODO: IN PROGRESS: Brent move licenses fetch request here. That way users can easily know its searching, and if it fails. -->
+<!-- TODO: NOT STARTED: Brent refactor alerts to use new alert components -->
+
+{#await Utilities.AwaitFetch( new LicensesController("GET", $uriParamsStore, "all").Search() )}
+	{ UpdateProps("visible", "Contacting service for the request...", Colors.BLUE) }
+	<Alert {...props} expiration={3000} />
+
+{:then response}
+	{#if response.success && currentView === "all"}
+		<Licenses on:license={HandleLicense} data={response.results} />
+
 	{:else}
-		{#await new Licenses("GET", LicenseId, "single").Search()}
+		{#await Utilities.AwaitFetch(new LicensesController("GET", licenseId, "single").Search())}
+			{ UpdateProps("visible", "Contacting service for the licene request...", Colors.BLUE) }
+			<Alert {...props} expiration={1500} />
+
+		{:then response}
+			{#if response.success}
+			{ UpdateProps("visible", "License found!", Colors.GREEN) }
+				<Alert {...props} expiration={1500} />
+
+				{#await AsyncAwait(250) then success}
+					
+					<License on:change={ event => DispatchResponse.view = event.detail.view } bind:data={$licensesStore.results} />
+				
+				{/await}
+			{/if}
+		{:catch error}
+			{ UpdateProps("visible", error, Colors.RED) }
+			<Alert {...props} />
+
+		{/await}
+	{/if}
+{:catch error}
+	{ UpdateProps("visible", error, Colors.RED) }					
+	<Alert {...props} />
+	
+{/await}
+
+<!-- {#await AsyncAwait(250) then success}
+	{#if currentView === "all"}
+		<Licenses
+			on:license={HandleLicense}
+			bind:data={$licensesStore.results} />
+	{:else}
+		{#await new LicensesController("GET", licenseId, "single").Search()}
 			<alert style:display style={`background: ${Colors.BLUE}`}
-				>Gettings selected license information...</alert>
+				>Gettings selstoreLicensescense information...</alert>
 		{:then success}
 			<alert style:display style={`background: ${Colors.GREEN}`}
 				>License found! Loading license now.</alert>
@@ -45,21 +82,11 @@
 					on:change={(event) =>
 						(DispatchResponse.view = event.detail.view)}
 					on:loaded={() => (alertDisplay = "none")}
-					bind:data={$LICENSES.results} />
+					bind:data={$licensesStore.results} />
 			{/await}
 		{:catch error}
 			<alert style:display style={`background: ${Colors.RED}`}
 				>{error}</alert>
 		{/await}
 	{/if}
-{/await}
-
-<style lang="scss">
-	alert {
-		@include alert-base;
-		font-size: 1.6rem;
-		padding: 1rem 2rem;
-		text-align: center;
-		transition: all 0.25s;
-	}
-</style>
+{/await} -->

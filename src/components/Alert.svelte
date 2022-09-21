@@ -1,23 +1,36 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-
-	/**
-	* Component for Alert messages.
-	* @prop {visible} - controls the visibilty of the alert
-	* @prop {background} - controls the background color of the alert use Colors ENUM.
-	* @prop {message} - controls what the alert displays. 
-	*/
+	import { componentStore as alerts } from "@stores/stores";
+	import { createEventDispatcher, onMount } from "svelte";
+	import { backInOut } from "svelte/easing";
+	import { fade } from "svelte/transition";
+	
+	let internalAtt:ComponentManagement = { id: null, name: null, extras: null }; 
 	export let visible = "hidden";
 	export let message = "";
 	export let styles: IStyles;
+	export let expiration: number | never = undefined;
 
 	let css:string = "";
-	$:styleStr = css;
+	let inAnimation: any = { easing: backInOut };
+	let outAnimation: any;
 
-	onMount( () => 
+	const dispatch = createEventDispatcher();
+	const animation: any = { in:inAnimation, out:outAnimation };
+
+	$:styleStr = css;
+	
+	onMount(() =>
 	{
 		css = FormatStylesString();
+		AlertCreated();
 	});
+
+	const AlertCreated = () => 
+	{
+		internalAtt = { id: $alerts.length+1, name: `alerts_${$alerts.length+1}`, extras: message };
+		$alerts[$alerts.length] = internalAtt;
+		expiration !== undefined ? setTimeout(() => { DestorySelf(); }, expiration) : null;
+	}; 
 
 	function FormatStylesString()
 	{
@@ -31,8 +44,15 @@
 
 		return str;
 	}
+
+	function DestorySelf()
+	{
+		$alerts.filter((value:any) => value.id !== internalAtt.id ? alerts.set([ { ...value } ]) : [...$alerts]);
+		dispatch("destroyed", { destroy: true });
+	}
+
 </script>
-<alert class="{visible}" style="{ css !== "" ? styleStr : ""}" >
+<alert class={visible} style={ css !== "" ? styleStr : ""} in:fade={{ easing: backInOut }} out:fade={{ easing: backInOut }}>
 	<p>
 		{message}
 	</p>
