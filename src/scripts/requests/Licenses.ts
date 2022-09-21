@@ -5,7 +5,7 @@ import { get } from "svelte/store";
 export class Licenses
 {
 	private _options: Options;
-	private _url: string = "https://localhost:7150/Licenses";
+	private _url: string = "https://localhost:7150/api/Licenses/";
 	private _request: Request;
 	private _searchParams: string;
 

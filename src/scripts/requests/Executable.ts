@@ -1,7 +1,7 @@
 export class Executable
 {
 	private _options: Options;
-	private _url: string = "https://localhost:7150/Executable";
+	private _url: string = "https://localhost:7150/api/Executable";
 	private _request: Request;
 
 	constructor(method: string, body: any, headers: Record<string, string>)

@@ -3,7 +3,7 @@ import { USER_SESSION } from "@stores/stores";
 export class Authorization
 {
 	private _options: Options;
-	private _url: string = "https://localhost:7150/Users";
+	private _url: string = "https://localhost:7150/api/Users";
 	private _request: Request;
 
 	constructor(method: string, body: any, headers: Record<string, string>)
