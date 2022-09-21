@@ -18,7 +18,7 @@
 	* in the {detail} property of the event to the parent component.
 	* @param {<T>} event - Any event handler, in this case an on click.
 	*/
-	const HandleLicenseSelect = (event: MouseEvent) => licenseDispatch("license", { id: guids[GetRowNum(event.target)], view:"license" });
+	const HandleLicenseSelect = (event: MouseEvent) => licenseDispatch("license", { id: guids[GetRowNum(event.target)], view:"single" });
 	
 	/**
 	* Returns the row number from the clicked license
@@ -41,7 +41,7 @@
 			{#each data as query}
 				<tr on:click={HandleLicenseSelect}>
 					{#each Object.values(query) as Values, index}
-						<td headers={Object.keys(data[0])[index]} >{Values}</td>
+						<td headers={Object.keys(data[0])[index]}>{Values}</td>
 					{/each}
 				</tr>
 			{/each}

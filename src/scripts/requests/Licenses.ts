@@ -1,8 +1,8 @@
-import { PREV_QUERY, USER_SESSION } from "@stores/stores";
+import { sessionStore, uriParamsStore } from "@stores/stores";
 import { Utilities } from "@utilities/Utilities";
 import { get } from "svelte/store";
 
-export class Licenses
+export class LicensesController
 {
 	private options: Options;
 	private url: string = "https://localhost:7150/api/Licenses/";
@@ -12,7 +12,7 @@ export class Licenses
 
 	constructor(method: string, searchParams: string, type:string)
 	{
-		this.options = { method: method, headers: { "content-type": "application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` } };
+		this.options = { method: method, headers: { "content-type": "application/json", "authorization": `Bearer: ${get(sessionStore).token}` } };
 		this.searchParams = searchParams;
 		this.url += type;
 		this.type = type;
@@ -29,7 +29,7 @@ export class Licenses
 		}).then((json) => 
 		{
 			json = Utilities.HandleJsonResponse(json);
-			this.type === "all" ? PREV_QUERY.set(this.searchParams) : null;
+			this.type === "all" ? uriParamsStore.set(this.searchParams) : null;
 			return { message: "Query Successful.", code: 200, success: true, results: json };
 		}).catch(error =>
 		{

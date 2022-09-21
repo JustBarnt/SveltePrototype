@@ -2,7 +2,7 @@
 	import Alert from "@components/Alert.svelte";
 	import { Colors } from "@enums/enums";
 	import { Executable } from "@requests/Executable";
-	import { USER_SESSION } from "@stores/stores";
+	import { sessionStore } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher } from "svelte";
 	import { get } from "svelte/store";
@@ -78,7 +78,7 @@
 
 	async function HandleDownloadProcess(): Promise<any>
 	{
-		const headers = { "content-type":"application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` };
+		const headers = { "content-type":"application/json", "authorization": `Bearer: ${get(sessionStore).token}` };
 		const response = await new Executable("POST", { App: "Notepad.exe", Filename: `${filename}.txt` }, headers).RequestApplication();
 		return await Utilities.AsyncDelay(250);
 	}

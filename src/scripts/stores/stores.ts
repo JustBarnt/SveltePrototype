@@ -1,9 +1,9 @@
 import { writable } from "svelte/store";
 
 let api: IResponse = { success: false, results: null };
-let authSession: typeof localStorage;
-// let userLocation: ILocation
 
-export const LICENSES = writable<IResponse>(api);
-export const USER_SESSION = writable<User>(null);
-export const PREV_QUERY = writable<string>("");
+export const licensesStore = writable<IResponse>(api);
+export const sessionStore = writable<User>(null);
+export const uriParamsStore = writable<string>("");
+//TODO : NOT STARTED: Move componentStore remove management to here under an update function.
+export const componentStore = writable<Array<ComponentManagement> | []>([]);

@@ -1,4 +1,4 @@
-import { USER_SESSION } from "@stores/stores";
+import { sessionStore } from "@stores/stores";
 
 export class Authorization
 {
@@ -19,7 +19,7 @@ export class Authorization
 		const request = this.request = new Request(`${this.url}/authenticate`, this.options);
 		const results: Awaited<User> = await UserRequest(request);
 		
-		USER_SESSION.set(results);
+		sessionStore.set(results);
 		return (typeof results === "object");
 	}
 
@@ -27,7 +27,6 @@ export class Authorization
 	{
 		const request = this.request = new Request(`${this.url}/register`, this.options);
 		let results: Awaited<boolean> = await UserRequest(request);
-		console.log(results);
 		return results;
 	}
 	
@@ -36,7 +35,7 @@ export class Authorization
 		const request = this.request = new Request(`${this.url}/validate`, this.options);
 		let results: Awaited<User> = await UserRequest(request);
 		
-		USER_SESSION.set(results);
+		sessionStore.set(results);
 		return (typeof results === "object");
 	}
 

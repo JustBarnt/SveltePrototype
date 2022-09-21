@@ -11,6 +11,7 @@ declare global
 	type Cookie = { selector: string, validator: string, userId?: number, expires?: Date | string | null };
 	type Options = { method: string, headers: Record<string, string>, body?: any };
 	type Query = { message?: string | any, code?: number, success: boolean | null, results?: Results };
+	type ComponentManagement = { id: number, name: string, extras?: any };
 
 	interface IResponse
 	{

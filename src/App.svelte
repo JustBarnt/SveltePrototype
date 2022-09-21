@@ -2,7 +2,7 @@
 	import NavButton from "@components/NavButton.svelte";
 	import { Authentication } from "@controllers/Authentication";
 	import { Navigation } from "@controllers/Navigation";
-	import { USER_SESSION } from "@stores/stores";
+	import { sessionStore } from "@stores/stores";
 	import Cookies from "js-cookie";
 	import Router from "svelte-spa-router";
 
@@ -36,7 +36,7 @@
 				
 			{#if LoggedIn}
 				<NavButton 
-					text={`Hello, ${$USER_SESSION.username}`}
+					text={`Hello, ${$sessionStore.username}`}
 					gridArea="1 / 3 / 2 / 4" />
 			{/if}
 		</span>

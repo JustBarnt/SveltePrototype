@@ -1,5 +1,5 @@
 import { Authorization } from "@requests/Authorization";
-import { USER_SESSION } from "@stores/stores";
+import { sessionStore } from "@stores/stores";
 import { Utilities } from "@utilities/Utilities";
 import Cookies from "js-cookie";
 import { get } from "svelte/store";
@@ -25,7 +25,7 @@ class Authentication
 		if(success)
 		{
 			let cookie: Cookie;
-			let user = get(USER_SESSION);
+			let user = get(sessionStore);
 
 			//In future add check box that controls whether this is ran or not.
 			if (Authentication.RememberMe)
@@ -51,9 +51,9 @@ class Authentication
 			return;
 		}
 		
-		const user: User = get(USER_SESSION);
+		const user: User = get(sessionStore);
 		const cookie: Cookie = { selector: Cookies.get("selector"), validator: Cookies.get("validator"), userId: user.id };
-		await new Authorization("DELETE", { "content-type": "application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` }, cookie).DeleteValidation()
+		await new Authorization("DELETE", { "content-type": "application/json", "authorization": `Bearer: ${get(sessionStore).token}` }, cookie).DeleteValidation()
 		.then(success => 
 		{
 			Cookies.remove("selector", { expires: 90 });

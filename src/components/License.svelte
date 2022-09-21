@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Navigation } from "@controllers/Navigation";
-	import { Licenses } from "@requests/Licenses";
-	import { PREV_QUERY } from "@stores/stores";
+	import { LicensesController } from "@requests/Licenses";
+	import { uriParamsStore } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
 	import EditForm from "./EditForm.svelte";
@@ -35,7 +35,7 @@
 	/**
 	 * Tells the parent to change the view to the licenses table
 	 */
-	const ChangeDisplay = () => returnDispatch("change", { view: "licenses" });
+	const ChangeDisplay = () => returnDispatch("change", { view: "all" });
 
 	/**
 	 * Returns to the licenses table with the last query ran
@@ -46,14 +46,10 @@
 		const data: QueryDetails = {
 			success: false,
 			results: null,
-			params: $PREV_QUERY,
+			params: $uriParamsStore,
 		};
 
-		const success: Awaited<Query> = await new Licenses(
-			"GET",
-			$PREV_QUERY,
-			"all"
-		).Search();
+		const success: Awaited<Query> = await new LicensesController("GET", $uriParamsStore, "all").Search();
 
 		if (success) 
 {
