@@ -1,3 +1,5 @@
+import { LICENSES } from "@stores/stores";
+
 interface objectFormat
 {
 	[ key: string ]: any;
@@ -37,24 +39,27 @@ export class Utilities
 	* Edits any value in an array of objects that matches keyName's value with the replacement
 	* values.
 	*
-	* @param {Array} data - The array of objects from the json response
-	* @param {String} keyName - The name of the key you want to find and replace in
+	* @param {objectFormat} data - The array of objects from the json response
+	* @param {Array<string>} keyNames - An array strings you want to replace.
 	* @param {String} replacement - The string value to replace
 	*/
-	static FormatDateTime(data: objectFormat[], keyName: string, replacement: string): void
+	static FormatDateTime(data: objectFormat[], keyNames: Array<string>, replacement: string): void
 	{
-		data.forEach((item: objectFormat, index: number) => 
+		keyNames.forEach((keyName:string) => 
 		{
-			const keys = Object.keys(item);
-			let currentKey = Object.keys(item);
-			let tIndex = Utilities.GetTimeIndex(data[ index ][ keyName ]);
-			let subStrEnd = data[ index ][ keyName ]?.length;
+			data.forEach((item: objectFormat, index: number) => 
+			{
+				const keys = Object.keys(item);
+				let currentKey = Object.keys(item);
+				let tIndex = Utilities.GetTimeIndex(data[ index ][ keyName ]);
+				let subStrEnd = data[ index ][ keyName ]?.length;
 
-			if (Utilities.ArrayHas(keys, currentKey, keyName))
-				for (const key in item)
-					if (key === keyName)
-						data[ index ][ key ] = item[ key ] !== null ?
-							item[ key ].replace(item[ key ].substring(tIndex, subStrEnd), replacement) : "Perpetual";
+				if (Utilities.ArrayHas(keys, currentKey, keyName))
+					for (const key in item)
+						if (key === keyName)
+							data[ index ][ key ] = item[ key ] !== null ?
+								item[ key ].replace(item[ key ].substring(tIndex, subStrEnd), replacement) : "Perpetual";
+			});
 		});
 	}
 
@@ -156,5 +161,12 @@ export class Utilities
 	static IsRequiredFieldValid(value: any)
 	{
 		return value !== null && value !== "";
+	}
+
+	static HandleJsonResponse(json: objectFormat[]): Results
+	{
+		Utilities.FormatDateTime(json, ["created", "expires"], "");
+		LICENSES.set({ success: true, results: json });
+		return json;
 	}
 }
