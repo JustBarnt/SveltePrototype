@@ -15,7 +15,7 @@
 	 * Handles the users request to view data
 	 * @param {Event<Any>} event - HtmlEvent passed up containing event.detail property
 	 */
-	const HandleRequest = async(event: any) => results = await new Licenses("GET", event.detail).Search();
+	const HandleRequest = async(event: any) => results = await new Licenses("GET", event.detail, "all").Search();
 </script>
 
 <Form on:request={HandleRequest}>

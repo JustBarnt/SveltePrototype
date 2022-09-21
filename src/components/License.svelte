@@ -48,10 +48,11 @@
 			results: null,
 			params: $PREV_QUERY,
 		};
-		console.log($PREV_QUERY);
-		const success: Awaited<boolean> = await new Licenses(
+
+		const success: Awaited<Query> = await new Licenses(
 			"GET",
-			$PREV_QUERY
+			$PREV_QUERY,
+			"all"
 		).Search();
 
 		if (success) 

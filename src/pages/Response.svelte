@@ -34,7 +34,7 @@
 			on:license={HandleLicense}
 			bind:data={$LICENSES.results} />
 	{:else}
-		{#await new Licenses("GET", LicenseId).View()}
+		{#await new Licenses("GET", LicenseId, "single").Search()}
 			<alert style:display style={`background: ${Colors.BLUE}`}
 				>Gettings selected license information...</alert>
 		{:then success}
