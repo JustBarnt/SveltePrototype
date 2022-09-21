@@ -32,7 +32,7 @@ class Authentication
 			{
 				Authentication.RememberUser();
 				cookie = { selector: this.Selector, validator: this.Validator, userId: user.id, expires: this.Date };
-				new Authorization("POST", cookie, { "content-type": "application/json" }).RegisterValidation();
+				new Authorization("POST", { "content-type": "application/json" }, cookie).RegisterValidation();
 			}
 			//add check if here to make sure remember was successful. Or to alert the user is if wasn't
 
@@ -53,7 +53,7 @@ class Authentication
 		
 		const user: User = get(USER_SESSION);
 		const cookie: Cookie = { selector: Cookies.get("selector"), validator: Cookies.get("validator"), userId: user.id };
-		await new Authorization("DELETE", cookie, { "content-type": "application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` }).DeleteValidation()
+		await new Authorization("DELETE", { "content-type": "application/json", "authorization": `Bearer: ${get(USER_SESSION).token}` }, cookie).DeleteValidation()
 		.then(success => 
 		{
 			Cookies.remove("selector", { expires: 90 });
@@ -84,7 +84,7 @@ class Authentication
 
 	public static async ReturningUser(cookie: Cookie): Promise<boolean> 
 	{
-		return this._LoggedIn = await new Authorization("POST", cookie, { "content-type": "application/json" }).GetValidation();
+		return this._LoggedIn = await new Authorization("POST", { "content-type": "application/json" }, cookie).GetValidation();
 	}
 
 	public static get LoggedIn()

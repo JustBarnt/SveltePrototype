@@ -21,13 +21,8 @@
 
 	//Checking if cookies contains an item called id
 	onMount(() => 
-{
-		Cookies.get("selector") !== undefined
-			? Authentication.ReturningUser({
-					selector: Cookies.get("selector"),
-					validator: Cookies.get("validator"),
-			  })
-			: null;
+	{
+		Cookies.get("selector") !== undefined ? Authentication.ReturningUser({ selector: Cookies.get("selector"), validator: Cookies.get("validator"), }) : null;
 	});
 
 	/**
@@ -35,10 +30,8 @@
 	 * @return {Boolean} Returns true or false
 	 */
 	async function Login(): Promise<void> 
-{
-		isSuccessful = await new Authorization("POST", attempt, {
-			"content-type": "application/json",
-		}).GetAuthorization();
+	{
+		isSuccessful = await new Authorization("POST", { "content-type": "application/json" }, attempt).GetAuthorization();
 
 		if (isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
 		else visible = AlertVisibility.Visible;

@@ -1,18 +1,18 @@
 export class Executable
 {
-	private _options: Options;
-	private _url: string = "https://localhost:7150/api/Executable";
-	private _request: Request;
+	private options: Options;
+	private url: string = "https://localhost:7150/api/Executable";
+	private request: Request;
 
 	constructor(method: string, body: any, headers: Record<string, string>)
 	{
-		this._options = { method: method, headers: headers, body: JSON.stringify(body) };
+		this.options = { method: method, headers: headers, body: JSON.stringify(body) };
 	}
 
 
 	async RequestApplication(): Promise<any>
 	{
-		const request = this._request = new Request(`${this._url}/open`, this._options);
+		const request = this.request = new Request(`${this.url}/open`, this.options);
 		let results: Awaited<any> = await ExecutableRequest(request);
 
 		return results;

@@ -42,7 +42,7 @@ function Register(event: any): boolean | Promise<boolean>
 
 	if (!isValid) return (isSuccessful = false);
 
-	const results = new Authorization("POST", data, { "content-type": "application/json", }).RegisterUser();
+	const results = new Authorization("POST", { "content-type": "application/json", }, data).RegisterUser();
 	return (isSuccessful = results);
 }
 </script>

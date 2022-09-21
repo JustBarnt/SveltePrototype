@@ -2,22 +2,22 @@ import { USER_SESSION } from "@stores/stores";
 
 export class Authorization
 {
-	private _options: Options;
-	private _url: string = "https://localhost:7150/api/Users";
-	private _request: Request;
+	private options: Options;
+	private url: string = "https://localhost:7150/api/Users";
+	private request: Request;
 
-	constructor(method: string, body: any, headers: Record<string, string>)
+	constructor(method: string, headers: Record<string, string>, body?: any,)
 	{
-		if(method !== "GET")
-			this._options = { method: method, headers: headers, body: JSON.stringify(body) };
+		if(typeof body !== undefined)
+			this.options = { method: method, headers: headers, body: JSON.stringify(body) };
 		else
-			this._options = { method: method, headers: headers };
+			this.options = { method: method, headers: headers };
 	}
 
 	async GetAuthorization(): Promise<boolean>
 	{
-		this._request = new Request(`${this._url}/authenticate`, this._options);
-		const results: Awaited<User> = await UserRequest(this._request);
+		const request = this.request = new Request(`${this.url}/authenticate`, this.options);
+		const results: Awaited<User> = await UserRequest(request);
 		
 		USER_SESSION.set(results);
 		return (typeof results === "object");
@@ -25,7 +25,7 @@ export class Authorization
 
 	async RegisterUser(): Promise<boolean>
 	{
-		const request = this._request = new Request(`${this._url}/register`, this._options);
+		const request = this.request = new Request(`${this.url}/register`, this.options);
 		let results: Awaited<boolean> = await UserRequest(request);
 		console.log(results);
 		return results;
@@ -33,7 +33,7 @@ export class Authorization
 	
 	async GetValidation(): Promise<boolean>
 	{
-		const request = this._request = new Request(`${this._url}/validate`, this._options);
+		const request = this.request = new Request(`${this.url}/validate`, this.options);
 		let results: Awaited<User> = await UserRequest(request);
 		
 		USER_SESSION.set(results);
@@ -42,7 +42,7 @@ export class Authorization
 
 	async RegisterValidation(): Promise<boolean>
 	{
-		const request = this._request = new Request(`${this._url}/rememberme`, this._options);
+		const request = this.request = new Request(`${this.url}/rememberme`, this.options);
 		let results: Awaited<string> = await UserRequest(request);
 	
 		return (typeof results === "string");
@@ -50,7 +50,7 @@ export class Authorization
 	
 	async DeleteValidation(): Promise<boolean | void>
 	{
-		const request = this._request = new Request(`${this._url}/token`, this._options);
+		const request = this.request = new Request(`${this.url}/token`, this.options);
 		let results: Awaited<boolean | void> = await UserRequest(request);
 	
 		return results;
@@ -60,21 +60,10 @@ export class Authorization
 
 async function UserRequest(request: Request): Promise<User | any>
 {
-	const response = await fetch(request).then((response): Promise<any> => 
-	{
-		if (response.ok)
-			return response.json();
-		
-		throw new Error(`Request failed. Status: ${response.status}`);
-	})
-	.then((json) => 
-	{
-		return json;
-	})
-	.catch(err =>
-	{
-		console.log(err);
-	});
+	const response = await fetch(request)
+		  .then((response): Promise<any> | any => response.ok ? response.json() : { error: new Error(`Request failed. Status: ${response.status}`) })
+		  .then((json) => json)
+		  .catch((error) => console.log(error));
 
 	return response;
 }
