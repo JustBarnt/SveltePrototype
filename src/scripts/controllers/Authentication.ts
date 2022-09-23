@@ -1,3 +1,4 @@
+import { Navigation } from "@controllers/Navigation";
 import { Authorization } from "@requests/Authorization";
 import { sessionStore } from "@stores/stores";
 import { Utilities } from "@utilities/Utilities";
@@ -7,7 +8,7 @@ import { get } from "svelte/store";
 class Authentication
 {
 	private static _LoggedIn: boolean | Promise<boolean> | Awaited<boolean> = false;
-	private static Date: Date | null = null;
+	private static Date: Date | null = new Date();
 	private static Selector: string;
 	private static Validator: string;
 	static RememberMe: boolean = false;
@@ -16,27 +17,27 @@ class Authentication
 	* Handles login attempts, if success user info gets saved to localStorage
 	* @param {Event<any>} event - Event listener for loggin
 	*/
-	public static HandleLogin(details: { success: boolean }): void
+	public static async HandleLogin(details: { success: boolean }): Promise<void>
 	{
 		let { success } = details;
 		this._LoggedIn = success;
 		
-		//save user session to localStorage
 		if(success)
 		{
-			let cookie: Cookie;
-			let user = get(sessionStore);
-
 			//In future add check box that controls whether this is ran or not.
 			if (Authentication.RememberMe)
 			{
-				Authentication.RememberUser();
-				cookie = { selector: this.Selector, validator: this.Validator, userId: user.id, expires: this.Date };
-				new Authorization("POST", { "content-type": "application/json" }, cookie).RegisterValidation();
-			}
-			//add check if here to make sure remember was successful. Or to alert the user is if wasn't
+				let cookie: Cookie;
+				let user = get(sessionStore);
+				const expires = this.Date.setDate(this.Date.getDate() + 90);
 
-			window.location.href = "/#/home";
+				console.log(`Cookie expires in ${expires} days`);
+				
+				Authentication.RememberUser();
+				cookie = { selector: this.Selector, validator: this.Validator, userId: user.id, expires: expires };
+				await new Authorization("POST", { "content-type": "application/json" }, cookie).RegisterValidation();
+			}
+			Navigation.ChangePage(Navigation.Page.Home);
 		}
 	}
 
@@ -63,6 +64,9 @@ class Authentication
 		.catch(err => console.log(err));
 	}
 
+	/**
+	* Sets up cookies in the users browser to remember them.
+	*/
 	private static RememberUser()
 	{
 		Authentication.Date = new Date();
@@ -75,6 +79,10 @@ class Authentication
 		this.Validator = Cookies.get("validator");
 	}
 
+	/**
+	* Removes the cookies after expiration.
+    * TODO: Needs tested still.
+	*/
 	private static RevokeCookies()
 	{
 		let expires = Authentication.Date.setDate(Authentication.Date.getDate() + 90);
@@ -82,25 +90,49 @@ class Authentication
 		Cookies.remove("validator", { expires: expires });
 	}
 
+	/**
+	* Runs when the page finds a `selector` cookie, logs in the user.
+	* @param {Cookie} cookie - The set of `selector` and `validator` cookies.
+	* @return {Boolean} returns true of false if the login is successful. 
+	*/
 	public static async ReturningUser(cookie: Cookie): Promise<boolean> 
 	{
-		return this._LoggedIn = await new Authorization("POST", { "content-type": "application/json" }, cookie).GetValidation();
+		const results = await new Authorization("POST", { "content-type": "application/json" }, cookie).GetValidation();
+		this._LoggedIn = results.success;
+		return this._LoggedIn; 
 	}
 
+	/**
+	* Returns the login status
+	* @return {Boolean} returns true or false
+	*/
 	public static get LoggedIn()
 	{
 		return this._LoggedIn;
 	}
 
+	/**
+	* Sets the login status
+	* @param {Boolean | Promise<boolean>} success - Takes a boolean to update the login status
+	*/
 	public static set LoggedIn(success: boolean | Promise<boolean>)
 	{
 		this._LoggedIn = success;
 	}
-	public static get CookieExpiration()
+
+	/**
+	* Returns the expiration date of the cookies
+	* @return {Date} Returns a `Date()` signifying the expiration date.
+	*/
+	public static get CookieExpiration():Date
 	{
 		return this.Date;
 	}
 
+	/**
+	* Returns the `selector` and `validator` cookies
+	* @return {Array<string>} An array containing the two cookies.
+	*/
 	public static get Cookie()
 	{
 		return [this.Selector, this.Validator];

@@ -1,10 +1,10 @@
 import { licensesStore } from "@stores/stores";
 
-interface objectFormat
-{
-	[ key: string ]: any;
-}
+type objectFormat = Record<string, any>;
 
+/**
+* Contains useful utilitie/helper functions.
+*/
 export class Utilities
 {
 	/**
@@ -63,6 +63,11 @@ export class Utilities
 		});
 	}
 
+	/**
+	* Used in `FormatDateTime()` to get the index position of the "T" in `Date()` format and remove it
+	* @param {String} string - The string to check for the "T"
+	* @return {String | Number} Returns a number if it exists, or it just returns the string back 
+	*/
 	private static GetTimeIndex(string: string): string | number
 	{
 		if (string !== null)
@@ -99,6 +104,11 @@ export class Utilities
 		});
 	}
 
+	/**
+	* Used to await an awaited request inside a svelte `#await` block
+	* @param {any} awaited - A function/method that is async and can be awaited
+	* @return {Promise<any>} Returns the awaited response type.
+	*/
 	static async AwaitFetch(awaited: any): Promise<any>
 	{
 		return await awaited;
@@ -144,6 +154,11 @@ export class Utilities
 		return str;
 	}
 
+	/**
+	* Does form validation for the register users
+	* @param {Record<string, any>} data - FormData object to validate
+	* @return {Boolean} returns true or false if the form has any invalid areas.
+	*/
 	static FormValidation(data: { [fieldName: string]: any }): boolean
 	{
 		if (!Utilities.IsRequiredFieldValid(data.firstName))
@@ -158,11 +173,21 @@ export class Utilities
 		return true;
 	}
 
-	static IsRequiredFieldValid(value: any)
+	/**
+	* Checks if field is valid
+	* @param {any} value - value of the field to check
+	* @return {Boolean} returns true or false
+	*/
+	static IsRequiredFieldValid(value: any):boolean
 	{
 		return value !== null && value !== "";
 	}
 
+	/**
+	* Formats the json response for a liceses query and formats the `created` and `expires` section for the table
+	* @param {objectForamt[]} json - The `response.json()`
+	* @return {Results} Returns a `Results` typed object.
+	*/
 	static HandleJsonResponse(json: objectFormat[]): Results
 	{
 		Utilities.FormatDateTime(json, ["created", "expires"], "");

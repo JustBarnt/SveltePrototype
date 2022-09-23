@@ -1,8 +1,7 @@
 import Home from "@pages/Home.svelte";
 import Login from "@pages/Login.svelte";
-import RegisterUser from "@pages/Register.svelte";
+import Register from "@pages/Register.svelte";
 import Response from "@pages/Response.svelte";
-import { SvelteComponent } from "svelte";
 
 /**
 * Controlls the navigation with `svelte-spa-router` using this makes it more obvious when changing pages, and removes the
@@ -10,24 +9,27 @@ import { SvelteComponent } from "svelte";
 */
 export class Navigation
 {
-	private static readonly _Routes: Record<string, typeof SvelteComponent> = {
+	private static readonly _Routes:any = {
 		"/": Login,
 		"/home": Home,
 		"/licenses": Response,
-		"/register": RegisterUser
+		"/register": Register
 	};
 
-	public static ChangePage(page: Navigation.Page | string)
+	public static ChangePage(page: Navigation.Page)
 	{
 		window.location.href = page;
 	}
 
-	public static get Routes(): Record<string, typeof SvelteComponent>
+	public static get Routes():any
 	{
 		return this._Routes;
 	}
 }
 
+/**
+* Enum holding the page routes.
+*/
 export namespace Navigation
 {
 	export enum Page
