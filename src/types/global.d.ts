@@ -13,6 +13,8 @@ declare global
 	type Options = { method: string, headers: Record<string, string>, body?: any };
 	type Query = { message?: string | any, code?: number, success: boolean | null, results?: Results };
 	type ComponentManagement = { id: number, name: string, extras?: any, position?: Record<string, number> };
+	type AlertDirectives = { active: boolean, canExpire: boolean, expiresIn: number };
+	type PropDirectives = { visible?: string, message:string, color:Colors };
 
 	//Interfaces
 	interface IResponse
@@ -35,5 +37,11 @@ declare global
 		[margin: string ]: string | number;
 		[padding: string ]: string | number;
 		[background: string ]: string | Colors;
+	}
+
+	interface IAlert
+	{
+		Directives: AlertDirectives;
+		Props: PropDirectives;
 	}
 }

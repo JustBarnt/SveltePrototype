@@ -6,7 +6,7 @@
     import { slide } from "svelte/transition";
 	
 	let props:ComponentManagement = { id: null, name: null, extras: null }; 
-	export let visible = "hidden";
+	//export let visible = "hidden";
 	export let message = "";
 	export let styles: Colors;
 	export let expiration: number | never = undefined;
@@ -36,13 +36,12 @@
 	*/
 	function DestorySelf()
 	{
-		console.log("removing license");
 		$alerts.filter((value:any) => 
 		{
 			if(value.id !== props.id) 
 			{
 				alerts.set([ { ...value } ]);
-				visible = "hidden";
+				//visible = "hidden";
 			}
 			else
 			{
@@ -55,7 +54,7 @@
 	}
 
 </script>
-<alert class={visible} style="background-color: {styles}" in:slide={{ duration: 500, easing: backOut }} out:slide={{ duration: 500, delay: 250, easing: backIn }}>
+<alert style="background-color: {styles}" in:slide={{ duration: 500, easing: backOut }} out:slide={{ duration: 500, delay: 250, easing: backIn }}>
 	<p>
 		{message}
 	</p>
@@ -64,14 +63,14 @@
 	alert{
 		cursor:default;
 		
-		&.hidden{
-			@include alert-base;
-			@include alert-hidden;
-		}
+		// &.hidden{
+		// 	@include alert-base;
+		// 	@include alert-hidden;
+		// }
 	
-		&.visible{
-			@include alert-base;
-			@include alert-visible;
-		}
+		// &.visible{
+		// 	@include alert-base;
+		// 	@include alert-visible;
+		// }
 	}
 </style>

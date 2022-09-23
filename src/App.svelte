@@ -1,17 +1,20 @@
 <script lang="ts">
 	import Alert from "@components/Alert.svelte";
 	import NavButton from "@components/NavButton.svelte";
+	import { Alerts } from "@controllers/Alerts";
 	import { Authentication } from "@controllers/Authentication";
 	import { Navigation } from "@controllers/Navigation";
 	import { Colors } from "@enums/enums";
 	import { sessionStore } from "@stores/stores";
 	import Cookies from "js-cookie";
+	import { onMount } from "svelte";
 	import Router from "svelte-spa-router";
 
 	//TODO: NOT STARED: GO BACK AND COMMENT ALL CODE TODAY 9/23/2022 AFTER MEETING
+	onMount(() => new Alerts({ active: false, canExpire: false, expiresIn: 1500 }, { message:"Hello World", color: Colors.BLUE }));
 
 	//Change to = new Alerts(params).GetDirectives();
-	let AlertDirectives:Record<string, any> = { active: true, expires: false, expiresIn: undefined };
+	let AlertHub:IAlert = Alerts.GetAll();
 
 	const alertProps:any = { visible: "visible", message: "Invalid username and/or password.", styles: Colors.RED };
 	
@@ -23,11 +26,11 @@
 	
 	$: Authentication.LoggedIn ? Navigation.ChangePage(Navigation.Page.Home) : Navigation.ChangePage(Navigation.Page.Login);
 	$: LoggedIn = Authentication.LoggedIn; 
-	$: alertActive = AlertDirectives.active;
-	$: doesExpire = AlertDirectives.expires;
-	$: expiration = AlertDirectives.expiresIn;
+	$: alertActive = AlertHub.Directives.active;
+	$: doesExpire = AlertHub.Directives.canExpire;
+	$: expiration = AlertHub.Directives.expiresIn;
 
-	const HandleDestruct = (event: CustomEvent) => AlertDirectives.active = false;
+	const HandleDestruct = (event: CustomEvent) => AlertHub.Set;
 	const NewAlert = ():Record<string, boolean> => 
 	{
 		
@@ -61,7 +64,7 @@
 </header>
 
 <alerts class="alerts">
-	<svelte:component this={alertActive ? Alert : null} {...alertProps} expiration={doesExpire ? expiration : undefined} on:destroyed={HandleDestruct} />
+	<svelte:component this={alertActive ? Alert : null} {...AlertHub.Props} expiration={doesExpire ? expiration : undefined} on:destroyed={HandleDestruct} />
 </alerts>
 
 <main>
