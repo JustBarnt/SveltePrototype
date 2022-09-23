@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher } from "svelte";
+	import { fade } from "svelte/transition";
 
 	export let display: string = "flex";
 
@@ -21,7 +22,7 @@
 	}
 </script>
 
-<section style:display>
+<section style:display in:fade={{ duration:250, delay: 50 }} out:fade={{ duration: 1 }}>
 	<form
 		method="GET"
 		on:submit|preventDefault={HandleSubmit}

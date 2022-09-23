@@ -1,16 +1,14 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
 	export let text:string;
 	export let gridArea:string;
+	export let link:string = "";
 	
-	const navDispatch = createEventDispatcher();
-	const HandleNavigation = () => navDispatch("navigation");
 </script>
 
-<p class="nav-item" style:grid-area={gridArea} on:click on:click={HandleNavigation}>{text}</p>
+<p class="nav-item" style:grid-area={gridArea} on:click><a href={link}>{text}</a></p>
 
 <style lang="scss">
-	.nav-item{
+		a{
 			color: white;
 			text-decoration: none;
 			font-weight: 600;

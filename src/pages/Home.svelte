@@ -18,6 +18,7 @@
 	 */
 	async function HandleRequest(event: any) 
 	{
+		console.log(event.detail);
 		uriParamsStore.set(event.detail);
 		Navigation.ChangePage(Navigation.Page.Licenses);
 	}

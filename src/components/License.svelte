@@ -4,6 +4,7 @@
 	import { uriParamsStore } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
+	import { fade } from "svelte/transition";
 	import EditForm from "./EditForm.svelte";
 
 	export let data: Results;
@@ -42,7 +43,7 @@
 	 * @param {String} query - a URI containing the query string.
 	 */
 	const ReturnToLicenses = async (query: string) => 
-{
+	{
 		const data: QueryDetails = {
 			success: false,
 			results: null,
@@ -52,14 +53,14 @@
 		const success: Awaited<Query> = await new LicensesController("GET", $uriParamsStore, "all").Search();
 
 		if (success) 
-{
+		{
 			ChangeDisplay();
 			Navigation.ChangePage(Navigation.Page.Licenses);
 		}
 	};
 </script>
 
-<section>
+<section in:fade|local={{ duration:250, delay: 50 }} out:fade|local={{ duration: 1 }}>
 	{#if !editing}
 		<table id="License">
 			{#each Object.entries(data[0]) as [key, value]}

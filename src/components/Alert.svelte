@@ -1,58 +1,61 @@
 <script lang="ts">
-	import { componentStore as alerts } from "@stores/stores";
-	import { createEventDispatcher, onMount } from "svelte";
-	import { backInOut } from "svelte/easing";
-	import { fade } from "svelte/transition";
+    import { Colors } from "@enums/enums";
+    import { componentStore as alerts } from "@stores/stores";
+    import { createEventDispatcher, onMount } from "svelte";
+    import { backIn, backOut } from "svelte/easing";
+    import { slide } from "svelte/transition";
 	
-	let internalAtt:ComponentManagement = { id: null, name: null, extras: null }; 
+	let props:ComponentManagement = { id: null, name: null, extras: null }; 
 	export let visible = "hidden";
 	export let message = "";
-	export let styles: IStyles;
+	export let styles: Colors;
 	export let expiration: number | never = undefined;
 
-	let css:string = "";
-	let inAnimation: any = { easing: backInOut };
-	let outAnimation: any;
-
 	const dispatch = createEventDispatcher();
-	const animation: any = { in:inAnimation, out:outAnimation };
-
-	$:styleStr = css;
 	
 	onMount(() =>
 	{
-		css = FormatStylesString();
-		AlertCreated();
+		AlertCreated($alerts, expiration);
 	});
 
-	const AlertCreated = () => 
+	/**
+	* Runs when the alert is created sets all properties and started the destruction predicate if applicable
+	* @param {ComponentManagement[]} store - The store containing components
+	* @param {Number} expiration - The expiration time if applicable
+	*/
+	const AlertCreated = (store: ComponentManagement[], expiration:number) => 
 	{
-		internalAtt = { id: $alerts.length+1, name: `alerts_${$alerts.length+1}`, extras: message };
-		$alerts[$alerts.length] = internalAtt;
+		props = { id: store.length+1, name: `alerts_${store.length+1}`, extras: message };
+		store[store.length] = props;
+
 		expiration !== undefined ? setTimeout(() => { DestorySelf(); }, expiration) : null;
 	}; 
 
-	function FormatStylesString()
-	{
-		let str:string = "";
-
-		Object.keys(styles).forEach((style:string) => 
-		{
-			if(styles?.[style])
-				str += `${style}: ${styles[style]};`;
-		});
-
-		return str;
-	}
-
+	/**
+	* Destroys an alert if it was given an expiration time.
+	*/
 	function DestorySelf()
 	{
-		$alerts.filter((value:any) => value.id !== internalAtt.id ? alerts.set([ { ...value } ]) : [...$alerts]);
+		console.log("removing license");
+		$alerts.filter((value:any) => 
+		{
+			if(value.id !== props.id) 
+			{
+				alerts.set([ { ...value } ]);
+				visible = "hidden";
+			}
+			else
+			{
+				alerts.set([...$alerts]);
+			}
+		}); 
+
+
 		dispatch("destroyed", { destroy: true });
 	}
 
 </script>
-<alert class={visible} style={ css !== "" ? styleStr : ""} in:fade={{ easing: backInOut }} out:fade={{ easing: backInOut }}>
+<alert class={visible} style="background-color: {styles}" in:slide={{ duration: 500, easing: backOut }} out:slide={{ duration: 500, delay: 250, easing: backIn }}>
 	<p>
 		{message}
 	</p>
@@ -60,6 +63,7 @@
 <style lang="scss">
 	alert{
 		cursor:default;
+		
 		&.hidden{
 			@include alert-base;
 			@include alert-hidden;

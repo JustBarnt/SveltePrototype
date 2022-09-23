@@ -4,6 +4,7 @@
 	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Authorization } from "@requests/Authorization";
 	import { Utilities } from "@utilities/Utilities";
+	import { fade } from "svelte/transition";
 
 	let isSuccessful: boolean | Promise<boolean> | null = null;
 
@@ -47,7 +48,7 @@ function Register(event: any): boolean | Promise<boolean>
 }
 </script>
 
-<section>
+<section in:fade={{ duration:250, delay: 50 }} out:fade={{ duration: 1 }}>
 	<form method="POST" on:submit|preventDefault={Register} autocomplete="off">
 		<h2>Create New Account</h2>
 

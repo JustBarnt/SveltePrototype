@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
+	import { fade } from "svelte/transition";
 
 	export let data: Results;
 
@@ -18,7 +19,10 @@
 	* in the {detail} property of the event to the parent component.
 	* @param {<T>} event - Any event handler, in this case an on click.
 	*/
-	const HandleLicenseSelect = (event: MouseEvent) => licenseDispatch("license", { id: guids[GetRowNum(event.target)], view:"single" });
+	const HandleLicenseSelect = ((event: MouseEvent) =>
+	{
+		licenseDispatch("license", { id: guids[GetRowNum(event.target)], view:"single" });
+	}); 
 	
 	/**
 	* Returns the row number from the clicked license
@@ -30,7 +34,7 @@
 </script>
 
 
-<section>
+<section in:fade|local={{ duration:250, delay: 50 }} out:fade|local={{ duration: 1 }}>
 	<table id="Licenses">
 		<thead>
 			{#each Object.keys(data[0]) as Header}

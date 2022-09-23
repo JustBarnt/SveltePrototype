@@ -1,20 +1,15 @@
 <script lang="ts">
-	import Alert from "@components/Alert.svelte";
 	import { Authentication } from "@controllers/Authentication";
 	import { Navigation } from "@controllers/Navigation";
-	import { AlertVisibility, Colors } from "@enums/enums";
 	import { Authorization } from "@requests/Authorization";
+	import { sessionStore } from "@stores/stores";
 	import Cookies from "js-cookie";
-	import { onMount, SvelteComponentTyped } from "svelte";
+	import { onMount } from "svelte";
+	import { fade } from "svelte/transition";
 
 	//Login control
 	let attempt: ILogin = { username: "", password: "" };
-	let isSuccessful: Awaited<boolean> | null = null;
-	let canDestroy = false;
-	$: visible = AlertVisibility.Hidden;
-
-	const alertCss: IStyles = { position: "relative", bottom: "clamp(0px, 0.5rem, 3.5rem)", background: Colors.RED };
-	const alertProps:any = { visible: visible, message: "Invalid username and/or password.", styles: alertCss };
+	let loginResults: Awaited<Query> | null = null;
 
 	//Checking if cookies contains an item called id
 	onMount(() => 
@@ -28,10 +23,13 @@
 	 */
 	async function Login(): Promise<void> 
 	{
-		isSuccessful = await new Authorization("POST", { "content-type": "application/json" }, attempt).GetAuthorization();
-
-		if (isSuccessful) Authentication.HandleLogin({ success: isSuccessful });
-		else visible = AlertVisibility.Visible;
+		loginResults = await new Authorization("POST", { "content-type": "application/json" }, attempt).GetAuthorization();
+		
+		if (loginResults.success)
+		{
+			sessionStore.set(loginResults.results);
+			Authentication.HandleLogin({ success: loginResults.success });
+		}
 	}
 
 	/**
@@ -47,13 +45,11 @@
 	const HandleCreateAccount = (): void =>
 		Navigation.ChangePage(Navigation.Page.Register);
 
-	const Active = (bool: boolean): typeof SvelteComponentTyped | boolean => canDestroy = bool;
-	const HandleDestruct = (event: CustomEvent) => Active(event.detail.destroy);
 </script>
 
-<section>
+<section in:fade|local={{ duration:250, delay: 50 }} out:fade|local={{ duration: 1 }}>
 
-	<!-- <svelte:component this={!canDestroy ? Alert : null} message="Hello there" visible="visible" styles={alertCss} expiration={1000} on:destroyed={HandleDestruct} /> -->
+	<!-- <svelte:component this={Alert} message="Hello there" visible="visible" styles={alertCss} expiration={1000} on:destroyed={HandleDestruct} /> -->
 
 	<form
 		id="LoginForm"
@@ -61,7 +57,6 @@
 		method="POST"
 		autocomplete="off">
 		<h1>Sign In</h1>
-		<svelte:component this={Alert} {...alertProps} />
 		<input
 			type="text"
 			name="username"
@@ -94,6 +89,7 @@
 <style lang="scss">
 	form {
 		@include flex-base;
+		transition: all 0.4s;
 		align-items: stretch;
 	}
 
@@ -120,6 +116,7 @@
 		top: clamp(15px, 10%, 10%);
 
 		.remember-me {
+			padding-right: 1rem;
 			display: flex;
 			input {
 				width: 16px;

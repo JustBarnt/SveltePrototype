@@ -112,12 +112,12 @@
 		<Alert 
 			visible="visible" 
 			message="Preparing Licenses now." 
-			styles={ { background: Colors.BLUE } } />
+			styles={ Colors.BLUE } />
 	{:then value}
 		<Alert
 			visible="visible" 
 			message="License is ready for downloading. Please click download to save it, and open it in Notepade." 
-			styles={{ background: Colors.GREEN }} />
+			styles={ Colors.GREEN } />
 			<button class="button" on:click={HandleDownloadProcess}>
 				<a 
 					href={link} 
@@ -126,7 +126,7 @@
 				</a>
 			</button>
 	{:catch error}
-		<Alert visible="visible" message={error} styles={ { background: Colors.RED } } />
+		<Alert visible="visible" message={error} styles={ Colors.RED } />
 	{/await}
 {/if}
 
