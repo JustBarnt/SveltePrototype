@@ -6,6 +6,7 @@
 		"esModuleInterop": true,
 		"module": "ESNext",
 		"moduleResolution": "node",
+		"noImplicitAny": false,
 		"allowSyntheticDefaultImports": true,
 		"preserveValueImports": true,
 		"skipLibCheck": true,
