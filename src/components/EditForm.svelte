@@ -2,7 +2,7 @@
 	import Alert from "@components/Alert.svelte";
 	import { Colors } from "@enums/enums";
 	import { Executable } from "@requests/Executable";
-	import { sessionStore } from "@stores/stores";
+	import { session } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher } from "svelte";
 	import { get } from "svelte/store";
@@ -78,7 +78,7 @@
 
 	async function HandleDownloadProcess(): Promise<any>
 	{
-		const headers = { "content-type":"application/json", "authorization": `Bearer: ${get(sessionStore).token}` };
+		const headers = { "content-type":"application/json", "authorization": `Bearer: ${get(session).token}` };
 		const response = await new Executable("POST", { App: "Notepad.exe", Filename: `${filename}.txt` }, headers).RequestApplication();
 		return await Utilities.AsyncDelay(250);
 	}
@@ -112,12 +112,12 @@
 		<Alert 
 			visible="visible" 
 			message="Preparing Licenses now." 
-			styles={ Colors.BLUE } />
+			color={ Colors.BLUE } />
 	{:then value}
 		<Alert
 			visible="visible" 
 			message="License is ready for downloading. Please click download to save it, and open it in Notepade." 
-			styles={ Colors.GREEN } />
+			color={ Colors.GREEN } />
 			<button class="button" on:click={HandleDownloadProcess}>
 				<a 
 					href={link} 
@@ -126,7 +126,7 @@
 				</a>
 			</button>
 	{:catch error}
-		<Alert visible="visible" message={error} styles={ Colors.RED } />
+		<Alert visible="visible" message={error} color={ Colors.RED } />
 	{/await}
 {/if}
 

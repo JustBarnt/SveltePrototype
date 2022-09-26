@@ -5,18 +5,14 @@
 	import { Authentication } from "@controllers/Authentication";
 	import { Navigation } from "@controllers/Navigation";
 	import { Colors } from "@enums/enums";
-	import { sessionStore } from "@stores/stores";
+	import { alerts, session } from "@stores/stores";
 	import Cookies from "js-cookie";
 	import { onMount } from "svelte";
 	import Router from "svelte-spa-router";
+	
+	let AlertHub:IAlert = new Alerts({ active: false, canExpire: false, expiresIn: 1500 }, { message:"Hello World", color: Colors.BLUE });
 
-	//TODO: NOT STARED: GO BACK AND COMMENT ALL CODE TODAY 9/23/2022 AFTER MEETING
-	onMount(() => new Alerts({ active: false, canExpire: false, expiresIn: 1500 }, { message:"Hello World", color: Colors.BLUE }));
-
-	//Change to = new Alerts(params).GetDirectives();
-	let AlertHub:IAlert = Alerts.GetAll();
-
-	const alertProps:any = { visible: "visible", message: "Invalid username and/or password.", styles: Colors.RED };
+	onMount(() => alerts.set(AlertHub));
 	
 	$: if(Cookies.get("selector") !== undefined)
 	{
@@ -30,12 +26,7 @@
 	$: doesExpire = AlertHub.Directives.canExpire;
 	$: expiration = AlertHub.Directives.expiresIn;
 
-	const HandleDestruct = (event: CustomEvent) => AlertHub.Set;
-	const NewAlert = ():Record<string, boolean> => 
-	{
-		
-		return { expires: true, active:true };
-	};
+	const HandleDestruct = (event: CustomEvent) => AlertHub.Set("active", false);
 </script>
 
 
@@ -56,16 +47,16 @@
 				
 			{#if LoggedIn}
 				<NavButton 
-					text={`Hello, ${$sessionStore.username}`}
+					text={`Hello, ${$session.username}`}
 					gridArea="1 / 3 / 2 / 4" />
 			{/if}
 		</span>
 	</nav>
 </header>
 
-<alerts class="alerts">
+<alert class="alerts">
 	<svelte:component this={alertActive ? Alert : null} {...AlertHub.Props} expiration={doesExpire ? expiration : undefined} on:destroyed={HandleDestruct} />
-</alerts>
+</alert>
 
 <main>
 	<Router routes={Navigation.Routes} />
@@ -92,7 +83,7 @@
 		}
 	}
 
-	alerts{
+	alert{
 		position: absolute;
 		top: clamp(25px, 3%, 3%);
 		width: 100vw;

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Colors } from "@enums/enums";
-    import { componentStore as alerts } from "@stores/stores";
+    import { components as alerts } from "@stores/stores";
     import { createEventDispatcher, onMount } from "svelte";
     import { backIn, backOut } from "svelte/easing";
     import { slide } from "svelte/transition";
@@ -8,7 +8,7 @@
 	let props:ComponentManagement = { id: null, name: null, extras: null }; 
 	//export let visible = "hidden";
 	export let message = "";
-	export let styles: Colors;
+	export let color: Colors;
 	export let expiration: number | never = undefined;
 
 	const dispatch = createEventDispatcher();
@@ -54,7 +54,7 @@
 	}
 
 </script>
-<alert style="background-color: {styles}" in:slide={{ duration: 500, easing: backOut }} out:slide={{ duration: 500, delay: 250, easing: backIn }}>
+<alert style="background-color: {color}" in:slide={{ duration: 500, easing: backOut }} out:slide={{ duration: 500, delay: 250, easing: backIn }}>
 	<p>
 		{message}
 	</p>

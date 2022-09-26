@@ -1,4 +1,4 @@
-import { licensesStore } from "@stores/stores";
+import { licenses } from "@stores/stores";
 
 type objectFormat = Record<string, any>;
 
@@ -191,7 +191,7 @@ export class Utilities
 	static HandleJsonResponse(json: objectFormat[]): Results
 	{
 		Utilities.FormatDateTime(json, ["created", "expires"], "");
-		licensesStore.set({ success: true, results: json });
+		licenses.set({ success: true, results: json });
 		return json;
 	}
 }

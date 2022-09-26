@@ -3,7 +3,7 @@
 	import Form from "@components/Form.svelte";
 	import { Navigation } from "@controllers/Navigation";
 	import { AlertVisibility, Colors } from "@enums/enums";
-	import { uriParamsStore } from "@stores/stores";
+	import { uriParams } from "@stores/stores";
 
 	let results: Awaited<Query> = { success: null };
 	const alertCss: IStyles = { position: "relative", bottom: "clamp(0px, 3rem, 3.5rem)", background: Colors.RED };
@@ -19,7 +19,7 @@
 	async function HandleRequest(event: any) 
 	{
 		console.log(event.detail);
-		uriParamsStore.set(event.detail);
+		uriParams.set(event.detail);
 		Navigation.ChangePage(Navigation.Page.Licenses);
 	}
 </script>
@@ -28,5 +28,5 @@
 	<Alert
 		visible={visibity}
 		message={results.message}
-		styles={alertCss} />
+		color={alertCss} />
 </Form>

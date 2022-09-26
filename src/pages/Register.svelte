@@ -1,7 +1,6 @@
 <script lang="ts">
-	import Alert from "@components/Alert.svelte";
 	import { Navigation } from "@controllers/Navigation";
-	import { AlertVisibility, Colors } from "@enums/enums";
+	import { Colors } from "@enums/enums";
 	import { Authorization } from "@requests/Authorization";
 	import { Utilities } from "@utilities/Utilities";
 	import { fade } from "svelte/transition";
@@ -53,10 +52,10 @@ function Register(event: any): boolean | Promise<boolean>
 		<h2>Create New Account</h2>
 
 		{#await Utilities.AwaitFetch(isSuccessful) then PromiseResults}
-			<Alert
+			<!-- <Alert
 				visible={PromiseResults === null ? AlertVisibility.Hidden : AlertVisibility.Visible}
 				message={alertMessage}
-				styles={alertCss} />
+				color={alertCss} /> -->
 		{/await}
 
 		<label for="firstName">First Name: *</label>

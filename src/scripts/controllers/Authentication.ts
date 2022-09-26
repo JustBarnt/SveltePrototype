@@ -1,6 +1,6 @@
 import { Navigation } from "@controllers/Navigation";
 import { Authorization } from "@requests/Authorization";
-import { sessionStore } from "@stores/stores";
+import { session } from "@stores/stores";
 import { Utilities } from "@utilities/Utilities";
 import Cookies from "js-cookie";
 import { get } from "svelte/store";
@@ -28,7 +28,7 @@ class Authentication
 			if (Authentication.RememberMe)
 			{
 				let cookie: Cookie;
-				let user = get(sessionStore);
+				let user = get(session);
 				const expires = this.Date.setDate(this.Date.getDate() + 90);
 
 				console.log(`Cookie expires in ${expires} days`);
@@ -52,9 +52,9 @@ class Authentication
 			return;
 		}
 		
-		const user: User = get(sessionStore);
+		const user: User = get(session);
 		const cookie: Cookie = { selector: Cookies.get("selector"), validator: Cookies.get("validator"), userId: user.id };
-		await new Authorization("DELETE", { "content-type": "application/json", "authorization": `Bearer: ${get(sessionStore).token}` }, cookie).DeleteValidation()
+		await new Authorization("DELETE", { "content-type": "application/json", "authorization": `Bearer: ${get(session).token}` }, cookie).DeleteValidation()
 		.then(success => 
 		{
 			Cookies.remove("selector", { expires: 90 });

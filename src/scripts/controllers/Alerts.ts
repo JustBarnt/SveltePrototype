@@ -1,43 +1,48 @@
 import { Colors } from "@enums/enums";
 
-export class Alerts
+export class Alerts implements IAlert
 {
-	private static active:boolean = false;
-	private static canExpire:boolean = true;
-	private static expiresIn: number = 1500;
-	private static visible: string;
-	private static message: string;
-	private static color: Colors;
+	public Directives: AlertDirectives = {
+		active:false,
+		canExpire:true,
+		expiresIn: 1500
+	};
+	
+	public Props: PropDirectives = {
+		visible: "hidden",
+		message: "Hello",
+		color: Colors.BLUE
+	};
 
 	constructor(Directives:AlertDirectives, Properties:PropDirectives)
 	{
-		Alerts.active = Directives.active;
-		Alerts.canExpire = Directives.canExpire;
-		Alerts.expiresIn = Directives.expiresIn;
-		Alerts.visible = Properties?.visible;
-		Alerts.message = Properties.message;
-		Alerts.color = Properties.color;
+		this.Directives.active = Directives.active;
+		this.Directives.canExpire = Directives.canExpire;
+		this.Directives.expiresIn = Directives.expiresIn;
+		this.Props.visible = Properties?.visible;
+		this.Props.message = Properties.message;
+		this.Props.color = Properties.color;
 	}
 
 	/**
 	* Updates the alerts parameters for creating/hiding(if canExpire is false) the alert.
 	* @param {AlertDirectives} Directives - An object containing the directives that the alert uses.
 	*/
-	public static SetAlert(Directives:AlertDirectives, Properties:PropDirectives):void
+	public SetAlert(Directives:AlertDirectives, Properties:PropDirectives):void
 	{
-		Alerts.Directives = Directives;
-		Alerts.Props = Properties;
+		this.Directives = Directives;
+		this.Props = Properties;
 	}
 
 	/**
 	* Returns all properties
 	* @return {IAlert} Returns an object referencing the IAlert interface.
 	*/
-	public static GetAll(): IAlert
+	public GetAll(): IAlert
 	{
 		let Details: IAlert;
-		Details.Directives = Alerts.Directives;
-		Details.Props = Alerts.Props;
+		Details.Directives = this.Directives;
+		Details.Props = this.Props;
 		return Details;
 	}
 
@@ -47,7 +52,7 @@ export class Alerts
 	* @param {any} value - the value to update the parameter to
 	* @return {any} returns the value
 	*/
-	public static Set(name: string, value: any): any
+	public Set(name: string, value: any): any
 	{
 		Alerts[name] = value;
 		return value;
@@ -57,31 +62,31 @@ export class Alerts
 	* Returns the set of directives used to control the alerts.
 	* @return {Record<string, any>} retuns the object of directives.
 	*/
-	public static get Directives(): AlertDirectives
+	public get LifeCycle(): AlertDirectives
 	{
-		return { active: this.active, canExpire: this.canExpire, expiresIn:this.expiresIn };
+		return this.Directives;
 	}
 
 	/**
 	* Updates the alerts directives
 	* @param {AlertDirectives} Directives - An object containing the directives that the alert uses.
 	*/
-	private static set Directives(Directives:AlertDirectives)
+	public set LifeCycle(Directives:AlertDirectives)
 	{
-		this.active = Directives.active;
-		this.canExpire = Directives.canExpire;
-		this.expiresIn = Directives.expiresIn;
+		this.Directives.active = Directives.active;
+		this.Directives.canExpire = Directives.canExpire;
+		this.Directives.expiresIn = Directives.expiresIn;
 	}
 
-	public static get Props(): PropDirectives
+	public get Properties(): PropDirectives
 	{
-		return { visible: this.visible, message: this.message, color: this.color };
+		return this.Props;
 	}
 
-	private static set Props(Properties:PropDirectives)
+	public set Properties(Properties:PropDirectives)
 	{
-		this.visible = Properties?.visible;
-		this.message = Properties.message;
-		this.color = Properties.color;
+		this.Props.visible = Properties?.visible;
+		this.Props.message = Properties.message;
+		this.Props.color = Properties.color;
 	}
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Navigation } from "@controllers/Navigation";
 	import { LicensesController } from "@requests/Licenses";
-	import { uriParamsStore } from "@stores/stores";
+	import { uriParams } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 	import { createEventDispatcher, onMount } from "svelte";
 	import { fade } from "svelte/transition";
@@ -47,10 +47,10 @@
 		const data: QueryDetails = {
 			success: false,
 			results: null,
-			params: $uriParamsStore,
+			params: $uriParams,
 		};
 
-		const success: Awaited<Query> = await new LicensesController("GET", $uriParamsStore, "all").Search();
+		const success: Awaited<Query> = await new LicensesController("GET", $uriParams, "all").Search();
 
 		if (success) 
 		{

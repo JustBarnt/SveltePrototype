@@ -2,7 +2,7 @@
 	import { Authentication } from "@controllers/Authentication";
 	import { Navigation } from "@controllers/Navigation";
 	import { Authorization } from "@requests/Authorization";
-	import { sessionStore } from "@stores/stores";
+	import { alerts, session } from "@stores/stores";
 	import Cookies from "js-cookie";
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
@@ -27,8 +27,12 @@
 		
 		if (loginResults.success)
 		{
-			sessionStore.set(loginResults.results);
+			session.set(loginResults.results);
 			Authentication.HandleLogin({ success: loginResults.success });
+		}
+		else
+		{
+			$alerts.Set("active", true);
 		}
 	}
 

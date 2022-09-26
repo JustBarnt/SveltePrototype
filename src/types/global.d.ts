@@ -36,12 +36,13 @@ declare global
 		[bottom: string ]: string | number;
 		[margin: string ]: string | number;
 		[padding: string ]: string | number;
-		[background: string ]: string | Colors;
+		[color: string ]: Colors;
 	}
 
 	interface IAlert
 	{
 		Directives: AlertDirectives;
 		Props: PropDirectives;
+		Set(name: string, value: any): any
 	}
 }

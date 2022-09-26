@@ -5,7 +5,7 @@
 	import Licenses from "@components/Licenses.svelte";
 	import { Colors } from "@enums/enums";
 	import { LicensesController } from "@requests/Licenses";
-	import { licensesStore, uriParamsStore } from "@stores/stores";
+	import { licenses, uriParams } from "@stores/stores";
 	import { Utilities } from "@utilities/Utilities";
 
 	let DispatchResponse: { id: string | null; view: string } = { id: null, view: "all" };
@@ -37,7 +37,7 @@
 
 <!-- TODO: STARTED: Move alter to main page. -->
 <section>
-	{#await Utilities.AwaitFetch(new LicensesController("GET", $uriParamsStore, "all").Search())}
+	{#await Utilities.AwaitFetch(new LicensesController("GET", $uriParams, "all").Search())}
 		<Alert {...UpdateProps("visible", "Contacting service for the request...", { background: Colors.BLUE })} expiration={3000} />
 	
 	{:then response}
@@ -51,7 +51,7 @@
 			{:then response}
 				{#if response.success}
 					<Alert {...UpdateProps("visible", "License found!", { background: Colors.GREEN })} expiration={1500} />
-					<License on:change={ event => DispatchResponse.view = event.detail.view } bind:data={$licensesStore.results} />
+					<License on:change={ event => DispatchResponse.view = event.detail.view } bind:data={$licenses.results} />
 
 				{/if}
 			{:catch error}
